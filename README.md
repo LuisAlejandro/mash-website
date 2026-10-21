@@ -38,6 +38,15 @@ involved, so the output also works on any static host.
 
 Point the `letsma.sh` DNS at the Netlify site once the first deploy succeeds.
 
+## Discovery
+
+`public/llms.txt` is the curated index for assistants and answer engines; the
+`Link: rel="describedby"` header in `netlify.toml` advertises it. Structured
+data lives in `lib/structured-data.ts` — an `@graph` of Organization, WebSite,
+SoftwareApplication, and VideoObject, plus an FAQPage built from the same array
+the FAQ section renders. `lib/site.ts` holds the canonical URL, repository, and
+the `DOWNLOAD_URL` that gates the schema's download claim.
+
 ## Release state
 
 The download call to action reads the latest release of

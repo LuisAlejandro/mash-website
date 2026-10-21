@@ -1,9 +1,11 @@
 import Chapters from "./components/chapters";
+import Faq from "./components/faq";
 import Footer from "./components/footer";
 import Header from "./components/header";
 import Hero from "./components/hero";
 import InstallBlocks from "./components/install-blocks";
 import { ReleaseCta, ReleaseProvider } from "./components/release";
+import { REPO_URL } from "@/lib/site";
 
 export default function Home() {
   return (
@@ -13,6 +15,7 @@ export default function Home() {
       <main>
         <Chapters />
         <InstallBlocks />
+        <Faq />
         {/* Closing */}
         <section className="closing wrap">
           <div className="reveal">
@@ -32,7 +35,7 @@ export default function Home() {
             <div className="closing-actions">
               <ReleaseCta />
               <a
-                href="https://github.com/LuisAlejandro/mash"
+                href={REPO_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="btn-quiet"

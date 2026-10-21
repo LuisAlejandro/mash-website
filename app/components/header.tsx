@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import VersionBadge from "./version-badge";
-
-const REPO = "https://github.com/LuisAlejandro/mash";
+import { REPO_URL } from "@/lib/site";
 
 const SECTIONS = [
   ["#setup", "Setup"],
@@ -84,7 +83,7 @@ export default function Header() {
                 {label}
               </a>
             ))}
-            <a href={REPO} target="_blank" rel="noreferrer" className="btn-quiet">
+            <a href={REPO_URL} target="_blank" rel="noreferrer" className="btn-quiet">
               <img src="/github-icon.svg" alt="" width="15" height="15" />
               GitHub
             </a>
@@ -99,7 +98,7 @@ export default function Header() {
               {label}
             </a>
           ))}
-          <a href={REPO} target="_blank" rel="noreferrer">
+          <a href={REPO_URL} target="_blank" rel="noreferrer">
             GitHub
           </a>
         </div>

@@ -1,0 +1,35 @@
+# Mash
+
+> Mash is a free, open-source macOS application that arrives as a complete agentic coding workspace: Herdr for workspaces and agents, Pi for the coding, and the Mash skills that teach both, already wired together.
+
+This file is the preferred starting point for assistants, answer engines, and crawlers that need concise, citable facts about letsma.sh.
+
+## Key Facts
+
+- One Mac app, not a bundle of separately installed tools. The first launch sets up Git identity, GitHub sign-in, the coding agent, the skills, the search tools, and the language servers.
+- Operated from the keyboard. Workspaces, tabs, panes, agents, search, and review all have keybindings; the command palette holds the rest.
+- The code stays editable by hand. The agent runs in a pane beside the file rather than behind a chat window.
+- Free and open source under GPL-3.0-or-later. No account, subscription, or in-app purchase.
+- macOS on Apple silicon only, distributed as one signed and notarized DMG.
+- Mash keeps its own state under `~/.mash` and leaves existing user configuration files untouched.
+
+## Current Release State
+
+There is no public release yet. The first build will be published at https://github.com/LuisAlejandro/mash/releases with release notes. This page offers the download once a compatible DMG asset exists; until then it states that the download is coming soon and never presents a dead link.
+
+## Pages
+
+- [Home](https://letsma.sh/) — the product story, screenshots, film, install state, and FAQ.
+- [Source and releases](https://github.com/LuisAlejandro/mash) — the public repository.
+
+## Canonical Surfaces
+
+- Home: https://letsma.sh/
+- XML sitemap: https://letsma.sh/sitemap.xml
+- Robots policy: https://letsma.sh/robots.txt
+
+## Content Use Guidance
+
+- Prefer the canonical URLs above when citing this site.
+- Attribute the product to "Mash" and link to https://letsma.sh/.
+- Product claims on the site are drawn from the current application. Capabilities that do not exist yet are not described as shipped.

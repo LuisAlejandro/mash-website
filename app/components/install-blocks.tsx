@@ -1,9 +1,8 @@
 "use client";
 
+import { RELEASES_URL, REPO_URL } from "@/lib/site";
 import { useRelease } from "./release";
 
-const RELEASES = "https://github.com/LuisAlejandro/mash/releases";
-const REPO = "https://github.com/LuisAlejandro/mash";
 
 const CAPABILITIES = [
   "Workspaces and worktrees, one task each",
@@ -55,7 +54,7 @@ export default function InstallBlocks() {
                 </a>
                 <p className="install-card-note">
                   Apple silicon · DMG · checksums in the{" "}
-                  <a href={RELEASES} target="_blank" rel="noreferrer">
+                  <a href={RELEASES_URL} target="_blank" rel="noreferrer">
                     release notes
                   </a>
                 </p>
@@ -67,7 +66,7 @@ export default function InstallBlocks() {
                 </span>
                 <p className="install-card-note">
                   In the meantime, the{" "}
-                  <a href={REPO} target="_blank" rel="noreferrer">
+                  <a href={REPO_URL} target="_blank" rel="noreferrer">
                     repository
                   </a>{" "}
                   is where the build and its notes will land.

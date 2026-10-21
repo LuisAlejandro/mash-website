@@ -1,4 +1,4 @@
-const REPO = "https://github.com/LuisAlejandro/mash";
+import { RELEASES_URL, REPO_URL } from "@/lib/site";
 
 export default function Footer() {
   return (
@@ -7,16 +7,16 @@ export default function Footer() {
       <footer>
         <div className="wrap footer-row">
           <div className="footer-links">
-            <a href={REPO} target="_blank" rel="noreferrer">
+            <a href={REPO_URL} target="_blank" rel="noreferrer">
               GitHub
             </a>
-            <a href={`${REPO}/releases`} target="_blank" rel="noreferrer">
+            <a href={RELEASES_URL} target="_blank" rel="noreferrer">
               Releases
             </a>
-            <a href={`${REPO}/issues`} target="_blank" rel="noreferrer">
+            <a href={`${REPO_URL}/issues`} target="_blank" rel="noreferrer">
               Issues
             </a>
-            <a href={`${REPO}/blob/develop/LICENSE`} target="_blank" rel="noreferrer">
+            <a href={`${REPO_URL}/blob/develop/LICENSE`} target="_blank" rel="noreferrer">
               License
             </a>
           </div>

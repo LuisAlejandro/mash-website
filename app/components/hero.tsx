@@ -1,5 +1,6 @@
 import { FilmBehavior } from "./media";
 import { ReleaseCta } from "./release";
+import { REPO_URL } from "@/lib/site";
 
 const CAPABILITIES = [
   "Workspaces",
@@ -55,7 +56,7 @@ export default function Hero() {
 
           <div className="hero-actions reveal">
             <ReleaseCta />
-            <a className="btn-quiet" href="https://github.com/LuisAlejandro/mash" target="_blank" rel="noreferrer">
+            <a className="btn-quiet" href={REPO_URL} target="_blank" rel="noreferrer">
               <img src="/github-icon.svg" alt="" width="15" height="15" />
               GitHub
             </a>
