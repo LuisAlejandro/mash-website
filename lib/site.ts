@@ -21,3 +21,25 @@ export const FILM = {
   duration: "PT24S",
   uploadDate: "2026-10-20",
 } as const;
+
+/** Verified capabilities, in the order the page lists them. */
+export const CAPABILITIES = [
+  "Workspaces and worktrees, one task each",
+  "A coding agent in every workspace",
+  "Editor and agent in the same tab",
+  "Review tabs, with the diff beside the agent",
+  "Command palette and fuzzy file finder",
+  "Session search across every agent conversation",
+  "Source control, annotations, and pane splits",
+  "Plugin manager and detachable sessions",
+  "macOS on Apple silicon",
+];
+
+/** The chapter captures, in story order. Used by the sitemap and index.md. */
+export const CAPTURES = [
+  { path: "/assets/mash/setup.png", title: "A Mash workspace", alt: "The agent session list, file explorer, editor, and agent notes in one Mash workspace", width: 1620, height: 1012 },
+  { path: "/assets/mash/workspaces.png", title: "Workspace picker", alt: "Mash's workspace picker listing four workspaces with their paths", width: 1620, height: 1012 },
+  { path: "/assets/mash/human-control.png", title: "File finder", alt: "Mash's file finder listing repository files with a source preview", width: 1620, height: 1012 },
+  { path: "/assets/mash/review.png", title: "Review tab", alt: "Uncommitted changes, the working diff, branches, and recent commits in Mash's review tab", width: 1620, height: 1012 },
+  { path: "/assets/mash/keyboard.png", title: "Command palette", alt: "Mash's command palette with the key combination printed beside each command", width: 1620, height: 1012 },
+] as const;

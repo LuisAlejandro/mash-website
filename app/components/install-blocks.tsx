@@ -1,20 +1,8 @@
 "use client";
 
-import { RELEASES_URL, REPO_URL } from "@/lib/site";
+import { CAPABILITIES, RELEASES_URL, REPO_URL } from "@/lib/site";
 import { useRelease } from "./release";
 
-
-const CAPABILITIES = [
-  "Workspaces and worktrees, one task each",
-  "A coding agent in every workspace",
-  "Editor and agent in the same tab",
-  "Review tabs, with the diff beside the agent",
-  "Command palette and fuzzy file finder",
-  "Session search across every agent conversation",
-  "Source control, annotations, and pane splits",
-  "Plugin manager and detachable sessions",
-  "macOS on Apple silicon",
-];
 
 export default function InstallBlocks() {
   const { state, version, downloadUrl } = useRelease();

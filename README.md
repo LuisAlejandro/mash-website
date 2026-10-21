@@ -40,12 +40,20 @@ Point the `letsma.sh` DNS at the Netlify site once the first deploy succeeds.
 
 ## Discovery
 
-`public/llms.txt` is the curated index for assistants and answer engines; the
-`Link: rel="describedby"` header in `netlify.toml` advertises it. Structured
+Three surfaces serve assistants and answer engines:
+
+- `public/llms.txt` — curated site index, advertised through the
+  `Link: rel="describedby"` header in `netlify.toml`.
+- `app/index.md/route.ts` — the page's markdown twin, generated at build time
+  from the same arrays the HTML renders, so lists cannot drift.
+- `app/robots.txt/route.ts` — names the AI crawlers explicitly and states a
+  Content-Signal (`ai-train` is a one-line constant, `yes` by default).
+- `public/ai.txt` — attribution and citation policy. Structured
 data lives in `lib/structured-data.ts` — an `@graph` of Organization, WebSite,
 SoftwareApplication, and VideoObject, plus an FAQPage built from the same array
-the FAQ section renders. `lib/site.ts` holds the canonical URL, repository, and
-the `DOWNLOAD_URL` that gates the schema's download claim.
+the FAQ section renders. `lib/site.ts` holds the canonical URL, repository, capability list, capture
+list, and the `DOWNLOAD_URL` that gates the schema's download claim. The sitemap
+declares image and video namespaces only for entries it actually emits.
 
 ## Release state
 

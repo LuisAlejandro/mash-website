@@ -17,7 +17,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
     types: {
-      "text/markdown": [{ url: "/llms.txt", title: "llms.txt" }],
+      // The page's markdown twin; llms.txt is the site-level index and is
+      // advertised through the describedby Link header in netlify.toml.
+      "text/markdown": [{ url: "/index.md", title: "Markdown version of this page" }],
+      "text/plain": [{ url: "/llms.txt", title: "llms.txt" }],
       "application/xml": [{ url: "/sitemap.xml", title: "Sitemap" }],
     },
   },
