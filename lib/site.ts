@@ -18,8 +18,8 @@ export const FILM = {
   poster: "/assets/mash/hero-film-poster.png",
   width: 1600,
   height: 1000,
-  duration: "PT24S",
-  uploadDate: "2026-10-20",
+  duration: "PT26S",
+  uploadDate: "2026-10-25",
 } as const;
 
 /** Verified capabilities, in the order the page lists them. */

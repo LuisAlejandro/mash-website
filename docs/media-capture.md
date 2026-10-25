@@ -1,39 +1,42 @@
 # Mash homepage media capture
 
-The homepage shows only real Mash states. This is the one recording session the
-page depends on: follow it in order, once, and every screenshot and the hero
-film come from the same journey.
+The homepage shows only real Mash states. The hero film was reshot from the
+complete Mash window on 2026-10-25. The chapter stills and workflow frames are
+from the earlier capture session and were not reshot with this film.
 
 Assets land in `public/assets/mash/` and are committed. The capture script does
 not run in the site build.
 
-> The media currently shipped was captured from the owner's live Mash session
-> at his explicit request, so its titles come from real work rather than the
-> neutral demo described below. Recaptures should follow this contract; the
-> privacy section applies whenever a capture is taken from a machine that is
-> not the owner's own.
+> Media is captured from the owner's live Mash session at his explicit request,
+> so it shows real work rather than a neutral demo. Future recaptures may use the
+> public Mash source or a neutral project. Apply the privacy check when the
+> owner has not explicitly approved the content on screen.
 
 ## Before recording
 
 - Build or stage Mash from the `mash` repository (`dist/Mash.app`). Do not modify
   that repository for the capture.
-- Stage a neutral demo project, `mash-demo`: a small app with two or three
-  modules, one failing test, and a change worth reviewing. No employer name, no
-  private package, no customer data. Set the Git author to `Mash Demo
-  <demo@example.invalid>` and keep history to a handful of ordinary commits.
-- Create the demo under a plain path that reads as a demo, for example
-  `~/demo/mash-demo`. Nothing under it may reveal a real person, machine, or
-  repository.
-- Start from a clean first launch, so the ready-made environment is visible.
+- Use the public `mash` source workspace or a neutral demo project. If using a
+  demo, keep it small: a few modules and a reviewable change.
+- Keep the editor, agent pane, and workspace navigation visible. Do not invent
+  product states or assemble composite fake UI.
 - Hide everything that is not the story: notifications off, browser closed,
   chat closed, no terminals outside Mash, no shell history on screen.
-- Set the Mash theme to Monokai Pro, the window to 1600×1000 (16:10), and the
-  window to the same size for every still.
-- Set the menu bar clock aside or crop it. No machine-specific UI may appear.
+- Set the Mash **window frame** to 1600×1000 (16:10), then independently verify
+  that a native window screenshot is exactly 1600×1000. Keep the full Mash
+  title bar, sidebar, content, right edge, and status bar in every frame.
+- Disable the Cua agent-cursor overlay (`set_agent_cursor_enabled` false) and
+  park the real pointer outside the Mash window before recording. Drive the take
+  with keyboard shortcuts only, so neither pointer enters the frame.
+- Record the display with Mash frontmost. If the recorder captures the display,
+  isolate the **whole observed window bounds** from the display recording;
+  never crop inside Mash or stretch a larger window to 16:10. Resize first.
 
 ## The journey
 
-Record the whole journey in one pass, at 1600×1000, then cut from it.
+Record at 1600×1000; edit time, not the spatial frame. A future narrative cut
+may use the beats below. The current 26-second film is a real UI tour: editor
+and agent → command palette → workspace picker → file finder → review → editor.
 
 1. A workspace open on the demo project, editor on a file, agent pane ready.
 2. A task named, opening as its own workspace.
@@ -46,31 +49,30 @@ Record the whole journey in one pass, at 1600×1000, then cut from it.
 
 ## Exports
 
-- `hero-film.mp4`: 16:10, under 45 seconds, silent, muted playback, H.264, under
-  8 MB. Cut so a newcomer can follow idea → agents → hand edit → review → result.
-- `hero-film-poster.webp`: 1600×1000, the first frame that reads as a workspace.
+- `hero-film.mp4`: the complete 1600×1000 Mash window, 16:10, 26 seconds,
+  silent H.264, under 8 MB; the edit removes idle time only.
+- `hero-film-poster.png`: 1600×1000, extracted from the first film frame.
 - `setup.png`, `workspaces.png`, `human-control.png`, `review.png`,
-  `keyboard.png`: 1620×1012 stills, one per journey beat above, cropped from the
-  recording so they match the film exactly.
+  `keyboard.png`: 1620×1012 stills from the earlier capture, not this reshoot.
 - `loop-1.png` through `loop-4.png`: 800×500 stills for the workflow proof
   (workspace picker, agents beside the editor, review tab, command palette).
 
-The current set was cut from a single recording at 1600×1000. PNG is used
-rather than WebP because this machine has no WebP encoder; a tool with libwebp
-or `cwebp` can convert them in place without touching the markup beyond the
-file extension.
+PNG is used for stills because this machine has no WebP encoder. A WebP
+conversion later may reduce bytes without changing the captured states.
 
-Export stills with ffmpeg, for example:
+The 2026-10-25 full-display recording was 3440×1440; Mash's verified window
+bounds were `(x=0, y=30, width=1600, height=1000)`. Only the display *outside*
+those exact bounds was removed, with no scale or crop of the Mash window:
 
 ```bash
-# One frame from a 16:10 window recording, cropped past the menu and title bars
-ffmpeg -ss 100 -i session.mov -frames:v 1 \
-  -vf "crop=1620:1012:0:60,scale=1600:1000:flags=lanczos" still.png
+ffmpeg -i recording.mp4 -vf "crop=1600:1000:0:30" -an \
+  -c:v libx264 -pix_fmt yuv420p -movflags +faststart hero-film.mp4
 ```
 
-If the film ever gains narration or any other audio, add a WebVTT captions track
-beside it and point the `<video>` at it. While it stays silent, the accessible
-label on the element and the chapter copy carry the story.
+Re-read live window bounds for each new capture; do not reuse these numbers
+blindly. Compare a frame from the resulting film against a native screenshot
+of the full window, including title bar, right edge, and bottom status bar.
+Keep `hero-film.en.vtt` timed to the edit even though the video is silent.
 
 ## Privacy check, every frame
 

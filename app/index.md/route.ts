@@ -53,7 +53,7 @@ Each image below is a real state from the application.
 
 ${CAPTURES.map((c) => `- [${c.title}](${SITE_URL}${c.path}) — ${c.alt}`).join("\n")}
 - [A tour of Mash](${SITE_URL}/assets/mash/hero-film.mp4) — the command palette,
-  workspace picker, file finder, and review tab, recorded from the app (24s).
+  workspace picker, file finder, and review tab, recorded from the full Mash window (26s).
 
 ## Questions
 

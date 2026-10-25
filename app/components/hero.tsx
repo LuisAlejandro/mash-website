@@ -64,9 +64,9 @@ export default function Hero() {
           <p className="hero-note reveal">Apple silicon Mac · one DMG · nothing to configure</p>
         </div>
 
-        {/* The film, cut from one recording of the real app: idea, parallel
-            agents, a hand edit, review, result. Muted autoplay loop; with
-            reduced motion it waits on its poster until asked. */}
+        {/* Full-window recording of the real app: editor and agent, command
+            palette, workspace picker, file finder, and review. Muted autoplay
+            loop; with reduced motion it waits on its poster until asked. */}
         <FilmBehavior />
         <figure className="window hero-window reveal">
           <div className="window-bar">
@@ -92,7 +92,6 @@ export default function Hero() {
               src="/assets/mash/hero-film.en.vtt"
               srcLang="en"
               label="English"
-              default
             />
           </video>
           <button type="button" className="film-control" id="film-control" aria-controls="film">

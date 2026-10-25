@@ -22,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
           description:
             "The Mash command palette, workspace picker, file finder, and review tab, recorded from the app.",
           content_loc: `${SITE_URL}${FILM.path}`,
-          duration: 24,
+          duration: 26,
           publication_date: FILM.uploadDate,
           family_friendly: "yes",
           live: "no",

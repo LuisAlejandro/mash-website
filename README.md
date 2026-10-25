@@ -25,10 +25,10 @@ Apple touch icon, and the share card. It needs `sips` (macOS) and `ffmpeg`.
 
 ## Media
 
-The hero film, chapter stills, and workflow frames are cut from one recording of
-the real app. `docs/media-capture.md` is the capture contract: session order,
-export sizes, and the privacy checks. The site build never records or fetches
-media.
+The 1600×1000 hero film shows the entire Mash window, including chrome and
+status bar. Its 2026-10-25 reshoot is separate from the older chapter stills
+and workflow frames. `docs/media-capture.md` records the window geometry,
+capture method, and checks. The site build never records or fetches media.
 
 ## Deploy
 

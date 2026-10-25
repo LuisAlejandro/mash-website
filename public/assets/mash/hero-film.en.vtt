@@ -1,13 +1,19 @@
 WEBVTT
 
-00:00:00.000 --> 00:00:05.600
-The command palette: every action in Mash, with the keys that run it.
+00:00:00.000 --> 00:00:02.200
+Mash keeps the editor and agent beside your workspaces.
 
-00:00:05.600 --> 00:00:11.500
-The workspace picker: one workspace per project, each with its own tabs and agents.
+00:00:02.200 --> 00:00:07.540
+The command palette lists actions with the keys that run them.
 
-00:00:11.500 --> 00:00:17.600
-The file finder, previewing a file's source without leaving the keyboard.
+00:00:07.540 --> 00:00:12.700
+The workspace picker keeps separate projects and agents in view.
 
-00:00:17.600 --> 00:00:23.900
-The review tab: uncommitted changes, the working diff, local branches, and recent commits.
+00:00:12.700 --> 00:00:17.950
+The file finder previews source without leaving the keyboard.
+
+00:00:17.950 --> 00:00:23.900
+The review tab shows working changes, a diff, branches, and commits.
+
+00:00:23.900 --> 00:00:25.900
+Back in the editor, ready for the next step.
