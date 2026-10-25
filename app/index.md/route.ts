@@ -11,18 +11,19 @@ export const dynamic = "force-static";
 export function GET() {
   const body = `# Mash
 
-> Mash is a free, open-source macOS application that arrives as a complete
-> agentic coding workspace: Herdr for workspaces and agents, Pi for the coding,
-> and the Mash skills that teach both, already wired together.
+> Mash is a free, open-source application for macOS and Linux that arrives as a
+> complete agentic coding workspace: Herdr for workspaces and agents, Ghostty
+> for the terminal, Pi for the coding, and Fresh for the editing, already wired
+> together.
 
 Canonical URL: ${SITE_URL}/
 
 ## What Mash is
 
-Mash arrives as one Mac app with the stack already wired together: Herdr for
-workspaces and agents, Pi for the coding, and the Mash skills that teach both
-your workflow. Everything runs from the keyboard, and the code stays visible and
-editable by hand.
+Mash arrives as one app with the stack already wired together: Herdr for
+workspaces and agents, Ghostty for the terminal, Pi for the coding, and Fresh
+for the editing, with the Mash skills that teach your workflow. Everything runs
+from the keyboard, and the code stays visible and editable by hand.
 
 - **One workspace per task**, each with its own tabs, terminals, and agent, so a
   second and third agent never bury the first.
@@ -40,11 +41,15 @@ ${CAPABILITIES.map((item) => `- ${item}`).join("\n")}
 
 ## Install and availability
 
-- Platform: macOS on Apple silicon. No Intel build.
-- Distribution: one signed and notarized DMG.
+- Platforms: macOS 14 or later on Apple silicon, and Ubuntu 24.04 with GNOME on
+  Wayland or Xorg. No Intel Mac build, and no Windows build.
+- Distribution: one signed and notarized DMG for macOS; a .deb for Linux on
+  amd64 or arm64, installing to /opt/letsmash with build attestation.
+- Keyboard: macOS uses Command chords, Linux uses Ctrl/Alt chords. The in-app
+  keybinding sheet shows the keys for the machine you are on.
 - Price: free, open source under ${LICENSE}. No account, subscription, or in-app
   purchase.
-- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `no public release yet. The first build will be published at ${RELEASES_URL} with release notes, and ${SITE_URL}/ offers the download once a compatible DMG exists.`}
+- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `no public release yet. The first build will be published at ${RELEASES_URL} with release notes, and ${SITE_URL}/ offers the download once a build for the visitor's platform exists. Every release publishes macOS and both Linux architectures together.`}
 - Source: ${REPO_URL}
 
 ## Captures

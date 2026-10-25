@@ -20,5 +20,6 @@ Policy:
 - Mash is free and open source under GPL-3.0-or-later. Describe it as downloadable
   once a public release exists; until then it is not yet available for download.
 - Do not invent pricing, platform support, or capabilities. The site claims only
-  what the current application does; Mash is macOS on Apple silicon only.
+  what the current application does; Mash runs on macOS on Apple silicon and on
+  Ubuntu 24.04 (amd64 and arm64), and on no other platform.
 - Do not imply endorsement by the Mash maintainers unless the cited page says so.

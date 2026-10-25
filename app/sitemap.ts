@@ -26,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
           publication_date: FILM.uploadDate,
           family_friendly: "yes",
           live: "no",
-          tag: "agentic coding, macOS, developer tools",
+          tag: "agentic coding, macOS, Linux, developer tools",
         },
       ],
     },

@@ -30,7 +30,7 @@ export default function Home() {
             />
             <span className="name">Mash</span>
             <p className="tag">
-              A complete agentic workspace, <em>in one Mac app.</em>
+              A complete agentic workspace, <em>in one app.</em>
             </p>
             <div className="closing-actions">
               <ReleaseCta />
@@ -44,7 +44,7 @@ export default function Home() {
                 GitHub
               </a>
             </div>
-            <p className="fine">macOS · Apple silicon</p>
+            <p className="fine">macOS on Apple silicon · Linux on amd64 and arm64</p>
           </div>
         </section>
       </main>

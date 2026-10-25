@@ -7,10 +7,37 @@ export const RELEASES_URL = `${REPO_URL}/releases`;
 export const LICENSE = "GPL-3.0-or-later";
 
 /**
- * Empty until a public DMG exists. Structured data only advertises a download
+ * Empty until a public build exists. Structured data only advertises a download
  * once this is set, so the page never claims an artifact that 404s.
  */
 export const DOWNLOAD_URL = "";
+
+/**
+ * The words the hero slogan cycles through: the four programs Mash mashes
+ * together, in the order the app layers them.
+ */
+export const MASHED = ["herdr", "ghostty", "pi", "fresh"] as const;
+
+/**
+ * The platforms Mash ships for. Each release publishes all three artifacts
+ * together; a failed platform leaves the whole release unpublished.
+ */
+export const PLATFORMS = {
+  mac: {
+    id: "mac",
+    label: "macOS",
+    requirement: "Apple silicon Mac, macOS 14 or later",
+    artifact: "One DMG, signed and notarized",
+  },
+  linux: {
+    id: "linux",
+    label: "Linux",
+    requirement: "Ubuntu 24.04 with GNOME, on Wayland or Xorg",
+    artifact: "One .deb for amd64 or arm64, with build attestation",
+  },
+} as const;
+
+export type PlatformId = keyof typeof PLATFORMS;
 
 /** The hero film, as recorded from the app. */
 export const FILM = {
@@ -32,7 +59,7 @@ export const CAPABILITIES = [
   "Session search across every agent conversation",
   "Source control, annotations, and pane splits",
   "Plugin manager and detachable sessions",
-  "macOS on Apple silicon",
+  "macOS on Apple silicon, and Linux on amd64 or arm64",
 ];
 
 /** The chapter captures, in story order. Used by the sitemap and index.md. */

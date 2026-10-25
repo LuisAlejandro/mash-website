@@ -263,6 +263,48 @@
             color: var(--paper);
         }
         .hero h1 em, h2 em, .closing em { color: var(--accent); }
+
+        /* The rotating word in the slogan. The stack is as wide and tall as
+           its longest member, so the line never reflows mid-flip; only the
+           current word is laid out, the rest are hidden from both the screen
+           and the accessibility tree. */
+        .mashed {
+            display: inline-grid;
+            vertical-align: baseline;
+            perspective: 600px;
+        }
+        /* The slogan's lines are short, so the rotating word never has to
+           share a line with wrapping text. */
+        .hero-slogan { text-wrap: balance; }
+        .mashed-word {
+            grid-area: 1 / 1;
+            visibility: hidden;
+            text-align: left;
+            backface-visibility: hidden;
+            transform-origin: 50% 0;
+        }
+        .mashed-word.is-current { visibility: visible; }
+        /* Without JS every word stacks invisibly and the first one shows, so
+           the slogan still reads as a sentence. */
+        html:not(.js) .mashed-word { visibility: hidden; }
+        html:not(.js) .mashed-word:first-child { visibility: visible; }
+
+        /* A half-turn out, the word swaps, a half-turn in: the line reads as
+           one card flipping on a hinge under the baseline. */
+        .mashed-word.is-out { animation: mashed-out 300ms var(--ease) forwards; }
+        .mashed-word.is-in { animation: mashed-in 300ms var(--ease) backwards; }
+
+        @keyframes mashed-out {
+            from { transform: rotateX(0deg); opacity: 1; }
+            to   { transform: rotateX(-90deg); opacity: 0; }
+        }
+        @keyframes mashed-in {
+            from { transform: rotateX(90deg); opacity: 0; }
+            to   { transform: rotateX(0deg); opacity: 1; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .mashed-word.is-out, .mashed-word.is-in { animation: none; }
+        }
         .lede {
             max-width: 40rem;
             margin: 24px 0 0;
@@ -443,10 +485,29 @@
             color: var(--paper);
         }
 
+        /* Shortcuts carry both platforms' chords; one is shown at a time.
+           Until the client names the platform (and with JS off) the macOS
+           keys show, which is what the server rendered. */
+        kbd[data-platform="linux"] { display: none; }
+        html[data-platform="linux"] kbd[data-platform="linux"] { display: inline-block; }
+        html[data-platform="linux"] kbd[data-platform="mac"] { display: none; }
+        .shortcut-unknown { opacity: 0.75; font-style: italic; }
+
+        .shortcut-legend {
+            margin: 0 auto;
+            padding-top: 52px;
+            font-size: 14px;
+            color: var(--faint);
+        }
+        .shortcut-legend-note { color: var(--faint); opacity: 0.92; }
+        @media (max-width: 640px) {
+            .shortcut-legend { padding-top: 40px; font-size: 13px; }
+        }
+
         /* Install */
         .install-grid {
             display: grid;
-            grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             border-top: 1px solid var(--line);
             border-left: 1px solid var(--line);
         }

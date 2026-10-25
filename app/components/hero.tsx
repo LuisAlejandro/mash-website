@@ -1,3 +1,4 @@
+import MashedWord from "./mashed-word";
 import { FilmBehavior } from "./media";
 import { ReleaseCta } from "./release";
 import { REPO_URL } from "@/lib/site";
@@ -40,18 +41,19 @@ export default function Hero() {
       {/* Hero: the promise, the download, and the film that proves it. */}
       <header className="hero" id="top">
         <div className="wrap hero-copy">
-          <span className="eyebrow reveal">Mash · macOS</span>
-          <h1 className="reveal">
-            A complete
+          <span className="eyebrow reveal">Mash · macOS and Linux</span>
+          <h1 className="reveal hero-slogan">
+            Let&rsquo;s mash
             <br />
-            <em>agentic workspace</em>
+            <MashedWord />
             <br />
-            in one Mac app.
+            together.
           </h1>
           <p className="lede reveal">
-            Mash arrives as one Mac app with the stack already wired together: Herdr for workspaces
-            and agents, Pi for the coding, and the Mash skills that teach both your workflow.
-            Everything runs from the keyboard, and the code stays visible and editable by hand.
+            Mash arrives as one app with the stack already wired together: Herdr for workspaces and
+            agents, Ghostty for the terminal, Pi for the coding, and Fresh for the editing, with the
+            Mash skills that teach your workflow. Everything runs from the keyboard, and the code
+            stays visible and editable by hand.
           </p>
 
           <div className="hero-actions reveal">
@@ -61,7 +63,7 @@ export default function Hero() {
               GitHub
             </a>
           </div>
-          <p className="hero-note reveal">Apple silicon Mac · one DMG · nothing to configure</p>
+          <p className="hero-note reveal">Apple silicon Mac · Ubuntu 24.04 · nothing to configure</p>
         </div>
 
         {/* Full-window recording of the real app: editor and agent, command

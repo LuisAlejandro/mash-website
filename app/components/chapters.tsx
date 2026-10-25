@@ -1,7 +1,15 @@
 import type { ReactNode } from "react";
 import { ChapterMedia } from "./media";
+import { Shortcut, ShortcutLegend } from "./shortcut";
 
-type KeyItem = [keys: string, label: string];
+/**
+ * A shortcut, per platform. `linux: null` means Mash's Linux keymap currently
+ * binds that action to a chord it also gives to another action, so this page
+ * does not print it: the in-app keybinding sheet is authoritative there.
+ * A plain string is a term rather than a chord, and is shown as-is.
+ */
+type Keys = string | { mac: string; linux: string | null };
+type KeyItem = [keys: Keys, label: string];
 
 type Chapter = {
   id: string;
@@ -28,7 +36,10 @@ const CHAPTERS: Chapter[] = [
     ),
     body: "Most agentic setups are a weekend of wiring: an agent, a workspace manager, a set of skills, a keybinding file. Mash ships them already fitted together and opens on a workspace you can type in.",
     points: [
-      ["Herdr, Pi, Mash skills", "installed, plus Git, ripgrep, fzf, and language servers"],
+      [
+        "Herdr, Ghostty, Pi, Fresh",
+        "shipped inside the app, with the Mash skills that teach the workflow",
+      ],
       ["First launch", "sets your Git identity, GitHub sign-in, and the tooling you pick"],
       ["~/.mash", "holds Mash's own state, and your existing configs stay as they are"],
     ],
@@ -48,10 +59,10 @@ const CHAPTERS: Chapter[] = [
     ),
     body: "Each task gets its own workspace with its own tabs, terminals, and agent, so a second and third agent never bury the first. Move between workspaces and agents from the keyboard while the rest keep running.",
     points: [
-      ["⌘⌃N", "new workspace"],
-      ["⌘⌃1–9", "switch to workspace N"],
-      ["⌃⇧↑  ⌃⇧↓", "previous and next agent"],
-      ["⌘⌃G", "session navigator"],
+      [{ mac: "⌘⌃N", linux: null }, "new workspace"],
+      [{ mac: "⌘⌃1–9", linux: "Ctrl Alt ⇧ 1–9" }, "switch to workspace N"],
+      [{ mac: "⌃⇧↑  ⌃⇧↓", linux: "Ctrl ⇧ ↑  Ctrl ⇧ ↓" }, "previous and next agent"],
+      [{ mac: "⌘⌃G", linux: "Ctrl Alt ⇧ G" }, "session navigator"],
     ],
     image: "/assets/mash/workspaces.png",
     width: 1620,
@@ -70,10 +81,10 @@ const CHAPTERS: Chapter[] = [
     ),
     body: "The agent works in a pane beside the file, not behind a chat window. Open the buffer, make the change yourself, and the agent picks up from what is on disk.",
     points: [
-      ["⌘T", "dev tab with the editor and an agent"],
-      ["⌘P", "file finder"],
-      ["⌥G", "pick a link or an ID out of the agent's output"],
-      ["⌃⇧G", "source control"],
+      [{ mac: "⌘T", linux: null }, "dev tab with the editor and an agent"],
+      [{ mac: "⌘P", linux: null }, "file finder"],
+      [{ mac: "⌥G", linux: "Alt G" }, "pick a link or an ID out of the agent's output"],
+      [{ mac: "⌃⇧G", linux: "Ctrl ⇧ G" }, "source control"],
     ],
     image: "/assets/mash/human-control.png",
     width: 1620,
@@ -91,9 +102,9 @@ const CHAPTERS: Chapter[] = [
     ),
     body: "Agents propose and you decide what lands. Open a review tab for the branch, read the diff, and act on it hunk by hunk before anything is committed.",
     points: [
-      ["⌘⇧R", "review tab, with the diff and an agent together"],
-      ["⌘K", "annotate a capture for the review"],
-      ["⌘⌥Y", "fork an agent from one of its messages"],
+      [{ mac: "⌘⇧R", linux: "Ctrl ⇧ R" }, "review tab, with the diff and an agent together"],
+      [{ mac: "⌘K", linux: "Ctrl Alt K" }, "annotate a capture for the review"],
+      [{ mac: "⌘⌥Y", linux: "Ctrl Alt Y" }, "fork an agent from one of its messages"],
     ],
     image: "/assets/mash/review.png",
     width: 1620,
@@ -112,10 +123,10 @@ const CHAPTERS: Chapter[] = [
     ),
     body: "Workspaces, tabs, panes, agents, search, and review all have keys, and the command palette holds the rest. Learn a handful and the app shows you the others as you go. The mouse works too.",
     points: [
-      ["⌘⇧P", "command palette"],
-      ["⌘⌥L", "search every session"],
-      ["⌘I", "settings"],
-      ["⌘⇧I", "the keybinding sheet"],
+      [{ mac: "⌘⇧P", linux: "Ctrl ⇧ P" }, "command palette"],
+      [{ mac: "⌘⌥L", linux: null }, "search every session"],
+      [{ mac: "⌘I", linux: "Ctrl Alt I" }, "settings"],
+      [{ mac: "⌘⇧I", linux: "Ctrl ⇧ I" }, "the keybinding sheet"],
     ],
     image: "/assets/mash/keyboard.png",
     width: 1620,
@@ -151,6 +162,7 @@ const LOOP = [
 export default function Chapters() {
   return (
     <>
+      <ShortcutLegend />
       <section className="chapters wrap" aria-label="How Mash works">
         {CHAPTERS.map((chapter) => (
           <div
@@ -173,8 +185,9 @@ export default function Chapters() {
               <p>{chapter.body}</p>
               <ul className="points">
                 {chapter.points.map(([keys, label]) => (
-                  <li key={keys}>
-                    <kbd>{keys}</kbd> {label}
+                  <li key={typeof keys === "string" ? keys : keys.mac}>
+                    {typeof keys === "string" ? <kbd>{keys}</kbd> : <Shortcut keys={keys} />}{" "}
+                    {label}
                   </li>
                 ))}
               </ul>

@@ -4,9 +4,9 @@ import { FAQ, buildFaqSchema, buildSiteGraph, toJsonLdScript } from "@/lib/struc
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
-const TITLE = "Mash - A complete agentic workspace for macOS";
+const TITLE = "Mash - A complete agentic workspace for macOS and Linux";
 const DESCRIPTION =
-  "Mash is one Mac app with Herdr, Pi, and the Mash skills already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
+  "Mash is one app with Herdr, Ghostty, Pi, and Fresh already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

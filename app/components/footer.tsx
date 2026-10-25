@@ -20,7 +20,7 @@ export default function Footer() {
               License
             </a>
           </div>
-          <p className="footer-credit">Mash · a complete agentic workspace for macOS</p>
+          <p className="footer-credit">Mash · a complete agentic workspace for macOS and Linux</p>
         </div>
       </footer>
     </>

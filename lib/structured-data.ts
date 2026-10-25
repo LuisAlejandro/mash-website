@@ -15,7 +15,7 @@ const WEBSITE_ID = `${SITE_URL}/#WebSite`;
 const APP_ID = `${SITE_URL}/#SoftwareApplication`;
 
 const DESCRIPTION =
-  "Mash is one Mac app with Herdr, Pi, and the Mash skills already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
+  "Mash is one app with Herdr, Ghostty, Pi, and Fresh already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
 
 const FEATURES = [
   "One workspace per task, each with its own agent",
@@ -24,6 +24,7 @@ const FEATURES = [
   "Command palette and fuzzy file finder",
   "Session search across agent conversations",
   "A complete toolchain installed on first launch",
+  "Runs on macOS and Linux, with a keymap for each",
 ];
 
 function organization() {
@@ -64,8 +65,8 @@ function softwareApplication() {
     description: DESCRIPTION,
     applicationCategory: "DeveloperApplication",
     applicationSubCategory: "Agentic coding environment",
-    operatingSystem: "macOS",
-    processorRequirements: "Apple silicon",
+    operatingSystem: ["macOS 14", "Ubuntu 24.04"],
+    processorRequirements: "Apple silicon, x86-64, or ARM64",
     softwareVersion: "0.1.0",
     isAccessibleForFree: true,
     license: `https://spdx.org/licenses/${LICENSE}.html`,
@@ -131,22 +132,22 @@ export const FAQ: FaqItem[] = [
   {
     question: "What is Mash?",
     answer:
-      "Mash is a single macOS application that bundles a complete agentic coding environment: Herdr for workspaces, tabs, and agents; Pi for the coding; and the Mash skills that teach both. It arrives already configured rather than asking you to assemble those tools yourself.",
+      "Mash is a single application that bundles a complete agentic coding environment: Herdr for workspaces, tabs, and agents; Ghostty for the terminal; Pi for the coding; Fresh for the editing; and the Mash skills that teach the workflow. It arrives already configured rather than asking you to assemble those tools yourself.",
   },
   {
     question: "Is Mash free?",
     answer:
-      "Yes. Mash is free and open source under the GPL-3.0-or-later license, with no account, subscription, or in-app purchase. You download one disk image, drag the app to Applications, and the first launch sets up the rest.",
+      "Yes. Mash is free and open source under the GPL-3.0-or-later license, with no account, subscription, or in-app purchase. You download one file for your platform, install it, and the first launch sets up the rest.",
   },
   {
-    question: "Which Macs does Mash run on?",
+    question: "Which systems does Mash run on?",
     answer:
-      "Mash is built for macOS on Apple silicon. It ships as one signed and notarized DMG; there is no Intel build, and nothing to install through Homebrew, npm, or a language toolchain.",
+      "Mash runs on macOS 14 or later on Apple silicon, and on Ubuntu 24.04 with GNOME on Wayland or Xorg. macOS ships as one signed and notarized DMG; Linux ships as a .deb for amd64 or arm64, which installs to /opt/letsmash and keeps everything you configure in ~/.mash. There is no Intel Mac build, and no Windows build.",
   },
   {
     question: "Do I still have to install Pi, Herdr, or the skills myself?",
     answer:
-      "No. The first launch sets your Git identity, signs you in to GitHub if you want it, and installs the coding agent, the skills, the search tools, the language servers, and the terminal stack that Mash runs on. Mash keeps its own state under ~/.mash and leaves your existing configuration files alone.",
+      "No. The terminal, the agent, the editor, and the skills ship inside Mash. The first launch sets your Git identity, signs you in to GitHub if you want it, and adds the optional command-line tools and language servers you select. On Linux those go into ~/.mash without asking for a password; on macOS the optional extras are installed with Homebrew. Mash keeps its own state under ~/.mash and leaves your existing configuration files alone.",
   },
   {
     question: "Can I still edit the code by hand?",
@@ -156,7 +157,7 @@ export const FAQ: FaqItem[] = [
   {
     question: "When can I download it?",
     answer:
-      "There is no public release yet. The first build will be published on the Mash repository with its release notes, and this page offers the download as soon as a compatible DMG exists.",
+      "There is no public release yet. The first build will be published on the Mash repository with its release notes, and this page offers the download as soon as a build for your platform exists. Every release publishes macOS and both Linux architectures together, so a release is never missing a platform.",
   },
 ];
 
