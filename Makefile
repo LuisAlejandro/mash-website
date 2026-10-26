@@ -10,7 +10,7 @@ export HOST_UID HOST_GID
 COMPOSE = docker compose -p $(PROJECT_NAME) -f docker-compose.yml
 exec_on_docker = $(COMPOSE) exec app
 
-.PHONY: help image start stop down dependencies serve build lint console
+.PHONY: help image start stop down dependencies serve build lint format test console
 
 help:
 	@echo "Available commands:"
@@ -22,6 +22,8 @@ help:
 	@echo "  serve         - next dev on 0.0.0.0:3000"
 	@echo "  build         - next build inside the container"
 	@echo "  lint          - eslint inside the container"
+	@echo "  format        - prettier inside the container"
+	@echo "  test          - type-check inside the container"
 	@echo "  console       - bash shell inside the container"
 
 image:
@@ -47,6 +49,12 @@ build: start
 
 lint: start
 	@$(exec_on_docker) npm run lint
+
+format: start
+	@$(exec_on_docker) npm run format
+
+test: start
+	@$(exec_on_docker) npm run type-check
 
 console: start
 	@$(exec_on_docker) bash
