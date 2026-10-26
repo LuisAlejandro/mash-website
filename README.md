@@ -3,11 +3,13 @@
 The Mash homepage: one Next.js route that tells the product story with real
 captures of the app.
 
+Current version: 1.0.0
+
 ```bash
 npm install
 npm run dev     # http://localhost:3001 if 3000 is taken
 npm run lint
-npm run build   # static export to out/
+npm run build   # .next, served by the Netlify Next.js runtime
 ```
 
 ## Brand assets

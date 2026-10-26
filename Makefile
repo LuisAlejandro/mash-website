@@ -77,6 +77,7 @@ release-major:
 	@./scripts/release.sh major $${APP_NAME}
 
 release-preflight: start
+	@make dependencies
 	@make format
 	@make lint
 	@make test

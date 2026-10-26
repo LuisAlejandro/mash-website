@@ -81,6 +81,14 @@ release_run_preflight() {
 
 
 
+    print_step "Preflight: make dependencies"
+    if ! make dependencies; then
+        print_error "Preflight command failed: make dependencies"
+        exit 1
+    fi
+
+
+
     print_step "Preflight: make format"
     preflight_snapshot=$(git status --porcelain)
     make format
@@ -222,7 +230,7 @@ release_build_notes() {
     fi
 
     if [[ -f "HISTORY.md" ]]; then
-        release_content=$(awk "/^$new_version \(/ { flag=1; next } flag && /^[0-9]+\.[0-9]+\.[0-9]+ \(/ { exit } flag" HISTORY.md)
+        release_content=$(awk "/^(#+ *)?$new_version \(/ { flag=1; next } flag && /^(#+ *)?[0-9]+\.[0-9]+\.[0-9]+ \(/ { exit } flag" HISTORY.md)
         printf '%s\n\n## What'\''s new in %s\n%s\n\nRead [HISTORY](HISTORY.md) for more info.\n\n**Full Changelog**: https://github.com/%s/compare/%s...%s' \
             "$description_text" \
             "$new_version" \
