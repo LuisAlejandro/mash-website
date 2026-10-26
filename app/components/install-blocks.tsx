@@ -1,6 +1,12 @@
 "use client";
 
-import { CAPABILITIES, PLATFORMS, RELEASES_URL, REPO_URL, type PlatformId } from "@/lib/site";
+import {
+  CAPABILITIES,
+  PLATFORMS,
+  RELEASES_URL,
+  REPO_URL,
+  type PlatformId,
+} from "@/lib/site";
 import { useRelease } from "./release";
 
 /** The install cards, in the order the page shows them. */
@@ -18,7 +24,11 @@ export default function InstallBlocks() {
           <span className="eyebrow">Install</span>
           <h2>
             One download. <em>Nothing to configure.</em>
-            <a className="anchor-link" href="#install" aria-label="Permalink to Install">
+            <a
+              className="anchor-link"
+              href="#install"
+              aria-label="Permalink to Install"
+            >
               #
             </a>
           </h2>
@@ -87,14 +97,22 @@ export default function InstallBlocks() {
                       {isLinux ? (
                         <>
                           .deb packages · checksums and attestations in the{" "}
-                          <a href={RELEASES_URL} target="_blank" rel="noreferrer">
+                          <a
+                            href={RELEASES_URL}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
                             release notes
                           </a>
                         </>
                       ) : (
                         <>
                           Apple silicon · DMG · checksums in the{" "}
-                          <a href={RELEASES_URL} target="_blank" rel="noreferrer">
+                          <a
+                            href={RELEASES_URL}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
                             release notes
                           </a>
                         </>
@@ -105,15 +123,24 @@ export default function InstallBlocks() {
                   <>
                     {isLinux ? (
                       <div className="install-actions">
-                        <span className="btn-solid is-pending" aria-disabled="true">
+                        <span
+                          className="btn-solid is-pending"
+                          aria-disabled="true"
+                        >
                           Coming soon · amd64
                         </span>
-                        <span className="btn-solid is-pending" aria-disabled="true">
+                        <span
+                          className="btn-solid is-pending"
+                          aria-disabled="true"
+                        >
                           Coming soon · arm64
                         </span>
                       </div>
                     ) : (
-                      <span className="btn-solid is-pending install-download" aria-disabled="true">
+                      <span
+                        className="btn-solid is-pending install-download"
+                        aria-disabled="true"
+                      >
                         Coming soon to {platform.label}
                       </span>
                     )}
@@ -142,7 +169,11 @@ export default function InstallBlocks() {
           <span className="eyebrow">Everything else</span>
           <h2>
             And the rest is <em>already there.</em>
-            <a className="anchor-link" href="#capabilities" aria-label="Permalink to the capability list">
+            <a
+              className="anchor-link"
+              href="#capabilities"
+              aria-label="Permalink to the capability list"
+            >
               #
             </a>
           </h2>

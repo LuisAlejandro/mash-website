@@ -16,11 +16,17 @@ export default function Footer() {
             <a href={`${REPO_URL}/issues`} target="_blank" rel="noreferrer">
               Issues
             </a>
-            <a href={`${REPO_URL}/blob/develop/LICENSE`} target="_blank" rel="noreferrer">
+            <a
+              href={`${REPO_URL}/blob/develop/LICENSE`}
+              target="_blank"
+              rel="noreferrer"
+            >
               License
             </a>
           </div>
-          <p className="footer-credit">Mash · a complete agentic workspace for macOS and Linux</p>
+          <p className="footer-credit">
+            Mash · a complete agentic workspace for macOS and Linux
+          </p>
         </div>
       </footer>
     </>

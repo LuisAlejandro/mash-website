@@ -36,7 +36,7 @@ export default function Header() {
             }
           }
         },
-        { rootMargin: "0px 0px -6% 0px", threshold: 0 },
+        { rootMargin: "0px 0px -6% 0px", threshold: 0 }
       );
       items.forEach((el) => observer?.observe(el));
     }
@@ -82,7 +82,12 @@ export default function Header() {
                 {label}
               </a>
             ))}
-            <a href={REPO_URL} target="_blank" rel="noreferrer" className="btn-quiet">
+            <a
+              href={REPO_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-quiet"
+            >
               <img src="/github-icon.svg" alt="" width="15" height="15" />
               GitHub
             </a>
@@ -90,7 +95,10 @@ export default function Header() {
         </div>
       </nav>
 
-      <div className={open ? "mobile-menu active" : "mobile-menu"} id="mobile-menu">
+      <div
+        className={open ? "mobile-menu active" : "mobile-menu"}
+        id="mobile-menu"
+      >
         <div className="mobile-menu-content">
           {SECTIONS.map(([href, label]) => (
             <a key={href} href={href} onClick={closeMenu}>

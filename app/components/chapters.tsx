@@ -40,8 +40,14 @@ const CHAPTERS: Chapter[] = [
         "Herdr, Ghostty, Pi, Fresh",
         "shipped inside the app, with the Mash skills that teach the workflow",
       ],
-      ["First launch", "sets your Git identity, GitHub sign-in, and the tooling you pick"],
-      ["~/.mash", "holds Mash's own state, and your existing configs stay as they are"],
+      [
+        "First launch",
+        "sets your Git identity, GitHub sign-in, and the tooling you pick",
+      ],
+      [
+        "~/.mash",
+        "holds Mash's own state, and your existing configs stay as they are",
+      ],
     ],
     image: "/assets/mash/setup.png",
     width: 1620,
@@ -61,7 +67,10 @@ const CHAPTERS: Chapter[] = [
     points: [
       [{ mac: "⌘⌃N", linux: null }, "new workspace"],
       [{ mac: "⌘⌃1–9", linux: "Ctrl Alt ⇧ 1–9" }, "switch to workspace N"],
-      [{ mac: "⌃⇧↑  ⌃⇧↓", linux: "Ctrl ⇧ ↑  Ctrl ⇧ ↓" }, "previous and next agent"],
+      [
+        { mac: "⌃⇧↑  ⌃⇧↓", linux: "Ctrl ⇧ ↑  Ctrl ⇧ ↓" },
+        "previous and next agent",
+      ],
       [{ mac: "⌘⌃G", linux: "Ctrl Alt ⇧ G" }, "session navigator"],
     ],
     image: "/assets/mash/workspaces.png",
@@ -83,7 +92,10 @@ const CHAPTERS: Chapter[] = [
     points: [
       [{ mac: "⌘T", linux: null }, "dev tab with the editor and an agent"],
       [{ mac: "⌘P", linux: null }, "file finder"],
-      [{ mac: "⌥G", linux: "Alt G" }, "pick a link or an ID out of the agent's output"],
+      [
+        { mac: "⌥G", linux: "Alt G" },
+        "pick a link or an ID out of the agent's output",
+      ],
       [{ mac: "⌃⇧G", linux: "Ctrl ⇧ G" }, "source control"],
     ],
     image: "/assets/mash/human-control.png",
@@ -102,9 +114,15 @@ const CHAPTERS: Chapter[] = [
     ),
     body: "Agents propose and you decide what lands. Open a review tab for the branch, read the diff, and act on it hunk by hunk before anything is committed.",
     points: [
-      [{ mac: "⌘⇧R", linux: "Ctrl ⇧ R" }, "review tab, with the diff and an agent together"],
+      [
+        { mac: "⌘⇧R", linux: "Ctrl ⇧ R" },
+        "review tab, with the diff and an agent together",
+      ],
       [{ mac: "⌘K", linux: "Ctrl Alt K" }, "annotate a capture for the review"],
-      [{ mac: "⌘⌥Y", linux: "Ctrl Alt Y" }, "fork an agent from one of its messages"],
+      [
+        { mac: "⌘⌥Y", linux: "Ctrl Alt Y" },
+        "fork an agent from one of its messages",
+      ],
     ],
     image: "/assets/mash/review.png",
     width: 1620,
@@ -186,7 +204,11 @@ export default function Chapters() {
               <ul className="points">
                 {chapter.points.map(([keys, label]) => (
                   <li key={typeof keys === "string" ? keys : keys.mac}>
-                    {typeof keys === "string" ? <kbd>{keys}</kbd> : <Shortcut keys={keys} />}{" "}
+                    {typeof keys === "string" ? (
+                      <kbd>{keys}</kbd>
+                    ) : (
+                      <Shortcut keys={keys} />
+                    )}{" "}
                     {label}
                   </li>
                 ))}
@@ -223,14 +245,18 @@ export default function Chapters() {
           <span className="eyebrow">06 · The whole loop</span>
           <h2>
             Intent in, <em>reviewed result</em> out.
-            <a className="anchor-link" href="#workflow" aria-label="Permalink to The whole loop">
+            <a
+              className="anchor-link"
+              href="#workflow"
+              aria-label="Permalink to The whole loop"
+            >
               #
             </a>
           </h2>
           <p>
-            One task, followed all the way through the app: an idea becomes a workspace, two agents
-            build in parallel, a human fixes something by hand, the diff is reviewed, and the change
-            lands.
+            One task, followed all the way through the app: an idea becomes a
+            workspace, two agents build in parallel, a human fixes something by
+            hand, the diff is reviewed, and the change lands.
           </p>
         </div>
         <ol className="workflow-proof reveal">

@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { FAQ, buildFaqSchema, buildSiteGraph, toJsonLdScript } from "@/lib/structured-data";
+import {
+  FAQ,
+  buildFaqSchema,
+  buildSiteGraph,
+  toJsonLdScript,
+} from "@/lib/structured-data";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -19,7 +24,9 @@ export const metadata: Metadata = {
     types: {
       // The page's markdown twin; llms.txt is the site-level index and is
       // advertised through the describedby Link header in netlify.toml.
-      "text/markdown": [{ url: "/index.md", title: "Markdown version of this page" }],
+      "text/markdown": [
+        { url: "/index.md", title: "Markdown version of this page" },
+      ],
       "text/plain": [{ url: "/llms.txt", title: "llms.txt" }],
       "application/xml": [{ url: "/sitemap.xml", title: "Sitemap" }],
     },
@@ -49,7 +56,14 @@ export const metadata: Metadata = {
     siteName: "Mash",
     type: "website",
     locale: "en_US",
-    images: [{ url: "/assets/mash/og.png", width: 1200, height: 630, alt: "Mash, a complete agentic workspace in one Mac app" }],
+    images: [
+      {
+        url: "/assets/mash/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Mash, a complete agentic workspace in one Mac app",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

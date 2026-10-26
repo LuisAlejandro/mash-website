@@ -30,7 +30,8 @@ export default function MashedWord() {
     reduced.current = motion.matches;
 
     const timers: ReturnType<typeof setTimeout>[] = [];
-    const after = (ms: number, run: () => void) => timers.push(setTimeout(run, ms));
+    const after = (ms: number, run: () => void) =>
+      timers.push(setTimeout(run, ms));
 
     const advance = () => {
       // Reduced motion keeps the rotation but drops the movement: the words

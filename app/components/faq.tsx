@@ -7,7 +7,11 @@ export default function Faq() {
         <span className="eyebrow">Questions</span>
         <h2>
           The short <em>answers.</em>
-          <a className="anchor-link" href="#faq" aria-label="Permalink to Questions">
+          <a
+            className="anchor-link"
+            href="#faq"
+            aria-label="Permalink to Questions"
+          >
             #
           </a>
         </h2>

@@ -22,7 +22,10 @@ export function Shortcut({ keys }: { keys: Keys }) {
 
   if (platform === "linux" && linuxUnknown) {
     return (
-      <kbd className="shortcut-unknown" title="See the in-app keybinding sheet (Ctrl ⇧ I)">
+      <kbd
+        className="shortcut-unknown"
+        title="See the in-app keybinding sheet (Ctrl ⇧ I)"
+      >
         in-app sheet
       </kbd>
     );
@@ -30,11 +33,17 @@ export function Shortcut({ keys }: { keys: Keys }) {
 
   return (
     <>
-      <kbd data-platform="mac" aria-hidden={platform === "mac" ? undefined : "true"}>
+      <kbd
+        data-platform="mac"
+        aria-hidden={platform === "mac" ? undefined : "true"}
+      >
         {keys.mac}
       </kbd>
       {keys.linux !== null && (
-        <kbd data-platform="linux" aria-hidden={platform === "linux" ? undefined : "true"}>
+        <kbd
+          data-platform="linux"
+          aria-hidden={platform === "linux" ? undefined : "true"}
+        >
           {keys.linux}
         </kbd>
       )}
@@ -56,8 +65,8 @@ export function ShortcutLegend() {
     <p className="shortcut-legend wrap" data-platform={platform}>
       Shortcuts below are the {current} keys.{" "}
       <span className="shortcut-legend-note">
-        Mash ships a {other} keymap too, and the in-app keybinding sheet always shows the keys for
-        the machine you are on.
+        Mash ships a {other} keymap too, and the in-app keybinding sheet always
+        shows the keys for the machine you are on.
       </span>
     </p>
   );

@@ -12,7 +12,11 @@ export function FilmBehavior() {
   useEffect(() => {
     const video = document.getElementById("film");
     const control = document.getElementById("film-control");
-    if (!(video instanceof HTMLVideoElement) || !(control instanceof HTMLButtonElement)) return;
+    if (
+      !(video instanceof HTMLVideoElement) ||
+      !(control instanceof HTMLButtonElement)
+    )
+      return;
 
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let wanted = !calm;
@@ -60,9 +64,14 @@ export function FilmBehavior() {
       const animation = win.animate(
         [
           { transform: "none" },
-          { transform: flip(win.getBoundingClientRect(), target.getBoundingClientRect()) },
+          {
+            transform: flip(
+              win.getBoundingClientRect(),
+              target.getBoundingClientRect()
+            ),
+          },
         ],
-        { duration: 380, easing: EASE, fill: "forwards" },
+        { duration: 380, easing: EASE, fill: "forwards" }
       );
       animation.onfinish = done;
     };
@@ -74,7 +83,10 @@ export function FilmBehavior() {
       const from = src.getBoundingClientRect();
       const overlay = document.createElement("div");
       overlay.className = "zoom";
-      overlay.setAttribute("aria-label", "Enlarged video; click or press Escape to close");
+      overlay.setAttribute(
+        "aria-label",
+        "Enlarged video; click or press Escape to close"
+      );
       overlay.tabIndex = -1;
       const win = document.createElement("div");
       win.className = "window";
@@ -84,7 +96,11 @@ export function FilmBehavior() {
       if (clone.textTracks[0]) clone.textTracks[0].mode = "showing";
       win.appendChild(clone);
       const ratio = from.height / from.width;
-      const width = Math.min(window.innerWidth * 0.94, 1600, (window.innerHeight * 0.92) / ratio);
+      const width = Math.min(
+        window.innerWidth * 0.94,
+        1600,
+        (window.innerHeight * 0.92) / ratio
+      );
       win.style.width = `${width}px`;
       overlay.appendChild(win);
       overlay.addEventListener("click", closeZoom);
@@ -96,8 +112,11 @@ export function FilmBehavior() {
       overlay.focus({ preventScroll: true });
       if (!calm) {
         win.animate(
-          [{ transform: flip(win.getBoundingClientRect(), from) }, { transform: "none" }],
-          { duration: 480, easing: EASE },
+          [
+            { transform: flip(win.getBoundingClientRect(), from) },
+            { transform: "none" },
+          ],
+          { duration: 480, easing: EASE }
         );
       }
     };
@@ -124,7 +143,7 @@ export function FilmBehavior() {
           if (entry.isIntersecting && wanted) video.play().catch(() => {});
           else if (!entry.isIntersecting) video.pause();
         },
-        { threshold: 0.35 },
+        { threshold: 0.35 }
       );
       observer.observe(video);
     } else if (wanted) {
@@ -153,7 +172,9 @@ export function FilmBehavior() {
 export function ChapterMedia() {
   useEffect(() => {
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const links = document.querySelectorAll(".chapter-visual a, .workflow-step a");
+    const links = document.querySelectorAll(
+      ".chapter-visual a, .workflow-step a"
+    );
     let open: {
       overlay: HTMLDivElement;
       win: HTMLElement;
@@ -176,15 +197,29 @@ export function ChapterMedia() {
         return;
       }
       const animation = win.animate(
-        [{ transform: "none" }, { transform: flip(win.getBoundingClientRect(), target.getBoundingClientRect()) }],
-        { duration: 380, easing: EASE, fill: "forwards" },
+        [
+          { transform: "none" },
+          {
+            transform: flip(
+              win.getBoundingClientRect(),
+              target.getBoundingClientRect()
+            ),
+          },
+        ],
+        { duration: 380, easing: EASE, fill: "forwards" }
       );
       animation.onfinish = done;
     };
 
     const onClick = (event: Event) => {
       const mouse = event as MouseEvent;
-      if (mouse.metaKey || mouse.ctrlKey || mouse.shiftKey || mouse.button !== 0) return;
+      if (
+        mouse.metaKey ||
+        mouse.ctrlKey ||
+        mouse.shiftKey ||
+        mouse.button !== 0
+      )
+        return;
       const link = event.currentTarget;
       if (!(link instanceof HTMLAnchorElement)) return;
       event.preventDefault();
@@ -193,12 +228,19 @@ export function ChapterMedia() {
       const from = src.getBoundingClientRect();
       const overlay = document.createElement("div");
       overlay.className = "zoom";
-      overlay.setAttribute("aria-label", "Enlarged screenshot; click or press Escape to close");
+      overlay.setAttribute(
+        "aria-label",
+        "Enlarged screenshot; click or press Escape to close"
+      );
       overlay.tabIndex = -1;
       const win = src.cloneNode(true);
       if (!(win instanceof HTMLElement)) return;
       const ratio = from.height / from.width;
-      const width = Math.min(window.innerWidth * 0.94, 1600, (window.innerHeight * 0.92) / ratio);
+      const width = Math.min(
+        window.innerWidth * 0.94,
+        1600,
+        (window.innerHeight * 0.92) / ratio
+      );
       win.style.width = `${width}px`;
       overlay.appendChild(win);
       overlay.addEventListener("click", close);
@@ -209,8 +251,11 @@ export function ChapterMedia() {
       overlay.focus({ preventScroll: true });
       if (!calm) {
         win.animate(
-          [{ transform: flip(win.getBoundingClientRect(), from) }, { transform: "none" }],
-          { duration: 480, easing: EASE },
+          [
+            { transform: flip(win.getBoundingClientRect(), from) },
+            { transform: "none" },
+          ],
+          { duration: 480, easing: EASE }
         );
       }
     };

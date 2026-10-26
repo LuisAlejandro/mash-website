@@ -44,7 +44,9 @@ export default function Home() {
                 GitHub
               </a>
             </div>
-            <p className="fine">macOS on Apple silicon · Linux on amd64 and arm64</p>
+            <p className="fine">
+              macOS on Apple silicon · Linux on amd64 and arm64
+            </p>
           </div>
         </section>
       </main>

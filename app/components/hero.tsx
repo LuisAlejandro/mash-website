@@ -51,15 +51,21 @@ export default function Hero() {
               together.
             </h1>
             <p className="lede reveal">
-              Mash arrives as one app with the stack already wired together: Herdr for workspaces
-              and agents, Ghostty for the terminal, Pi for the coding, and Fresh for the editing,
-              with the Mash skills that teach your workflow. Everything runs from the keyboard, and
-              the code stays visible and editable by hand.
+              Mash arrives as one app with the stack already wired together:
+              Herdr for workspaces and agents, Ghostty for the terminal, Pi for
+              the coding, and Fresh for the editing, with the Mash skills that
+              teach your workflow. Everything runs from the keyboard, and the
+              code stays visible and editable by hand.
             </p>
 
             <div className="hero-actions reveal">
               <ReleaseCta />
-              <a className="btn-quiet" href={REPO_URL} target="_blank" rel="noreferrer">
+              <a
+                className="btn-quiet"
+                href={REPO_URL}
+                target="_blank"
+                rel="noreferrer"
+              >
                 <img src="/github-icon.svg" alt="" width="15" height="15" />
                 GitHub
               </a>
@@ -94,7 +100,12 @@ export default function Hero() {
                 default
               />
             </video>
-            <button type="button" className="film-control" id="film-control" aria-controls="film">
+            <button
+              type="button"
+              className="film-control"
+              id="film-control"
+              aria-controls="film"
+            >
               Play film
             </button>
           </figure>

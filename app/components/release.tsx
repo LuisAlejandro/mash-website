@@ -10,7 +10,8 @@ import {
 } from "react";
 import { type PlatformId } from "@/lib/site";
 
-const LATEST_RELEASE = "https://api.github.com/repos/LuisAlejandro/mash/releases/latest";
+const LATEST_RELEASE =
+  "https://api.github.com/repos/LuisAlejandro/mash/releases/latest";
 
 /**
  * The asset names `artifacts.yml` publishes: one macOS DMG and two Linux .deb
@@ -32,13 +33,20 @@ export type Release = {
 };
 
 /** Server-rendered truth: no public release has been seen yet. */
-const UNAVAILABLE: Release = { state: "unavailable", version: "", downloads: {} };
+const UNAVAILABLE: Release = {
+  state: "unavailable",
+  version: "",
+  downloads: {},
+};
 
 type Asset = { name?: unknown; browser_download_url?: unknown };
 
 function parseRelease(payload: unknown): Release | null {
   if (typeof payload !== "object" || payload === null) return null;
-  const { tag_name: tag, assets } = payload as { tag_name?: unknown; assets?: unknown };
+  const { tag_name: tag, assets } = payload as {
+    tag_name?: unknown;
+    assets?: unknown;
+  };
   if (typeof tag !== "string" || tag.length === 0) return null;
   if (!Array.isArray(assets)) return null;
 
@@ -48,7 +56,7 @@ function parseRelease(payload: unknown): Release | null {
       (asset) =>
         typeof asset?.name === "string" &&
         pattern.test(asset.name) &&
-        typeof asset.browser_download_url === "string",
+        typeof asset.browser_download_url === "string"
     );
     if (match && typeof match.browser_download_url === "string") {
       downloads[key] = match.browser_download_url;
@@ -85,7 +93,7 @@ function usePlatformDetection(): PlatformId {
   return useSyncExternalStore(
     neverChanges,
     detectPlatform,
-    () => "mac" as PlatformId,
+    () => "mac" as PlatformId
   );
 }
 
@@ -124,7 +132,9 @@ export function ReleaseProvider({ children }: { children: ReactNode }) {
 
   return (
     <ReleaseContext.Provider value={release}>
-      <PlatformContext.Provider value={platform}>{children}</PlatformContext.Provider>
+      <PlatformContext.Provider value={platform}>
+        {children}
+      </PlatformContext.Provider>
     </ReleaseContext.Provider>
   );
 }
@@ -142,7 +152,11 @@ export function usePlatform(): PlatformId {
  * Primary action. On macOS it offers the Apple silicon DMG; on Linux it shows
  * the amd64 and arm64 .deb downloads side by side.
  */
-export function ReleaseCta({ className = "btn-solid" }: { className?: string }) {
+export function ReleaseCta({
+  className = "btn-solid",
+}: {
+  className?: string;
+}) {
   const { state, version, downloads } = useRelease();
   const platform = usePlatform();
 
