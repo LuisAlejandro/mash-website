@@ -34,7 +34,78 @@ export function FilmBehavior() {
       }
     };
 
-    const onFilm = () => toggle();
+    let open: {
+      overlay: HTMLDivElement;
+      win: HTMLElement;
+      clone: HTMLVideoElement;
+    } | null = null;
+
+    const closeZoom = () => {
+      if (!open) return;
+      const { overlay, win, clone } = open;
+      open = null;
+      video.currentTime = clone.currentTime;
+      clone.pause();
+      overlay.classList.remove("open");
+      const target = video.closest(".window");
+      const done = () => {
+        overlay.remove();
+        document.documentElement.style.overflow = "";
+        control.focus({ preventScroll: true });
+      };
+      if (calm || !(target instanceof HTMLElement)) {
+        done();
+        return;
+      }
+      const animation = win.animate(
+        [
+          { transform: "none" },
+          { transform: flip(win.getBoundingClientRect(), target.getBoundingClientRect()) },
+        ],
+        { duration: 380, easing: EASE, fill: "forwards" },
+      );
+      animation.onfinish = done;
+    };
+
+    const onFilm = () => {
+      if (open) return;
+      const src = video.closest(".window");
+      if (!(src instanceof HTMLElement)) return;
+      const from = src.getBoundingClientRect();
+      const overlay = document.createElement("div");
+      overlay.className = "zoom";
+      overlay.setAttribute("aria-label", "Enlarged video; click or press Escape to close");
+      overlay.tabIndex = -1;
+      const win = document.createElement("div");
+      win.className = "window";
+      const clone = video.cloneNode(true) as HTMLVideoElement;
+      clone.removeAttribute("id");
+      clone.currentTime = video.currentTime;
+      if (clone.textTracks[0]) clone.textTracks[0].mode = "showing";
+      win.appendChild(clone);
+      const ratio = from.height / from.width;
+      const width = Math.min(window.innerWidth * 0.94, 1600, (window.innerHeight * 0.92) / ratio);
+      win.style.width = `${width}px`;
+      overlay.appendChild(win);
+      overlay.addEventListener("click", closeZoom);
+      document.body.appendChild(overlay);
+      document.documentElement.style.overflow = "hidden";
+      if (!video.paused) clone.play().catch(() => {});
+      open = { overlay, win, clone };
+      requestAnimationFrame(() => overlay.classList.add("open"));
+      overlay.focus({ preventScroll: true });
+      if (!calm) {
+        win.animate(
+          [{ transform: flip(win.getBoundingClientRect(), from) }, { transform: "none" }],
+          { duration: 480, easing: EASE },
+        );
+      }
+    };
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeZoom();
+    };
+
     const onControl = (event: Event) => {
       event.stopPropagation();
       toggle();
@@ -42,6 +113,7 @@ export function FilmBehavior() {
 
     control.addEventListener("click", onControl);
     video.addEventListener("click", onFilm);
+    document.addEventListener("keydown", onKey);
     video.addEventListener("play", label);
     video.addEventListener("pause", label);
 
@@ -64,9 +136,14 @@ export function FilmBehavior() {
     return () => {
       control.removeEventListener("click", onControl);
       video.removeEventListener("click", onFilm);
+      document.removeEventListener("keydown", onKey);
       video.removeEventListener("play", label);
       video.removeEventListener("pause", label);
       observer?.disconnect();
+      if (open) {
+        open.overlay.remove();
+        document.documentElement.style.overflow = "";
+      }
     };
   }, []);
 

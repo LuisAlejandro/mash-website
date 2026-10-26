@@ -21,14 +21,14 @@ export default function Home() {
           <div className="reveal">
             <p className="kicker">Your next task has somewhere to go.</p>
             <img
-              className="mark"
-              src="/assets/mash/logo-mark@2x.png"
-              alt=""
-              width="76"
-              height="76"
+              className="closing-logo"
+              src="/assets/mash/logo-wordmark-lg.png"
+              srcSet="/assets/mash/logo-wordmark-lg.png 1x, /assets/mash/logo-wordmark-lg@2x.png 2x"
+              alt="Mash"
+              width="200"
+              height="144"
               loading="lazy"
             />
-            <span className="name">Mash</span>
             <p className="tag">
               A complete agentic workspace, <em>in one app.</em>
             </p>

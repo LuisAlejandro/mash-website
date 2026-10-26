@@ -1,19 +1,19 @@
 WEBVTT
 
-00:00:00.000 --> 00:00:02.200
+00:00:00.000 --> 00:00:02.200 line:88%
 Mash keeps the editor and agent beside your workspaces.
 
-00:00:02.200 --> 00:00:07.540
+00:00:02.200 --> 00:00:07.540 line:88%
 The command palette lists actions with the keys that run them.
 
-00:00:07.540 --> 00:00:12.700
+00:00:07.540 --> 00:00:12.700 line:88%
 The workspace picker keeps separate projects and agents in view.
 
-00:00:12.700 --> 00:00:17.950
+00:00:12.700 --> 00:00:17.950 line:88%
 The file finder previews source without leaving the keyboard.
 
-00:00:17.950 --> 00:00:23.900
+00:00:17.950 --> 00:00:23.900 line:88%
 The review tab shows working changes, a diff, branches, and commits.
 
-00:00:23.900 --> 00:00:25.900
+00:00:23.900 --> 00:00:25.900 line:88%
 Back in the editor, ready for the next step.

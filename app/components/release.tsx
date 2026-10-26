@@ -8,21 +8,22 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { PLATFORMS, type PlatformId } from "@/lib/site";
+import { type PlatformId } from "@/lib/site";
 
 const LATEST_RELEASE = "https://api.github.com/repos/LuisAlejandro/mash/releases/latest";
 
 /**
- * The asset names `artifacts.yml` publishes, one per platform. Linux ships a
- * .deb per architecture; the page offers amd64, with arm64 a click away in the
- * release notes, because a browser cannot tell the two apart.
+ * The asset names `artifacts.yml` publishes: one macOS DMG and two Linux .deb
+ * packages (amd64 and arm64).
  */
-const ASSETS: Record<PlatformId, RegExp> = {
+const ASSETS = {
   mac: /^Mash-.+-mac-arm64\.dmg$/i,
-  linux: /^letsmash-.+-linux-amd64\.deb$/i,
-};
+  linuxAmd64: /^letsmash-.+-linux-amd64\.deb$/i,
+  linuxArm64: /^letsmash-.+-linux-arm64\.deb$/i,
+} as const;
 
-export type Downloads = Partial<Record<PlatformId, string>>;
+export type AssetKey = keyof typeof ASSETS;
+export type Downloads = Partial<Record<AssetKey, string>>;
 
 export type Release = {
   state: "unavailable" | "ready";
@@ -42,7 +43,7 @@ function parseRelease(payload: unknown): Release | null {
   if (!Array.isArray(assets)) return null;
 
   const downloads: Downloads = {};
-  for (const [platform, pattern] of Object.entries(ASSETS) as [PlatformId, RegExp][]) {
+  for (const [key, pattern] of Object.entries(ASSETS) as [AssetKey, RegExp][]) {
     const match = (assets as Asset[]).find(
       (asset) =>
         typeof asset?.name === "string" &&
@@ -50,7 +51,7 @@ function parseRelease(payload: unknown): Release | null {
         typeof asset.browser_download_url === "string",
     );
     if (match && typeof match.browser_download_url === "string") {
-      downloads[platform] = match.browser_download_url;
+      downloads[key] = match.browser_download_url;
     }
   }
 
@@ -138,20 +139,48 @@ export function usePlatform(): PlatformId {
 }
 
 /**
- * Primary action. A download once this platform has an asset, never before.
- * The server render and the first client render agree on macOS, so the markup
- * matches until the effect runs.
+ * Primary action. On macOS it offers the Apple silicon DMG; on Linux it shows
+ * the amd64 and arm64 .deb downloads side by side.
  */
 export function ReleaseCta({ className = "btn-solid" }: { className?: string }) {
   const { state, version, downloads } = useRelease();
   const platform = usePlatform();
-  const href = downloads[platform];
-  const label = PLATFORMS[platform].label;
 
-  if (state === "ready" && href) {
+  if (platform === "linux") {
+    const amd64 = downloads.linuxAmd64;
+    const arm64 = downloads.linuxArm64;
+    if (state === "ready" && (amd64 || arm64)) {
+      return (
+        <>
+          {amd64 && (
+            <a className={className} href={amd64} rel="noreferrer">
+              Download {version} · amd64
+            </a>
+          )}
+          {arm64 && (
+            <a className={className} href={arm64} rel="noreferrer">
+              Download {version} · arm64
+            </a>
+          )}
+        </>
+      );
+    }
     return (
-      <a className={className} href={href} rel="noreferrer">
-        Download Mash {version} for {label}
+      <>
+        <span className={`${className} is-pending`} aria-disabled="true">
+          Coming soon · amd64
+        </span>
+        <span className={`${className} is-pending`} aria-disabled="true">
+          Coming soon · arm64
+        </span>
+      </>
+    );
+  }
+
+  if (state === "ready" && downloads.mac) {
+    return (
+      <a className={className} href={downloads.mac} rel="noreferrer">
+        Download Mash {version} for macOS
       </a>
     );
   }

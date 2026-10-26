@@ -57,13 +57,12 @@ export default function Header() {
         <div className="nav-container">
           <a href="#top" className="nav-logo" aria-label="Mash, back to top">
             <img
-              src="/assets/mash/logo-mark.png"
-              srcSet="/assets/mash/logo-mark.png 1x, /assets/mash/logo-mark@2x.png 2x"
+              src="/assets/mash/logo-wordmark.png"
+              srcSet="/assets/mash/logo-wordmark.png 1x, /assets/mash/logo-wordmark@2x.png 2x"
               alt=""
-              width="28"
-              height="28"
+              width="50"
+              height="36"
             />
-            <span className="wordmark">Mash</span>
             <VersionBadge />
           </a>
           <button

@@ -32,12 +32,17 @@ export default function InstallBlocks() {
         <div className="install-grid reveal">
           {ORDER.map((id) => {
             const platform = PLATFORMS[id];
-            const href = downloads[id];
             const anchor = `install-${id}`;
+            const isLinux = id === "linux";
+            const hasDownload = isLinux
+              ? Boolean(downloads.linuxAmd64 || downloads.linuxArm64)
+              : Boolean(downloads.mac);
             return (
               <div className="install-card" id={anchor} key={id}>
                 <h3>
-                  {ready && href ? `Mash ${version} for ${platform.label}` : `Mash for ${platform.label}`}
+                  {ready && hasDownload
+                    ? `Mash ${version} for ${platform.label}`
+                    : `Mash for ${platform.label}`}
                   <a
                     className="anchor-link"
                     href={`#${anchor}`}
@@ -46,15 +51,42 @@ export default function InstallBlocks() {
                     #
                   </a>
                 </h3>
-                {ready && href ? (
+                {ready && hasDownload ? (
                   <>
-                    <a className="btn-solid install-download" href={href} rel="noreferrer">
-                      Download Mash {version} for {platform.label}
-                    </a>
+                    {isLinux ? (
+                      <div className="install-actions">
+                        {downloads.linuxAmd64 && (
+                          <a
+                            className="btn-solid install-download"
+                            href={downloads.linuxAmd64}
+                            rel="noreferrer"
+                          >
+                            Download {version} · amd64
+                          </a>
+                        )}
+                        {downloads.linuxArm64 && (
+                          <a
+                            className="btn-solid install-download"
+                            href={downloads.linuxArm64}
+                            rel="noreferrer"
+                          >
+                            Download {version} · arm64
+                          </a>
+                        )}
+                      </div>
+                    ) : (
+                      <a
+                        className="btn-solid install-download"
+                        href={downloads.mac}
+                        rel="noreferrer"
+                      >
+                        Download Mash {version} for {platform.label}
+                      </a>
+                    )}
                     <p className="install-card-note">
-                      {id === "linux" ? (
+                      {isLinux ? (
                         <>
-                          amd64 · arm64 and checksums in the{" "}
+                          .deb packages · checksums and attestations in the{" "}
                           <a href={RELEASES_URL} target="_blank" rel="noreferrer">
                             release notes
                           </a>
@@ -71,9 +103,20 @@ export default function InstallBlocks() {
                   </>
                 ) : (
                   <>
-                    <span className="btn-solid is-pending" aria-disabled="true">
-                      Coming soon to {platform.label}
-                    </span>
+                    {isLinux ? (
+                      <div className="install-actions">
+                        <span className="btn-solid is-pending" aria-disabled="true">
+                          Coming soon · amd64
+                        </span>
+                        <span className="btn-solid is-pending" aria-disabled="true">
+                          Coming soon · arm64
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="btn-solid is-pending install-download" aria-disabled="true">
+                        Coming soon to {platform.label}
+                      </span>
+                    )}
                     <p className="install-card-note">
                       In the meantime, the{" "}
                       <a href={REPO_URL} target="_blank" rel="noreferrer">

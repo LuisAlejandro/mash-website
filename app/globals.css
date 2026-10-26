@@ -51,7 +51,7 @@
             --serif: 'Instrument Serif', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
             --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', Consolas, 'Liberation Mono', Menlo, monospace;
-            --measure: 1180px;
+            --measure: 1280px;
             --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
@@ -194,8 +194,7 @@
         }
         .nav-logo { display: flex; align-items: center; gap: 11px; color: var(--paper); }
         .nav-logo:hover { color: var(--paper); }
-        .nav-logo img { width: 28px; height: 28px; border-radius: 7px; }
-        .nav-logo .wordmark { font-family: var(--serif); font-size: 27px; line-height: 1; letter-spacing: 0.005em; }
+        .nav-logo img { width: 50px; height: 36px; display: block; image-rendering: pixelated; }
         #version-badge {
             font-family: var(--mono);
             font-size: 11.5px;
@@ -253,6 +252,12 @@
 
         /* ---------- Hero ---------- */
         .hero { padding: 118px 0 0; }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(420px, 4.3fr) minmax(0, 7.7fr);
+            gap: 48px;
+            align-items: center;
+        }
         .hero .eyebrow { display: block; margin-bottom: 26px; }
         .hero h1 {
             font-family: var(--serif);
@@ -314,8 +319,9 @@
         }
         .hero-actions {
             margin: 30px 0 0;
-            display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+            display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
         }
+        .hero-actions .btn-solid { padding: 11px 20px; white-space: nowrap; }
         .hero-note {
             margin-top: 12px;
             font-family: var(--mono);
@@ -326,15 +332,20 @@
 
         /* The film: a wide Mash window, quiet chrome, one hairline. */
         .hero-window {
-            width: calc(100% - 64px);
-            max-width: calc(var(--measure) - 64px);
-            margin: 44px auto 0;
+            width: 100%;
+            margin: 0;
         }
         .hero-window video {
             display: block; width: 100%; height: auto;
             aspect-ratio: 16 / 10;
             background: var(--chrome);
-            cursor: pointer;
+            cursor: zoom-in;
+        }
+        .hero-window video::cue, .zoom .window video::cue {
+            font-family: var(--sans);
+            font-size: 13.5px;
+            background: rgba(20, 21, 17, 0.86);
+            color: var(--paper);
         }
         .film-control {
             position: absolute; right: 18px; bottom: 18px;
@@ -448,6 +459,7 @@
         }
         .zoom.open { opacity: 1; }
         .zoom .window { transform-origin: 0 0; box-shadow: 0 60px 160px -30px rgba(0, 0, 0, 0.95); }
+        .zoom .window video { cursor: zoom-out; }
 
         /* ---------- Sections with a centred head ---------- */
         .section { padding: 150px 0 0; }
@@ -523,6 +535,7 @@
             color: var(--paper); letter-spacing: 0.01em;
         }
         .install-card .points { margin-top: 4px; }
+        .install-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
         .install-download { align-self: flex-start; }
         .install-card-note { font-size: 14px; color: var(--faint); }
         .install-card-note a { color: var(--paper-2); border-bottom: 1px solid var(--line-2); }
@@ -593,17 +606,16 @@
             font-size: clamp(1.9rem, 3.6vw, 2.8rem);
             line-height: 1.15;
             color: var(--paper-2);
-            margin-bottom: 72px;
+            margin-bottom: 56px;
         }
-        .closing .mark { width: 76px; height: 76px; border-radius: 18px; }
-        .closing .name {
+        .closing-logo {
             display: block;
-            font-family: var(--serif);
-            font-size: clamp(4rem, 10vw, 7.5rem);
-            line-height: 1;
-            margin-top: 26px;
+            width: 200px;
+            height: 144px;
+            margin: 0 auto;
+            image-rendering: pixelated;
         }
-        .closing .tag { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.1rem); color: var(--paper-2); margin-top: 14px; }
+        .closing .tag { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.1rem); color: var(--paper-2); margin-top: 28px; }
         .closing-actions { margin-top: 48px; display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; }
         .btn-solid {
             display: inline-flex; align-items: center;
@@ -639,7 +651,7 @@
            buttons are clipped silently rather than scrolled to. Collapse to
            the hamburger menu instead. */
         @media (max-width: 980px) {
-            .hero-window { width: calc(100% - 64px); margin-top: 52px; }
+            .hero-grid { grid-template-columns: 1fr; gap: 44px; }
             .nav-links { display: none; }
             .hamburger { display: flex; }
             .mobile-menu { display: block; }
@@ -652,7 +664,7 @@
             body { font-size: 16px; }
             .wrap, .nav-container { padding-left: 20px; padding-right: 20px; }
             .hero { padding-top: 128px; }
-            .hero-window { width: calc(100% - 40px); margin-top: 40px; }
+            .hero-grid { gap: 36px; }
             .hero h1 { font-size: clamp(2.4rem, 9vw, 3.2rem); }
             .lede { font-size: 17px; }
             .hero-actions .btn-solid, .hero-actions .btn-quiet { width: 100%; justify-content: center; }

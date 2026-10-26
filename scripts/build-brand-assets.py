@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Derive the site's Mash identity marks from the shipped artwork.
 
-Source of truth: ../mash/branding/logo-solid.png (1024x1024, rounded square).
+Source of truth:
+- ../mash/branding/logo-solid.png (1024x1024, rounded square app icon)
+- ../mash/branding/render_header_art.py (renders the bare header wordmark)
 Outputs are committed under public/assets/mash/, so the site build never needs
 the Mash repository present. Re-run this script only when the artwork changes.
 
@@ -10,6 +12,7 @@ Uses sips (macOS) for resampling and wraps PNGs into an ICO by hand: no Pillow.
 
 from __future__ import annotations
 
+import importlib.util
 import shutil
 import struct
 import subprocess
@@ -17,7 +20,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE = ROOT.parent / "mash" / "branding" / "logo-solid.png"
+BRANDING_DIR = ROOT.parent / "mash" / "branding"
+SOURCE = BRANDING_DIR / "logo-solid.png"
+HEADER_ART_RENDERER = BRANDING_DIR / "render_header_art.py"
 OUT_DIR = ROOT / "public" / "assets" / "mash"
 
 PNG_OUTPUTS = {
@@ -88,12 +93,67 @@ def write_og_card(target: Path, mark: Path) -> None:
     )
 
 
+def write_wordmarks() -> None:
+    spec = importlib.util.spec_from_file_location("render_header_art", HEADER_ART_RENDERER)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"cannot load {HEADER_ART_RENDERER}")
+    art = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(art)
+
+    rows = art.parse()
+    # Cell sizes chosen so both columns and half-rows land on exact pixels at
+    # 1x and 2x, with no resampling blur in the navbar (50x36) or closing card (200x144).
+    variants = (
+        ("logo-wordmark.png", (2, 4)),
+        ("logo-wordmark@2x.png", (4, 8)),
+        ("logo-wordmark-lg.png", (8, 16)),
+        ("logo-wordmark-lg@2x.png", (16, 32)),
+    )
+    for name, (cw, ch_) in variants:
+        h_full = len(rows) * ch_
+        w_full = max(len(r) for r in rows) * cw
+        px = [[(0, 0, 0, 0) for _ in range(w_full)] for _ in range(h_full)]
+
+        for gy, row in enumerate(rows):
+            for gx, (ch, fg, bg) in enumerate(row):
+                if fg is None or ch == " ":
+                    continue
+                x0 = gx * cw
+                y0 = gy * ch_
+                if ch == "█":
+                    spans = [(fg, 0.0, 1.0)]
+                elif ch == "▀":
+                    spans = [(fg, 0.0, 0.5)]
+                elif ch == "▄":
+                    spans = [(fg, 0.5, 1.0)]
+                elif ch in art.SHADE_ALPHA:
+                    under = bg if bg is not None else art.WINDOW_BG
+                    spans = [(art.mix(fg, under, art.SHADE_ALPHA[ch]), 0.0, 1.0)]
+                else:
+                    raise SystemExit(f"unexpected glyph {ch!r} in header art")
+                for colour, t0, t1 in spans:
+                    ya = y0 + round(t0 * ch_)
+                    yb = y0 + round(t1 * ch_)
+                    c = (*colour, 255)
+                    for y in range(ya, yb):
+                        for x in range(x0, x0 + cw):
+                            px[y][x] = c
+
+        ys = [y for y in range(h_full) if any(px[y][x][3] > 0 for x in range(w_full))]
+        xs = [x for x in range(w_full) if any(px[y][x][3] > 0 for y in range(h_full))]
+        cropped = [row[min(xs) : max(xs) + 1] for row in px[min(ys) : max(ys) + 1]]
+        target = OUT_DIR / name
+        art.write_png(target, cropped)
+        print(f"wrote public/assets/mash/{name} ({len(cropped[0])}x{len(cropped)})")
+
+
 def main() -> int:
     if not SOURCE.is_file():
         print(f"missing source artwork: {SOURCE}", file=sys.stderr)
         return 1
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    write_wordmarks()
     for name, size in PNG_OUTPUTS.items():
         resize(SOURCE, OUT_DIR / name, size)
         print(f"wrote public/assets/mash/{name} ({size}x{size})")
