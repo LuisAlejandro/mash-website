@@ -1,0 +1,16 @@
+services:
+  app:
+    image: mash-website:dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UID: ${HOST_UID:-1000}
+        GID: ${HOST_GID:-1000}
+    volumes:
+      - .:/home/node/app
+      # Keep container-built dependencies and Next cache out of the host mount.
+      - /home/node/app/node_modules
+      - /home/node/app/.next
+    ports:
+      - "${HOST_PORT:-3000}:3000"
