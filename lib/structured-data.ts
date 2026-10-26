@@ -1,5 +1,7 @@
 import {
   APP_NAME,
+  APP_RELEASED,
+  APP_VERSION,
   DOWNLOAD_URL,
   FILM,
   LICENSE,
@@ -67,7 +69,7 @@ function softwareApplication() {
     applicationSubCategory: "Agentic coding environment",
     operatingSystem: ["macOS 14", "Ubuntu 24.04"],
     processorRequirements: "Apple silicon, x86-64, or ARM64",
-    softwareVersion: "0.1.0",
+    softwareVersion: APP_VERSION,
     isAccessibleForFree: true,
     license: `https://spdx.org/licenses/${LICENSE}.html`,
     featureList: FEATURES,
@@ -78,7 +80,7 @@ function softwareApplication() {
       price: "0",
       priceCurrency: "USD",
       // The build is not downloadable yet. Announcing a download URL now would
-      // point crawlers at a 404; it appears once `DOWNLOAD_URL` is set.
+      // point crawlers at a 404. The releases page always exists.
       ...(DOWNLOAD_URL ? { url: DOWNLOAD_URL } : { url: RELEASES_URL }),
     },
     screenshot: {
@@ -155,9 +157,8 @@ export const FAQ: FaqItem[] = [
       "Yes, and Mash is built around that. The agent works in a pane beside the file rather than behind a chat window, so you can open the buffer, make the change yourself, and let the agent continue from what is on disk. Nothing lands without a review step you control.",
   },
   {
-    question: "When can I download it?",
-    answer:
-      "There is no public release yet. The first build will be published on the Mash repository with its release notes, and this page offers the download as soon as a build for your platform exists. Every release publishes macOS and both Linux architectures together, so a release is never missing a platform.",
+    question: "How do I download it?",
+    answer: `Mash ${APP_VERSION} was released on ${APP_RELEASED}. Download the build for your platform from the Mash releases page on GitHub, or use the download button on this page, which offers the right file for the machine you are on. Every release publishes the macOS DMG and both Linux .deb architectures together.`,
   },
 ];
 

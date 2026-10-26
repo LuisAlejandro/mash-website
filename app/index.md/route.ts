@@ -1,5 +1,15 @@
 import { FAQ } from "@/lib/structured-data";
-import { CAPABILITIES, CAPTURES, DOWNLOAD_URL, LICENSE, RELEASES_URL, REPO_URL, SITE_URL } from "@/lib/site";
+import {
+  APP_RELEASED,
+  APP_VERSION,
+  CAPABILITIES,
+  CAPTURES,
+  DOWNLOAD_URL,
+  LICENSE,
+  RELEASES_URL,
+  REPO_URL,
+  SITE_URL,
+} from "@/lib/site";
 
 export const dynamic = "force-static";
 
@@ -49,7 +59,7 @@ ${CAPABILITIES.map((item) => `- ${item}`).join("\n")}
   keybinding sheet shows the keys for the machine you are on.
 - Price: free, open source under ${LICENSE}. No account, subscription, or in-app
   purchase.
-- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `no public release yet. The first build will be published at ${RELEASES_URL} with release notes, and ${SITE_URL}/ offers the download once a build for the visitor's platform exists. Every release publishes macOS and both Linux architectures together.`}
+- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `released. Latest version ${APP_VERSION} (${APP_RELEASED}) is published at ${RELEASES_URL} with release notes: a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. ${SITE_URL}/ offers the file for the visitor's platform. Every release publishes all platforms together.`}
 - Source: ${REPO_URL}
 
 ## Captures

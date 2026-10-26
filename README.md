@@ -60,6 +60,12 @@ declares image and video namespaces only for entries it actually emits.
 ## Release state
 
 The download call to action reads the latest release of
-`LuisAlejandro/mash` from the browser. It offers the DMG only when a release has
-a `Mash-<version>-mac-arm64.dmg` asset; otherwise the page states that the
-download is coming soon and keeps GitHub available.
+`LuisAlejandro/mash` from the browser and offers the file for the visitor's
+platform: the `Mash-<version>-mac-arm64.dmg` on macOS, or the
+`letsmash-<version>-linux-{amd64,arm64}.deb` on Linux. If the request fails or
+a release lacks those assets, every download button falls back to the releases
+page, so no CTA is ever dead.
+
+Static copy (FAQ, `llms.txt`, `ai.txt`, `index.md`, and the `softwareVersion`
+in structured data) takes its version and date from `APP_VERSION` and
+`APP_RELEASED` in `lib/site.ts`. Bump those with each app release.

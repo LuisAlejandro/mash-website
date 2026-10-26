@@ -15,7 +15,7 @@ This file is the preferred starting point for assistants, answer engines, and cr
 
 ## Current Release State
 
-There is no public release yet. The first build will be published at https://github.com/LuisAlejandro/mash/releases with release notes. This page offers the download once a build for the visitor's platform exists; until then it states that the download is coming soon and never presents a dead link. Every release publishes the macOS DMG and both Linux .deb architectures together.
+Mash is released. The latest version is 0.1.1 (2026-10-26), published at https://github.com/LuisAlejandro/mash/releases with release notes. It ships a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. The homepage offers the file for the visitor's platform and links to the releases page otherwise, so it never presents a dead link. Every release publishes all platforms together.
 
 ## Pages
 
