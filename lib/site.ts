@@ -7,13 +7,6 @@ export const RELEASES_URL = `${REPO_URL}/releases`;
 export const LICENSE = "GPL-3.0-or-later";
 
 /**
- * The latest published app version, as of the last content update. Static copy
- * (schema, llms.txt, index.md) uses it; the live page reads the real release.
- */
-export const APP_VERSION = "0.1.1";
-export const APP_RELEASED = "2026-10-26";
-
-/**
  * Empty until a single stable download URL is wanted. Structured data only
  * advertises a download once this is set; until then it points at the releases
  * page, which always exists.

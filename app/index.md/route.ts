@@ -1,7 +1,6 @@
-import { FAQ } from "@/lib/structured-data";
+import { getLatestAppRelease } from "@/lib/app-release";
+import { buildFaq } from "@/lib/structured-data";
 import {
-  APP_RELEASED,
-  APP_VERSION,
   CAPABILITIES,
   CAPTURES,
   DOWNLOAD_URL,
@@ -18,7 +17,9 @@ export const dynamic = "force-static";
  * the page renders. Answer engines and assistants get the claims as text, and
  * the capability and FAQ lists cannot drift from the HTML.
  */
-export function GET() {
+export async function GET() {
+  const release = await getLatestAppRelease();
+  const faq = buildFaq(release);
   const body = `# Mash
 
 > Mash is a free, open-source application for macOS and Linux that arrives as a
@@ -59,7 +60,7 @@ ${CAPABILITIES.map((item) => `- ${item}`).join("\n")}
   keybinding sheet shows the keys for the machine you are on.
 - Price: free, open source under ${LICENSE}. No account, subscription, or in-app
   purchase.
-- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `released. Latest version ${APP_VERSION} (${APP_RELEASED}) is published at ${RELEASES_URL} with release notes: a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. ${SITE_URL}/ offers the file for the visitor's platform. Every release publishes all platforms together.`}
+- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `${release ? `latest release ${release.version}${release.publishedAt ? ` (${release.publishedAt})` : ""}` : "the latest release"} is published at ${RELEASES_URL} with release notes: a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. ${SITE_URL}/ offers the file for the visitor's platform. Every release publishes all platforms together.`}
 - Source: ${REPO_URL}
 
 ## Captures
@@ -72,7 +73,7 @@ ${CAPTURES.map((c) => `- [${c.title}](${SITE_URL}${c.path}) — ${c.alt}`).join(
 
 ## Questions
 
-${FAQ.map((item) => `### ${item.question}\n\n${item.answer}`).join("\n\n")}
+${faq.map((item) => `### ${item.question}\n\n${item.answer}`).join("\n\n")}
 
 ## Content use
 

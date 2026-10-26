@@ -66,6 +66,8 @@ platform: the `Mash-<version>-mac-arm64.dmg` on macOS, or the
 a release lacks those assets, every download button falls back to the releases
 page, so no CTA is ever dead.
 
-Static copy (FAQ, `llms.txt`, `ai.txt`, `index.md`, and the `softwareVersion`
-in structured data) takes its version and date from `APP_VERSION` and
-`APP_RELEASED` in `lib/site.ts`. Bump those with each app release.
+Static copy has no hardcoded version. `lib/app-release.ts` fetches the latest
+release of `LuisAlejandro/mash` at prerender time (revalidated hourly) and feeds
+the `softwareVersion` in structured data, the download FAQ, `index.md`,
+`llms.txt`, and `ai.txt`. If that lookup fails, those pages say "the latest
+release is on the releases page" and claim no version.
