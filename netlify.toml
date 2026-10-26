@@ -1,9 +1,18 @@
 [build]
   command = "npm run build"
+  # Netlify Next.js runtime manages publish output; kept for documentation.
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "24"
+  # Netlify sets NODE_ENV=production which skips devDependencies, and the
+  # runtime plugin below is a devDependency.
+  NPM_FLAGS = "--include=dev"
+
+# Next.js runtime adapter (OpenNext). Keep the repo-pinned version authoritative
+# by removing any UI-installed plugin in the Netlify site settings.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 # Hashed build output can be cached forever; the media files never change name,
 # so they get a long but not immutable cache.

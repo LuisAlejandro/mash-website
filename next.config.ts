@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // The site is one prerendered route, so it ships as plain files. Netlify
-  // publishes `out/`; no server runtime or Next adapter is involved.
-  output: "export",
+  // Netlify builds this through the Next.js runtime (@netlify/plugin-nextjs),
+  // so `next build` output stays in `.next` and there is no static export.
   trailingSlash: true,
 };
 
