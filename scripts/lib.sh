@@ -81,6 +81,14 @@ release_run_preflight() {
 
 
 
+    print_step "Preflight: make dependencies"
+    if ! make dependencies; then
+        print_error "Preflight command failed: make dependencies"
+        exit 1
+    fi
+
+
+
     print_step "Preflight: make format"
     preflight_snapshot=$(git status --porcelain)
     make format
