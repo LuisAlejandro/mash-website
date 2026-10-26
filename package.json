@@ -28,5 +28,8 @@
     "prettier": "^3.9.6",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "eslint-plugin-react": "github:jsx-eslint/eslint-plugin-react#b73f1108346bffb5566d17ae4cac8b13fe2b7834"
   }
 }
