@@ -34,7 +34,7 @@ capture method, and checks. The site build never records or fetches media.
 
 ## Deploy
 
-The site is a static export: `npm run build` writes `out/`, and `netlify.toml`
+The site is a static export: `npm run build` writes `.next/`, and `netlify.toml`
 tells Netlify to publish that folder. No Next.js adapter or server runtime is
 involved, so the output also works on any static host.
 
