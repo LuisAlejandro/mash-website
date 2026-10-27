@@ -75,6 +75,15 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 - Do not run a release unless the user asks for one.
 - Release CI (`push.yml`) runs `make build`, `make lint`, and `make test` on `release/**` and `master`.
 
+### Merging into `develop`
+
+`develop` is guarded by the active ruleset **"Rosey: develop"**, which requires one approving review and the checks `Filter`, `Build`, and `Code Quality`.
+
+- **Name every PR branch `feature/<slug>` or `bugfix/<slug>`.** The Cursor Approval Agent only approves `feature/**` and `dependabot/**` heads; any other prefix (for example `test/...` or `chore/...`) fails provenance, gets a "Not approved" review comment, and the PR stalls even with every check green.
+- Branch prefixes map to intent: `feature/` for work, `bugfix/` for fixes, `release/` for the release scripts. Do not invent other prefixes.
+- Auto-merge (`gh pr merge --auto`) then completes on its own once Cursor approves and the required checks pass. A human cannot approve their own PR, so a mis-named branch has no way forward except an admin bypass or a rename.
+- The ruleset also sets `require_extra_approval_for_unattributed_changes`, so keep commit identities matched to the GitHub account.
+
 ## Editing guidance for agents
 
 - Read the relevant file before editing. `app/components/release.tsx` and `lib/structured-data.ts` are the two places most copy depends on.
