@@ -7,8 +7,9 @@ export const RELEASES_URL = `${REPO_URL}/releases`;
 export const LICENSE = "GPL-3.0-or-later";
 
 /**
- * Empty until a public build exists. Structured data only advertises a download
- * once this is set, so the page never claims an artifact that 404s.
+ * Empty until a single stable download URL is wanted. Structured data only
+ * advertises a download once this is set; until then it points at the releases
+ * page, which always exists.
  */
 export const DOWNLOAD_URL = "";
 

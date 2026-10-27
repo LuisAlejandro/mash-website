@@ -34,7 +34,7 @@ capture method, and checks. The site build never records or fetches media.
 
 ## Deploy
 
-The site is a static export: `npm run build` writes `out/`, and `netlify.toml`
+The site is a static export: `npm run build` writes `.next/`, and `netlify.toml`
 tells Netlify to publish that folder. No Next.js adapter or server runtime is
 involved, so the output also works on any static host.
 
@@ -60,6 +60,14 @@ declares image and video namespaces only for entries it actually emits.
 ## Release state
 
 The download call to action reads the latest release of
-`LuisAlejandro/mash` from the browser. It offers the DMG only when a release has
-a `Mash-<version>-mac-arm64.dmg` asset; otherwise the page states that the
-download is coming soon and keeps GitHub available.
+`LuisAlejandro/mash` from the browser and offers the file for the visitor's
+platform: the `Mash-<version>-mac-arm64.dmg` on macOS, or the
+`letsmash-<version>-linux-{amd64,arm64}.deb` on Linux. If the request fails or
+a release lacks those assets, every download button falls back to the releases
+page, so no CTA is ever dead.
+
+Static copy has no hardcoded version. `lib/app-release.ts` fetches the latest
+release of `LuisAlejandro/mash` at prerender time (revalidated hourly) and feeds
+the `softwareVersion` in structured data, the download FAQ, `index.md`,
+`llms.txt`, and `ai.txt`. If that lookup fails, those pages say "the latest
+release is on the releases page" and claim no version.

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { getLatestAppRelease } from "@/lib/app-release";
 import {
-  FAQ,
+  buildFaq,
   buildFaqSchema,
   buildSiteGraph,
   toJsonLdScript,
@@ -79,9 +80,10 @@ export const viewport = {
   themeColor: "#272823",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
-  const siteGraph = buildSiteGraph();
-  const faqSchema = buildFaqSchema(FAQ);
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const release = await getLatestAppRelease();
+  const siteGraph = buildSiteGraph(release);
+  const faqSchema = buildFaqSchema(buildFaq(release));
 
   return (
     <html lang="en" suppressHydrationWarning>
