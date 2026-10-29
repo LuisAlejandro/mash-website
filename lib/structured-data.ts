@@ -1,3 +1,4 @@
+import type { LatestRelease } from "./app-release";
 import {
   APP_NAME,
   DOWNLOAD_URL,
@@ -56,7 +57,7 @@ function website() {
   };
 }
 
-function softwareApplication() {
+function softwareApplication(release: LatestRelease | null) {
   return {
     "@type": "SoftwareApplication",
     "@id": APP_ID,
@@ -67,7 +68,8 @@ function softwareApplication() {
     applicationSubCategory: "Agentic coding environment",
     operatingSystem: ["macOS 14", "Ubuntu 24.04"],
     processorRequirements: "Apple silicon, x86-64, or ARM64",
-    softwareVersion: "0.1.0",
+    // Omitted when the release lookup failed, so no version is claimed.
+    ...(release ? { softwareVersion: release.version } : {}),
     isAccessibleForFree: true,
     license: `https://spdx.org/licenses/${LICENSE}.html`,
     featureList: FEATURES,
@@ -78,7 +80,7 @@ function softwareApplication() {
       price: "0",
       priceCurrency: "USD",
       // The build is not downloadable yet. Announcing a download URL now would
-      // point crawlers at a 404; it appears once `DOWNLOAD_URL` is set.
+      // point crawlers at a 404. The releases page always exists.
       ...(DOWNLOAD_URL ? { url: DOWNLOAD_URL } : { url: RELEASES_URL }),
     },
     screenshot: {
@@ -109,10 +111,15 @@ function videoObject() {
 }
 
 /** Site-wide entity graph. One `<script>` carries every node. */
-export function buildSiteGraph() {
+export function buildSiteGraph(release: LatestRelease | null) {
   return {
     "@context": "https://schema.org",
-    "@graph": [organization(), website(), softwareApplication(), videoObject()],
+    "@graph": [
+      organization(),
+      website(),
+      softwareApplication(release),
+      videoObject(),
+    ],
   };
 }
 
@@ -124,11 +131,25 @@ export function toJsonLdScript(data: unknown): string {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
+const DOWNLOAD_QUESTION = "How do I download it?";
+
+function downloadAnswer(release: LatestRelease | null): string {
+  const lead = release
+    ? `Mash ${release.version}${release.publishedAt ? ` was released on ${release.publishedAt}` : " is the latest release"}.`
+    : "The latest release is on the Mash releases page.";
+  return `${lead} Download the build for your platform from the Mash releases page on GitHub, or use the download button on this page, which offers the right file for the machine you are on. Every release publishes the macOS DMG and both Linux .deb architectures together.`;
+}
+
 /**
  * Questions a prospective user actually asks, answered on the page. The same
- * array feeds the visible section and the schema, so they cannot drift apart.
+ * list feeds the visible section and the schema, so they cannot drift apart.
+ * The download answer depends on the live release, so it is built per render.
  */
-export const FAQ: FaqItem[] = [
+export function buildFaq(release: LatestRelease | null): FaqItem[] {
+  return [...FAQ_STATIC, { question: DOWNLOAD_QUESTION, answer: downloadAnswer(release) }];
+}
+
+const FAQ_STATIC: FaqItem[] = [
   {
     question: "What is Mash?",
     answer:
@@ -153,11 +174,6 @@ export const FAQ: FaqItem[] = [
     question: "Can I still edit the code by hand?",
     answer:
       "Yes, and Mash is built around that. The agent works in a pane beside the file rather than behind a chat window, so you can open the buffer, make the change yourself, and let the agent continue from what is on disk. Nothing lands without a review step you control.",
-  },
-  {
-    question: "When can I download it?",
-    answer:
-      "There is no public release yet. The first build will be published on the Mash repository with its release notes, and this page offers the download as soon as a build for your platform exists. Every release publishes macOS and both Linux architectures together, so a release is never missing a platform.",
   },
 ];
 

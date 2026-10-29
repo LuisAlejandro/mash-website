@@ -1,5 +1,14 @@
-import { FAQ } from "@/lib/structured-data";
-import { CAPABILITIES, CAPTURES, DOWNLOAD_URL, LICENSE, RELEASES_URL, REPO_URL, SITE_URL } from "@/lib/site";
+import { getLatestAppRelease } from "@/lib/app-release";
+import { buildFaq } from "@/lib/structured-data";
+import {
+  CAPABILITIES,
+  CAPTURES,
+  DOWNLOAD_URL,
+  LICENSE,
+  RELEASES_URL,
+  REPO_URL,
+  SITE_URL,
+} from "@/lib/site";
 
 export const dynamic = "force-static";
 
@@ -8,7 +17,9 @@ export const dynamic = "force-static";
  * the page renders. Answer engines and assistants get the claims as text, and
  * the capability and FAQ lists cannot drift from the HTML.
  */
-export function GET() {
+export async function GET() {
+  const release = await getLatestAppRelease();
+  const faq = buildFaq(release);
   const body = `# Mash
 
 > Mash is a free, open-source application for macOS and Linux that arrives as a
@@ -49,7 +60,7 @@ ${CAPABILITIES.map((item) => `- ${item}`).join("\n")}
   keybinding sheet shows the keys for the machine you are on.
 - Price: free, open source under ${LICENSE}. No account, subscription, or in-app
   purchase.
-- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `no public release yet. The first build will be published at ${RELEASES_URL} with release notes, and ${SITE_URL}/ offers the download once a build for the visitor's platform exists. Every release publishes macOS and both Linux architectures together.`}
+- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `${release ? `latest release ${release.version}${release.publishedAt ? ` (${release.publishedAt})` : ""}` : "the latest release"} is published at ${RELEASES_URL} with release notes: a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. ${SITE_URL}/ offers the file for the visitor's platform. Every release publishes all platforms together.`}
 - Source: ${REPO_URL}
 
 ## Captures
@@ -62,7 +73,7 @@ ${CAPTURES.map((c) => `- [${c.title}](${SITE_URL}${c.path}) — ${c.alt}`).join(
 
 ## Questions
 
-${FAQ.map((item) => `### ${item.question}\n\n${item.answer}`).join("\n\n")}
+${faq.map((item) => `### ${item.question}\n\n${item.answer}`).join("\n\n")}
 
 ## Content use
 
