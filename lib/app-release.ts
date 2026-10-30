@@ -10,7 +10,9 @@ import { REPO_URL } from "./site";
  */
 export type LatestRelease = { version: string; publishedAt: string };
 
-const API = REPO_URL.replace("https://github.com/", "https://api.github.com/repos/") + "/releases/latest";
+const API =
+  REPO_URL.replace("https://github.com/", "https://api.github.com/repos/") +
+  "/releases/latest";
 
 export async function getLatestAppRelease(): Promise<LatestRelease | null> {
   try {
