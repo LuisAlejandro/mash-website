@@ -3,7 +3,7 @@
 The Mash homepage: one Next.js route that tells the product story with real
 captures of the app.
 
-Current version: 1.0.0
+Current version: 1.1.0
 
 ```bash
 npm install
