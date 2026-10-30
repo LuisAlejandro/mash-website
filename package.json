@@ -23,10 +23,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
+    "eslint": "^10",
     "eslint-config-next": "16.3.8",
     "prettier": "^3.9.6",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "eslint-plugin-react": "github:jsx-eslint/eslint-plugin-react#b73f1108346bffb5566d17ae4cac8b13fe2b7834"
   }
 }
