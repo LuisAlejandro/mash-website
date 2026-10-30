@@ -27,6 +27,8 @@ This file is the preferred starting point for assistants, answer engines, and cr
 
 - One app, not a bundle of separately installed tools. The terminal, agent, editor and skills ship inside it; the first launch sets up Git identity, GitHub sign-in, and the optional command-line tools and language servers you select.
 - Operated from the keyboard. Workspaces, tabs, panes, agents, search, and review all have keybindings; the command palette holds the rest. macOS uses Command chords and Linux uses Ctrl/Alt chords, and the in-app keybinding sheet shows the right set.
+- Agent orchestration. A coordinator agent splits a goal into independent tasks, starts worker agents, answers their questions, and gathers their results; you still review every change.
+- Pi Voice dictation. Speech becomes text in Pi's message box, where you can read or edit it before sending. It is an input method and does not start orchestration by itself.
 - The code stays editable by hand. The agent runs in a pane beside the file rather than behind a chat window.
 - Free and open source under GPL-3.0-or-later. No account, subscription, or in-app purchase.
 - macOS 14 or later on Apple silicon, distributed as one signed and notarized DMG, and Ubuntu 24.04 with GNOME on Wayland or Xorg, distributed as a .deb for amd64 or arm64. No Intel Mac build, and no Windows build.

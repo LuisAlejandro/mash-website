@@ -29,8 +29,10 @@ Apple touch icon, and the share card. It needs `sips` (macOS) and `ffmpeg`.
 
 The 1600×1000 hero film shows the entire Mash window, including chrome and
 status bar. Its 2026-10-25 reshoot is separate from the older chapter stills
-and workflow frames. `docs/media-capture.md` records the window geometry,
-capture method, and checks. The site build never records or fetches media.
+and workflow frames. A separate 16-second orchestration film and two Pi Voice
+stills come from a neutral demo project. `docs/media-capture.md` records the
+window geometry, capture method, and checks. The site build never records or
+fetches media.
 
 ## Deploy
 
