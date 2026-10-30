@@ -1,5 +1,6 @@
 import Chapters from "./components/chapters";
 import Faq from "./components/faq";
+import FeatureSpotlights from "./components/feature-spotlights";
 import Footer from "./components/footer";
 import Header from "./components/header";
 import Hero from "./components/hero";
@@ -16,6 +17,7 @@ export default async function Home() {
       <Header />
       <Hero />
       <main>
+        <FeatureSpotlights />
         <Chapters />
         <InstallBlocks />
         <Faq items={buildFaq(release)} />
