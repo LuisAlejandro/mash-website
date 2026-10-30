@@ -5,6 +5,7 @@ import {
   CAPTURES,
   DOWNLOAD_URL,
   LICENSE,
+  ORCHESTRATION_FILM,
   RELEASES_URL,
   REPO_URL,
   SITE_URL,
@@ -36,8 +37,14 @@ workspaces and agents, Ghostty for the terminal, Pi for the coding, and Fresh
 for the editing, with the Mash skills that teach your workflow. Everything runs
 from the keyboard, and the code stays visible and editable by hand.
 
-- **One workspace per task**, each with its own tabs, terminals, and agent, so a
-  second and third agent never bury the first.
+- **Agent orchestration.** A coordinator agent splits a goal into independent
+  tasks, starts worker agents, answers their questions, and gathers their
+  results. You still inspect and review every change.
+- **Pi Voice dictation.** Speech becomes text in Pi's message box, where you
+  can read or edit it before sending. On macOS, Control-Option-Z starts and
+  stops dictation. Dictation does not start orchestration by itself.
+- **One workspace per task**, each with its own tabs, terminals, and agent, so
+  separate projects never pile into one window.
 - **The code stays yours.** The agent works in a pane beside the file, not
   behind a chat window. Open the buffer, make the change yourself, and the agent
   picks up from what is on disk.
@@ -70,6 +77,7 @@ Each image below is a real state from the application.
 ${CAPTURES.map((c) => `- [${c.title}](${SITE_URL}${c.path}) — ${c.alt}`).join("\n")}
 - [A tour of Mash](${SITE_URL}/assets/mash/hero-film.mp4) — the command palette,
   workspace picker, file finder, and review tab, recorded from the full Mash window (26s).
+- [${ORCHESTRATION_FILM.title}](${SITE_URL}${ORCHESTRATION_FILM.path}) — ${ORCHESTRATION_FILM.description} (${ORCHESTRATION_FILM.seconds}s).
 
 ## Questions
 
