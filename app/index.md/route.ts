@@ -25,17 +25,18 @@ export async function GET() {
 
 > Mash is a free, open-source application for macOS and Linux that arrives as a
 > complete agentic coding workspace: Herdr for workspaces and agents, Ghostty
-> for the terminal, Pi for the coding, and Fresh for the editing, already wired
-> together.
+> for the terminal, Starship for the prompt, Pi for the coding, and Fresh for
+> the editing, already wired together.
 
 Canonical URL: ${SITE_URL}/
 
 ## What Mash is
 
 Mash arrives as one app with the stack already wired together: Herdr for
-workspaces and agents, Ghostty for the terminal, Pi for the coding, and Fresh
-for the editing, with the Mash skills that teach your workflow. Everything runs
-from the keyboard, and the code stays visible and editable by hand.
+workspaces and agents, Ghostty for the terminal, Starship for the prompt, Pi
+for the coding, and Fresh for the editing, with the Mash skills that teach your
+workflow. Everything runs from the keyboard, and the code stays visible and
+editable by hand.
 
 - **Agent orchestration.** A coordinator agent splits a goal into independent
   tasks, starts worker agents, answers their questions, and gathers their
