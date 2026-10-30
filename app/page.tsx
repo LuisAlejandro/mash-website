@@ -13,7 +13,7 @@ import { buildFaq } from "@/lib/structured-data";
 export default async function Home() {
   const release = await getLatestAppRelease();
   return (
-    <ReleaseProvider>
+    <ReleaseProvider release={release}>
       <Header />
       <Hero />
       <main>
