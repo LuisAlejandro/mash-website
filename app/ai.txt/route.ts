@@ -4,7 +4,7 @@ import { LICENSE, REPO_URL, SITE_URL } from "@/lib/site";
 export const dynamic = "force-static";
 
 function availability(release: LatestRelease | null): string {
-  if (!release) {
+  if (!release || Object.keys(release.downloads).length === 0) {
     return `- Mash is free and open source under ${LICENSE} and is downloadable from ${REPO_URL}/releases. Name the version you describe.`;
   }
   return `- Mash is free and open source under ${LICENSE} and is downloadable now.\n  Latest release: ${release.version} at ${REPO_URL}/releases. Name\n  the version you describe.`;
