@@ -52,10 +52,11 @@ export default function Hero() {
             </h1>
             <p className="lede reveal">
               Mash arrives as one app with the stack already wired together:
-              Herdr for workspaces and agents, Ghostty for the terminal, Pi for
-              the coding, and Fresh for the editing, with the Mash skills that
-              teach your workflow. Everything runs from the keyboard, and the
-              code stays visible and editable by hand.
+              Herdr for workspaces and agents, Ghostty for the terminal,
+              Starship for the prompt, Pi for the coding, and Fresh for the
+              editing, with the Mash skills that teach your workflow. Everything
+              runs from the keyboard, and the code stays visible and editable by
+              hand.
             </p>
 
             <div className="hero-actions reveal">

@@ -19,7 +19,7 @@ export async function GET() {
   const release = await getLatestAppRelease();
   const body = `# Mash
 
-> Mash is a free, open-source application for macOS and Linux that arrives as a complete agentic coding workspace: Herdr for workspaces and agents, Ghostty for the terminal, Pi for the coding, and Fresh for the editing, already wired together.
+> Mash is a free, open-source application for macOS and Linux that arrives as a complete agentic coding workspace: Herdr for workspaces and agents, Ghostty for the terminal, Starship for the prompt, Pi for the coding, and Fresh for the editing, already wired together.
 
 This file is the preferred starting point for assistants, answer engines, and crawlers that need concise, citable facts about letsma.sh.
 

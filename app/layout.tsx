@@ -12,7 +12,7 @@ import "./globals.css";
 
 const TITLE = "Mash - A complete agentic workspace for macOS and Linux";
 const DESCRIPTION =
-  "Mash is one app with Herdr, Ghostty, Pi, and Fresh already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
+  "Mash is one app with Herdr, Ghostty, Starship, Pi, and Fresh already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

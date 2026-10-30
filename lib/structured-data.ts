@@ -17,7 +17,7 @@ const WEBSITE_ID = `${SITE_URL}/#WebSite`;
 const APP_ID = `${SITE_URL}/#SoftwareApplication`;
 
 const DESCRIPTION =
-  "Mash is one app with Herdr, Ghostty, Pi, and Fresh already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
+  "Mash is one app with Herdr, Ghostty, Starship, Pi, and Fresh already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
 
 const FEATURES = [
   "Agent orchestration: a coordinator delegates tasks to worker agents and gathers their results",
@@ -177,7 +177,7 @@ const FAQ_STATIC: FaqItem[] = [
   {
     question: "What is Mash?",
     answer:
-      "Mash is a single application that bundles a complete agentic coding environment: Herdr for workspaces, tabs, and agents; Ghostty for the terminal; Pi for the coding; Fresh for the editing; and the Mash skills that teach the workflow. It arrives already configured rather than asking you to assemble those tools yourself.",
+      "Mash is a single application that bundles a complete agentic coding environment: Herdr for workspaces, tabs, and agents; Ghostty for the terminal; Starship for the shell prompt; Pi for the coding; Fresh for the editing; and the Mash skills that teach the workflow. It arrives already configured rather than asking you to assemble those tools yourself.",
   },
   {
     question: "Is Mash free?",

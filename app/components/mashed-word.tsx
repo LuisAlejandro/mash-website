@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { MASHED } from "@/lib/site";
 
 /** How long each word is readable before it flips away. */
-const HOLD_MS = 3000;
+const HOLD_MS = 2000;
 /** Half a flip: out, swap, in. Must match mashed-out/mashed-in in globals.css. */
 const HALF_MS = 300;
 
@@ -12,11 +12,11 @@ type Phase = "idle" | "out" | "in";
 
 /**
  * The slogan's rotating word: "Let's mash <herdr> together", flipping to the
- * next program every three seconds.
+ * next program every two seconds.
  *
  * Every word is in the DOM, with all but the current one hidden from the
- * screen and the accessibility tree, so the static HTML carries all four
- * program names for crawlers that never run the timer. The rotation is
+ * screen and the accessibility tree, so the static HTML carries every
+ * program name for crawlers that never run the timer. The rotation is
  * decorative and is not announced: assistive technology reads the sentence
  * once, with the word that happens to be current.
  */

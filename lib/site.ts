@@ -14,10 +14,10 @@ export const LICENSE = "GPL-3.0-or-later";
 export const DOWNLOAD_URL = "";
 
 /**
- * The words the hero slogan cycles through: the four programs Mash mashes
+ * The words the hero slogan cycles through: the five programs Mash mashes
  * together, in the order the app layers them.
  */
-export const MASHED = ["herdr", "ghostty", "pi", "fresh"] as const;
+export const MASHED = ["herdr", "ghostty", "starship", "pi", "fresh"] as const;
 
 /**
  * The platforms Mash ships for. Each release publishes all three artifacts
