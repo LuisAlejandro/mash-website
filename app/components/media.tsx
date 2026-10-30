@@ -173,7 +173,7 @@ export function ChapterMedia() {
   useEffect(() => {
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const links = document.querySelectorAll(
-      ".chapter-visual a, .workflow-step a"
+      ".chapter-visual a, .workflow-step a, .voice-steps a"
     );
     let open: {
       overlay: HTMLDivElement;

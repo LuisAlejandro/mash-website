@@ -1,21 +1,26 @@
 import Chapters from "./components/chapters";
 import Faq from "./components/faq";
+import FeatureSpotlights from "./components/feature-spotlights";
 import Footer from "./components/footer";
 import Header from "./components/header";
 import Hero from "./components/hero";
 import InstallBlocks from "./components/install-blocks";
 import { ReleaseCta, ReleaseProvider } from "./components/release";
 import { REPO_URL } from "@/lib/site";
+import { getLatestAppRelease } from "@/lib/app-release";
+import { buildFaq } from "@/lib/structured-data";
 
-export default function Home() {
+export default async function Home() {
+  const release = await getLatestAppRelease();
   return (
     <ReleaseProvider>
       <Header />
       <Hero />
       <main>
+        <FeatureSpotlights />
         <Chapters />
         <InstallBlocks />
-        <Faq />
+        <Faq items={buildFaq(release)} />
         {/* Closing */}
         <section className="closing wrap">
           <div className="reveal">

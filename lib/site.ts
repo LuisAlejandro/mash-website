@@ -7,8 +7,9 @@ export const RELEASES_URL = `${REPO_URL}/releases`;
 export const LICENSE = "GPL-3.0-or-later";
 
 /**
- * Empty until a public build exists. Structured data only advertises a download
- * once this is set, so the page never claims an artifact that 404s.
+ * Empty until a single stable download URL is wanted. Structured data only
+ * advertises a download once this is set; until then it points at the releases
+ * page, which always exists.
  */
 export const DOWNLOAD_URL = "";
 
@@ -49,8 +50,25 @@ export const FILM = {
   uploadDate: "2026-10-25",
 } as const;
 
+/** The orchestration film, recorded from a neutral demo project. */
+export const ORCHESTRATION_FILM = {
+  path: "/assets/mash/orchestration-film.mp4",
+  poster: "/assets/mash/orchestration-film-poster.png",
+  captions: "/assets/mash/orchestration-film.en.vtt",
+  width: 1600,
+  height: 1000,
+  duration: "PT16S",
+  seconds: 16,
+  uploadDate: "2026-10-29",
+  title: "Agent orchestration in Mash",
+  description:
+    "A coordinator agent splits work between two worker agents, answers a worker's question, and gathers both results for human review.",
+} as const;
+
 /** Verified capabilities, in the order the page lists them. */
 export const CAPABILITIES = [
+  "Agent orchestration: a coordinator delegates tasks to worker agents and gathers their results",
+  "Pi Voice dictation into an editable message",
   "Workspaces and worktrees, one task each",
   "A coding agent in every workspace",
   "Editor and agent in the same tab",
@@ -98,5 +116,19 @@ export const CAPTURES = [
     alt: "Mash's command palette with the key combination printed beside each command",
     width: 1620,
     height: 1012,
+  },
+  {
+    path: "/assets/mash/voice-recording.png",
+    title: "Pi Voice recording",
+    alt: "Pi in Mash showing the voice recording meter with controls to transcribe or discard",
+    width: 1600,
+    height: 1000,
+  },
+  {
+    path: "/assets/mash/voice-transcript.png",
+    title: "Pi Voice transcript",
+    alt: "A spoken request transcribed into Pi's message box before it is sent",
+    width: 1600,
+    height: 1000,
   },
 ] as const;

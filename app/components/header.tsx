@@ -5,6 +5,7 @@ import VersionBadge from "./version-badge";
 import { REPO_URL } from "@/lib/site";
 
 const SECTIONS = [
+  ["#orchestration", "Orchestration"],
   ["#setup", "Setup"],
   ["#workspaces", "Workspaces"],
   ["#code", "Code"],

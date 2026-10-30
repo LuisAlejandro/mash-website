@@ -63,7 +63,7 @@ const CHAPTERS: Chapter[] = [
         One task, one <em>workspace.</em>
       </>
     ),
-    body: "Each task gets its own workspace with its own tabs, terminals, and agent, so a second and third agent never bury the first. Move between workspaces and agents from the keyboard while the rest keep running.",
+    body: "Each task gets its own workspace with its own tabs, terminals, and agent, so separate projects never pile into one window. Move between workspaces and agents from the keyboard while the rest keep running.",
     points: [
       [{ mac: "⌘⌃N", linux: null }, "new workspace"],
       [{ mac: "⌘⌃1–9", linux: "Ctrl Alt ⇧ 1–9" }, "switch to workspace N"],
@@ -255,7 +255,7 @@ export default function Chapters() {
           </h2>
           <p>
             One task, followed all the way through the app: an idea becomes a
-            workspace, two agents build in parallel, a human fixes something by
+            workspace, agents work beside the code, a human fixes something by
             hand, the diff is reviewed, and the change lands.
           </p>
         </div>

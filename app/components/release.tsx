@@ -8,7 +8,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { type PlatformId } from "@/lib/site";
+import { RELEASES_URL, type PlatformId } from "@/lib/site";
 
 const LATEST_RELEASE =
   "https://api.github.com/repos/LuisAlejandro/mash/releases/latest";
@@ -32,7 +32,10 @@ export type Release = {
   downloads: Downloads;
 };
 
-/** Server-rendered truth: no public release has been seen yet. */
+/**
+ * Server render and pre-fetch state. Nothing is known about the release yet, so
+ * every CTA links to the releases page rather than to a file that may not exist.
+ */
 const UNAVAILABLE: Release = {
   state: "unavailable",
   version: "",
@@ -181,12 +184,12 @@ export function ReleaseCta({
     }
     return (
       <>
-        <span className={`${className} is-pending`} aria-disabled="true">
-          Coming soon · amd64
-        </span>
-        <span className={`${className} is-pending`} aria-disabled="true">
-          Coming soon · arm64
-        </span>
+        <a className={className} href={RELEASES_URL} rel="noreferrer">
+          Download · amd64
+        </a>
+        <a className={className} href={RELEASES_URL} rel="noreferrer">
+          Download · arm64
+        </a>
       </>
     );
   }
@@ -200,8 +203,8 @@ export function ReleaseCta({
   }
 
   return (
-    <span className={`${className} is-pending`} aria-disabled="true">
-      Coming soon to macOS and Linux
-    </span>
+    <a className={className} href={RELEASES_URL} rel="noreferrer">
+      Download Mash for macOS
+    </a>
   );
 }

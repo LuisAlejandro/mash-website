@@ -1,5 +1,15 @@
-import { FAQ } from "@/lib/structured-data";
-import { CAPABILITIES, CAPTURES, DOWNLOAD_URL, LICENSE, RELEASES_URL, REPO_URL, SITE_URL } from "@/lib/site";
+import { getLatestAppRelease } from "@/lib/app-release";
+import { buildFaq } from "@/lib/structured-data";
+import {
+  CAPABILITIES,
+  CAPTURES,
+  DOWNLOAD_URL,
+  LICENSE,
+  ORCHESTRATION_FILM,
+  RELEASES_URL,
+  REPO_URL,
+  SITE_URL,
+} from "@/lib/site";
 
 export const dynamic = "force-static";
 
@@ -8,7 +18,9 @@ export const dynamic = "force-static";
  * the page renders. Answer engines and assistants get the claims as text, and
  * the capability and FAQ lists cannot drift from the HTML.
  */
-export function GET() {
+export async function GET() {
+  const release = await getLatestAppRelease();
+  const faq = buildFaq(release);
   const body = `# Mash
 
 > Mash is a free, open-source application for macOS and Linux that arrives as a
@@ -25,8 +37,14 @@ workspaces and agents, Ghostty for the terminal, Pi for the coding, and Fresh
 for the editing, with the Mash skills that teach your workflow. Everything runs
 from the keyboard, and the code stays visible and editable by hand.
 
-- **One workspace per task**, each with its own tabs, terminals, and agent, so a
-  second and third agent never bury the first.
+- **Agent orchestration.** A coordinator agent splits a goal into independent
+  tasks, starts worker agents, answers their questions, and gathers their
+  results. You still inspect and review every change.
+- **Pi Voice dictation.** Speech becomes text in Pi's message box, where you
+  can read or edit it before sending. On macOS, Control-Option-Z starts and
+  stops dictation. Dictation does not start orchestration by itself.
+- **One workspace per task**, each with its own tabs, terminals, and agent, so
+  separate projects never pile into one window.
 - **The code stays yours.** The agent works in a pane beside the file, not
   behind a chat window. Open the buffer, make the change yourself, and the agent
   picks up from what is on disk.
@@ -49,7 +67,7 @@ ${CAPABILITIES.map((item) => `- ${item}`).join("\n")}
   keybinding sheet shows the keys for the machine you are on.
 - Price: free, open source under ${LICENSE}. No account, subscription, or in-app
   purchase.
-- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `no public release yet. The first build will be published at ${RELEASES_URL} with release notes, and ${SITE_URL}/ offers the download once a build for the visitor's platform exists. Every release publishes macOS and both Linux architectures together.`}
+- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `${release ? `latest release ${release.version}${release.publishedAt ? ` (${release.publishedAt})` : ""}` : "the latest release"} is published at ${RELEASES_URL} with release notes: a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. ${SITE_URL}/ offers the file for the visitor's platform. Every release publishes all platforms together.`}
 - Source: ${REPO_URL}
 
 ## Captures
@@ -59,10 +77,11 @@ Each image below is a real state from the application.
 ${CAPTURES.map((c) => `- [${c.title}](${SITE_URL}${c.path}) — ${c.alt}`).join("\n")}
 - [A tour of Mash](${SITE_URL}/assets/mash/hero-film.mp4) — the command palette,
   workspace picker, file finder, and review tab, recorded from the full Mash window (26s).
+- [${ORCHESTRATION_FILM.title}](${SITE_URL}${ORCHESTRATION_FILM.path}) — ${ORCHESTRATION_FILM.description} (${ORCHESTRATION_FILM.seconds}s).
 
 ## Questions
 
-${FAQ.map((item) => `### ${item.question}\n\n${item.answer}`).join("\n\n")}
+${faq.map((item) => `### ${item.question}\n\n${item.answer}`).join("\n\n")}
 
 ## Content use
 
