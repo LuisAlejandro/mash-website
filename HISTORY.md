@@ -1,6 +1,18 @@
 # Changelog
 
 
+## 1.1.1 (2026-10-30)
+
+### Added
+
+* Name Starship among the mashed programs. [Luis Alejandro Martínez Faneyth]
+
+
+### Changed
+
+* Hold each hero word for two seconds. [Luis Alejandro Martínez Faneyth]
+
+
 ## 1.1.0 (2026-10-30)
 
 ### Added
