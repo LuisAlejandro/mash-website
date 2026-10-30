@@ -1,4 +1,4 @@
-import { getLatestAppRelease } from "@/lib/app-release";
+import { getLatestAppRelease, type LatestRelease } from "@/lib/app-release";
 import { buildFaq } from "@/lib/structured-data";
 import {
   CAPABILITIES,
@@ -12,6 +12,19 @@ import {
 } from "@/lib/site";
 
 export const dynamic = "force-static";
+
+/**
+ * The release line, which may only claim the page offers a file when the
+ * release actually carries one. A release published by hand in the GitHub UI
+ * builds nothing, so that state is reachable by mistake.
+ */
+function latestLine(release: LatestRelease | null): string {
+  if (!release || Object.keys(release.downloads).length === 0) {
+    return "the latest release";
+  }
+  const date = release.publishedAt ? ` (${release.publishedAt})` : "";
+  return `latest release ${release.version}${date}`;
+}
 
 /**
  * Markdown twin of the homepage, generated at build time from the same arrays
@@ -68,7 +81,7 @@ ${CAPABILITIES.map((item) => `- ${item}`).join("\n")}
   keybinding sheet shows the keys for the machine you are on.
 - Price: free, open source under ${LICENSE}. No account, subscription, or in-app
   purchase.
-- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `${release ? `latest release ${release.version}${release.publishedAt ? ` (${release.publishedAt})` : ""}` : "the latest release"} is published at ${RELEASES_URL} with release notes: a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. ${SITE_URL}/ offers the file for the visitor's platform. Every release publishes all platforms together.`}
+- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `${latestLine(release)} is published at ${RELEASES_URL} with release notes: a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. ${SITE_URL}/ offers the file for the visitor's platform. Every release publishes all platforms together.`}
 - Source: ${REPO_URL}
 
 ## Captures

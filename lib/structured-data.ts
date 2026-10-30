@@ -155,9 +155,10 @@ export function toJsonLdScript(data: unknown): string {
 const DOWNLOAD_QUESTION = "How do I download it?";
 
 function downloadAnswer(release: LatestRelease | null): string {
-  const lead = release
-    ? `Mash ${release.version}${release.publishedAt ? ` was released on ${release.publishedAt}` : " is the latest release"}.`
-    : "The latest release is on the Mash releases page.";
+  const lead =
+    release && Object.keys(release.downloads).length > 0
+      ? `Mash ${release.version}${release.publishedAt ? ` was released on ${release.publishedAt}` : " is the latest release"}.`
+      : "The latest release is on the Mash releases page.";
   return `${lead} Download the build for your platform from the Mash releases page on GitHub, or use the download button on this page, which offers the right file for the machine you are on. Every release publishes the macOS DMG and both Linux .deb architectures together.`;
 }
 

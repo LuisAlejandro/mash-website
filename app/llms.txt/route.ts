@@ -4,8 +4,8 @@ import { CAPABILITIES, REPO_URL, SITE_URL } from "@/lib/site";
 export const dynamic = "force-static";
 
 function currentRelease(release: LatestRelease | null): string {
-  if (!release) {
-    return `The latest release is on the Mash releases page: ${REPO_URL}/releases, with release notes. This page offers the download for the visitor's platform and never presents a dead link.`;
+  if (!release || Object.keys(release.downloads).length === 0) {
+    return `The latest release is on the Mash releases page: ${REPO_URL}/releases, with release notes. Every download button on this page falls back there, so no link is ever dead.`;
   }
   const date = release.publishedAt ? ` (${release.publishedAt})` : "";
   return `The latest version is ${release.version}${date}, published at ${REPO_URL}/releases with release notes. It ships a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. This page offers the file for the visitor's platform and never presents a dead link. Every release publishes all platforms together.`;
