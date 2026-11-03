@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { getLatestAppRelease } from "@/lib/app-release";
-import {
-  buildFaq,
-  buildFaqSchema,
-  buildSiteGraph,
-  toJsonLdScript,
-} from "@/lib/structured-data";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const TITLE = "Mash - A complete agentic workspace for macOS and Linux";
 const DESCRIPTION =
-  "Mash is one app with Herdr, Ghostty, Pi, and Fresh already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
+  "Mash is one app with Herdr, Ghostty, Starship, Pi, and Fresh already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -80,27 +73,13 @@ export const viewport = {
   themeColor: "#272823",
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const release = await getLatestAppRelease();
-  const siteGraph = buildSiteGraph(release);
-  const faqSchema = buildFaqSchema(buildFaq(release));
-
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="dark">
       <body>
         <Script id="js-class" strategy="beforeInteractive">
           {`document.documentElement.classList.add("js")`}
         </Script>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: toJsonLdScript(siteGraph) }}
-        />
-        {faqSchema && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: toJsonLdScript(faqSchema) }}
-          />
-        )}
         {children}
       </body>
     </html>

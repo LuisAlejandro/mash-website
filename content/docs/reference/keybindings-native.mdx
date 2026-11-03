@@ -1,0 +1,39 @@
+---
+title: Native shortcuts
+description: Stock per-tool keys with Herdr's Ctrl+B prefix on macOS and Linux.
+---
+
+**Native** is the optional shortcut mode selected at first launch. Herdr uses **Ctrl+B**, release, then the key below; Pi and Fresh use their own stock keys. This is a two-step prefix, not a simultaneous chord. The mode cannot be switched after setup from a menu; see [configuration](/docs/reference/configuration/) before changing a seeded keymap.
+
+## Herdr stock actions (both platforms)
+
+| After Ctrl+B      | Action                              | After Ctrl+B        | Action                          |
+| ----------------- | ----------------------------------- | ------------------- | ------------------------------- |
+| n / p             | Next / previous tab                 | c                   | New tab                         |
+| 1–9               | Switch to tab N                     | Shift+T / Shift+X   | Rename / close tab              |
+| h / j / k / l     | Focus pane left / down / up / right | Shift+H / J / K / L | Swap pane in that direction     |
+| Tab / Shift+Tab   | Cycle pane next / previous          | v / -               | Split vertically / horizontally |
+| x / z / r         | Close pane / zoom / resize mode     | [ / e               | Copy mode / edit scrollback     |
+| Shift+P           | Rename pane                         | w                   | Native workspace picker         |
+| Shift+W / Shift+D | Rename / close workspace            | g                   | Go to session                   |
+| b / o             | Toggle sidebar / open notification  | s / Shift+R         | Settings / reload config        |
+| q / ?             | Detach / help                       |                     |                                 |
+
+## Mash's extra actions (both platforms)
+
+| After Ctrl+B      | Action                            | After Ctrl+B      | Action                             |
+| ----------------- | --------------------------------- | ----------------- | ---------------------------------- |
+| t / a / Shift+C   | New Dev / Agent / plain Shell tab | Shift+V           | New Review tab                     |
+| Backtick          | Shell pane under Fresh            | f / y             | File finder / source control       |
+| Shift+O / Shift+S | Container status / snippets       | i / Shift+I / m   | Annotate / paste to agent / manage |
+| u / Shift+U       | Pick link or ID / plugin manager  | Shift+N           | New profiled workspace             |
+| Shift+G           | New profiled worktree             | Shift+F           | Workspace picker (sessions)        |
+| ;                 | Command palette                   | Shift+Y / Shift+E | Fork from message / session search |
+
+## Fresh and Pi
+
+Fresh's default keys in both platforms include **Ctrl+S** (save), **Ctrl+O** (open), **Ctrl+P** (Quick Open), **Ctrl+F** (find), **Alt+A** (replace), **Ctrl+G** (go to line), **Ctrl+D** (next matching cursor), and **Ctrl+E** (focus file explorer). Pi keeps its stock keymap. **Ctrl+B** never reaches either tool because Herdr intercepts it: use Fresh's **Ctrl+E** instead of Ctrl+B for its explorer, and Pi's **Left arrow** instead of Ctrl+B for cursor-left.
+
+**Linux Native exception:** the terminal claims **Ctrl+Shift+↑/↓** for its own prompt jumping, so those chords do not reach Pi in a Pi pane. Pi's **Ctrl+↑/↓** still jump between messages. On macOS, the terminal's prompt-jump chords are different. The Native quick-reference does not assign a special Mash Pi Voice shortcut on either platform; use `/voice` inside Pi.
+
+Terminal copy/paste: **⌘C / ⌘V** on macOS; **Ctrl+Shift+C / Ctrl+Shift+V** on Linux. If you chose the other keybinding mode, see [macOS Mash keys](/docs/reference/keybindings-macos/) or [Linux Mash keys](/docs/reference/keybindings-linux/).

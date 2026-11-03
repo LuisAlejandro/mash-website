@@ -1,0 +1,32 @@
+---
+title: First launch
+description: Set up your identity, providers, tools, shortcuts, and dictation.
+---
+
+On first launch, press **Enter** or select **Start config wizard**. Finish the wizard before opening a workspace; cancelling leaves setup unfinished and the next launch offers it again.
+
+## 1. Git identity and tools
+
+Choose your Git name and email (and a signing key, if you use one). The two optional tool groups are **Mash utilities** (Git, GitHub CLI, search and picker tools) and **Formatters & language servers** (formatting and editor intelligence). The wizard installs selected missing tools and records the result in Mash's data directory; nothing is written to the signed app bundle.
+
+After installation, Mash may offer an **optional GitHub sign-in** using the GitHub CLI. Press **y** to open browser sign-in, or **Enter**, **n**, or **Esc** to skip. It keeps GitHub authentication separate in `~/.mash/config/gh`.
+
+## 2. Providers
+
+Choose the provider and model used by Pi. The page also has separate choices for web search and Hindsight memory. You can keep an existing provider, enter an API key for a supported provider, or complete an OAuth sign-in later from Pi with `/login`. A web-search provider may reuse Pi's credential when the same provider is selected. Do not publish API keys in project files.
+
+## 3. Optional Programming Skills
+
+**Install Programming Skills (includes Hindsight)** is checked by default. It adds brainstorm, plan, work, QA and release workflows for Pi, with local memory. Uncheck it to skip that suite and its memory installation; the terminal, Fresh editor, and Pi still work. The choice is stored in `~/.mash/setup/skills-choice`.
+
+## 4. Appearance and keybindings
+
+Choose a terminal font and size, the Mash colour theme, and a shortcut mode. **Mash / Cursor-style** is the default; **Native** leaves each tool on its stock keys and uses Herdr's `Ctrl+B` prefix. The choice is saved after the wizard completes in `~/.mash/setup/keybindings-mode`, not switched later from a menu. Use [Mash shortcuts](/docs/reference/keybindings-macos/), [Linux shortcuts](/docs/reference/keybindings-linux/), or [Native shortcuts](/docs/reference/keybindings-native/) according to your choice.
+
+## 5. Dictation
+
+Choose the languages you speak, then a **Best** or **Fast** transcription model. The wizard downloads it before launching Mash. You can also choose **Skip dictation** and set it up later through Pi Voice's `/voice` flow. [Using dictation](/docs/agents/voice/) explains the in-app shortcut.
+
+## When setup fails
+
+The wizard records progress and failures under `~/.mash/setup/`, including `setup.log`. Resolve the missing tool or configuration issue and relaunch Mash; it resumes the setup flow rather than leaving you in a half-configured workspace. See [troubleshooting](/docs/reference/troubleshooting/).

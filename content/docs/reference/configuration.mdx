@@ -1,0 +1,32 @@
+---
+title: Configuration and data
+description: Find Mash's writable settings, sessions, and project configuration.
+---
+
+Mash is an isolated app with a read-only signed bundle and a writable data directory at `~/.mash`. **HOME is not changed**: your normal `~/.config`, `~/.pi`, and `~/.hindsight` continue to mean your personal files. Mash instead sets application-specific XDG and tool paths for its own panes.
+
+## Writable paths
+
+| Path                                                   | What lives there                                                               |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `~/.mash/pi/agent/`                                    | Pi settings, auth, MCP servers, packages, extensions, skills, themes, sessions |
+| `~/.mash/config/herdr/`                                | Herdr settings and plugin registry; `config.toml` is the active keymap         |
+| `~/.mash/config/ghostty/`                              | Mash Terminal config and themes                                                |
+| `~/.mash/config/fresh/`                                | Fresh editor config, `init.ts`, themes and plugins                             |
+| `~/.mash/config/git/config`                            | Git identity and Git options in Mash                                           |
+| `~/.mash/config/gh/`                                   | Mash's GitHub CLI authentication                                               |
+| `~/.mash/config/starship.toml`                         | Shared shell prompt                                                            |
+| `~/.mash/config/{zsh,bash,fish,pet,atuin,lazydocker}/` | Shell and helper configurations                                                |
+| `~/.mash/setup/`                                       | First-launch state, choices and setup logs                                     |
+| `~/.mash/local/` and `~/.mash/cache/`                  | App-owned state and caches                                                     |
+| `~/.mash/.hindsight/` and `~/.mash/.pg0/`              | Memory databases, kept dot-prefixed for those tools                            |
+
+Mash's launcher sets `PI_CODING_AGENT_DIR=~/.mash/pi/agent` and `XDG_CONFIG_HOME=~/.mash/config` in app panes. It seeds missing files and preserves user edits across updates. If you delete a seeded config file, the next launch may recreate the version for the keybinding mode you chose; back up your edits before intentionally re-seeding. Removing Mash does not remove this data directory.
+
+## Pi customization
+
+Change Pi's settings at `~/.mash/pi/agent/settings.json`, add MCP servers at `~/.mash/pi/agent/mcp.json`, install packages with `pi install npm:<name>`, and add a skill under `~/.mash/pi/agent/skills/<name>/SKILL.md`. A **project-local** Pi config in Mash belongs in the project's `.mash/` directory, not `.pi/`. Project settings may execute code once trusted; review unfamiliar repositories before enabling them. The signed application bundle is not a place to install extensions or change runtime settings.
+
+## Reloading changes
+
+For Herdr, use **Reload Configuration** or run `herdr server reload-config`. The menu reloads Ghostty and Herdr; it does not reload Fresh's running editor, so reopen Fresh after editing its config. A locally rebound Herdr key will not update Mash Terminal's static menu label/chord. The first-launch keybinding choice is saved at `~/.mash/setup/keybindings-mode`; use the [keymap references](/docs/reference/keybindings-macos/) that match that choice.

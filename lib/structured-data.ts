@@ -4,6 +4,7 @@ import {
   DOWNLOAD_URL,
   FILM,
   LICENSE,
+  ORCHESTRATION_FILM,
   RELEASES_URL,
   REPO_URL,
   SITE_URL,
@@ -16,9 +17,11 @@ const WEBSITE_ID = `${SITE_URL}/#WebSite`;
 const APP_ID = `${SITE_URL}/#SoftwareApplication`;
 
 const DESCRIPTION =
-  "Mash is one app with Herdr, Ghostty, Pi, and Fresh already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
+  "Mash is one app with Herdr, Ghostty, Starship, Pi, and Fresh already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
 
 const FEATURES = [
+  "Agent orchestration: a coordinator delegates tasks to worker agents and gathers their results",
+  "Pi Voice dictation into an editable message",
   "One workspace per task, each with its own agent",
   "Editor and coding agent in the same tab",
   "Review tabs with the diff beside the agent",
@@ -110,6 +113,23 @@ function videoObject() {
   };
 }
 
+function orchestrationVideoObject() {
+  return {
+    "@type": "VideoObject",
+    "@id": `${SITE_URL}/#orchestration-film`,
+    name: ORCHESTRATION_FILM.title,
+    description: ORCHESTRATION_FILM.description,
+    thumbnailUrl: [`${SITE_URL}${ORCHESTRATION_FILM.poster}`],
+    uploadDate: ORCHESTRATION_FILM.uploadDate,
+    duration: ORCHESTRATION_FILM.duration,
+    contentUrl: `${SITE_URL}${ORCHESTRATION_FILM.path}`,
+    width: ORCHESTRATION_FILM.width,
+    height: ORCHESTRATION_FILM.height,
+    inLanguage: "en",
+    publisher: { "@id": ORGANIZATION_ID },
+  };
+}
+
 /** Site-wide entity graph. One `<script>` carries every node. */
 export function buildSiteGraph(release: LatestRelease | null) {
   return {
@@ -119,6 +139,7 @@ export function buildSiteGraph(release: LatestRelease | null) {
       website(),
       softwareApplication(release),
       videoObject(),
+      orchestrationVideoObject(),
     ],
   };
 }
@@ -134,9 +155,10 @@ export function toJsonLdScript(data: unknown): string {
 const DOWNLOAD_QUESTION = "How do I download it?";
 
 function downloadAnswer(release: LatestRelease | null): string {
-  const lead = release
-    ? `Mash ${release.version}${release.publishedAt ? ` was released on ${release.publishedAt}` : " is the latest release"}.`
-    : "The latest release is on the Mash releases page.";
+  const lead =
+    release && Object.keys(release.downloads).length > 0
+      ? `Mash ${release.version}${release.publishedAt ? ` was released on ${release.publishedAt}` : " is the latest release"}.`
+      : "The latest release is on the Mash releases page.";
   return `${lead} Download the build for your platform from the Mash releases page on GitHub, or use the download button on this page, which offers the right file for the machine you are on. Every release publishes the macOS DMG and both Linux .deb architectures together.`;
 }
 
@@ -146,14 +168,17 @@ function downloadAnswer(release: LatestRelease | null): string {
  * The download answer depends on the live release, so it is built per render.
  */
 export function buildFaq(release: LatestRelease | null): FaqItem[] {
-  return [...FAQ_STATIC, { question: DOWNLOAD_QUESTION, answer: downloadAnswer(release) }];
+  return [
+    ...FAQ_STATIC,
+    { question: DOWNLOAD_QUESTION, answer: downloadAnswer(release) },
+  ];
 }
 
 const FAQ_STATIC: FaqItem[] = [
   {
     question: "What is Mash?",
     answer:
-      "Mash is a single application that bundles a complete agentic coding environment: Herdr for workspaces, tabs, and agents; Ghostty for the terminal; Pi for the coding; Fresh for the editing; and the Mash skills that teach the workflow. It arrives already configured rather than asking you to assemble those tools yourself.",
+      "Mash is a single application that bundles a complete agentic coding environment: Herdr for workspaces, tabs, and agents; Ghostty for the terminal; Starship for the shell prompt; Pi for the coding; Fresh for the editing; and the Mash skills that teach the workflow. It arrives already configured rather than asking you to assemble those tools yourself.",
   },
   {
     question: "Is Mash free?",

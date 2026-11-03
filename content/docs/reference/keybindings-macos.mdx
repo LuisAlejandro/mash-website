@@ -1,0 +1,72 @@
+---
+title: macOS shortcuts
+description: Mash / Cursor-style keybindings on Apple silicon Macs.
+---
+
+This is the **Mash / Cursor-style** preset selected at first launch (the default), transcribed from the shipped macOS quick-reference. If you chose **Native**, use the [Native keymap](/docs/reference/keybindings-native/). Mash Terminal's menus show the keys for the mode you chose.
+
+## Workspaces
+
+| Action                                                | Keys      |
+| ----------------------------------------------------- | --------- |
+| New workspace with layout profile                     | ⌘⌃N       |
+| New worktree with layout profile                      | ⌘⌃⇧N      |
+| Rename workspace                                      | ⌘⌃R       |
+| Close workspace                                       | ⌘⌃W       |
+| Remove worktree (deletes checkout after confirmation) | ⌘⌃⌫       |
+| Previous / next workspace                             | ⌘⌃[ / ⌘⌃] |
+| Switch to workspace 1–9                               | ⌘⌃1–9     |
+| Go to session                                         | ⌘⌃G       |
+| Workspace picker                                      | ⌘⌃O       |
+
+## Tabs and panes
+
+| Action                              | Keys                  |
+| ----------------------------------- | --------------------- |
+| New Dev tab (Fresh + Pi)            | ⌘T / ⌘⇧N              |
+| New Agent tab                       | ⌘⌥T / ⌘⌥N             |
+| New Review tab (diff + Pi)          | ⌘⇧R                   |
+| New plain Shell tab                 | ⌘⇧T                   |
+| Previous / next tab                 | ⌘⇧[ / ⌘⇧]             |
+| Switch to tab 1–9                   | ⌘⇧1–9                 |
+| Rename / close tab                  | ⌘⇧M / ⌘⇧W             |
+| Focus pane left / down / up / right | ⌘⌥← / ⌘⌥↓ / ⌘⌥↑ / ⌘⌥→ |
+| Cycle pane previous / next          | ⌘⌥[ / ⌘⌥]             |
+| Split vertical / horizontal         | ⌘⌥\ / ⌘⌥-             |
+| Close / zoom pane                   | ⌘⌥W / ⌘⌥Z             |
+| Resize mode                         | ⌘⌥R                   |
+| New shell pane under Fresh          | Ctrl+Shift+Backtick   |
+
+## Agent and editor
+
+| Action                                  | Keys      |
+| --------------------------------------- | --------- |
+| Previous / next agent                   | ⌃⇧↑ / ⌃⇧↓ |
+| Focus agent 1–9                         | ⌃⇧1–9     |
+| Pi: interrupt / clear or exit           | Esc / ⌃C  |
+| Pi: cycle thinking / expand tool output | ⇧Tab / ⌃O |
+| Pi: cycle models / open external editor | ⌃P / ⌃G   |
+| Pi: search transcript / queue follow-up | ⌃⇧F / ⌥↵  |
+| Pi Voice dictation                      | ⌃⌥Z       |
+| Fresh: open / save                      | ⌘O / ⌘S   |
+| Fresh: find in buffer / in files        | ⌘F / ⌘⇧F  |
+| Fresh: toggle explorer                  | ⌘⇧E       |
+| Fresh: add cursor to next match         | ⌘D        |
+| Fresh: copy file path / duplicate line  | ⌘⌥C / ⌥⇧↓ |
+
+## Tools and app
+
+| Action                                    | Keys           |
+| ----------------------------------------- | -------------- |
+| Source control / container status         | ⌃⇧G / ⌘⇧O      |
+| Snippets / file finder / command palette  | ⌘⌥P / ⌘P / ⌘⇧P |
+| Session search                            | ⌘⌥L            |
+| Capture / paste annotations               | ⌘K / ⌘L        |
+| Manage annotations                        | ⌘⇧L            |
+| Pick link or ID                           | ⌥G             |
+| Plugin manager / fork from message        | ⌘⇧X / ⌘⌥Y      |
+| Help / settings                           | ⌘⇧I / ⌘I       |
+| Detach / reload config                    | ⌘U / ⌘R        |
+| Open notification target / toggle sidebar | ⌘Y / ⌘B        |
+
+Closing tabs and removing worktrees cannot be undone. To change a key after setup, edit the writable configuration, but note that Mash Terminal's menu item still sends its original chord. See [configuration](/docs/reference/configuration/).

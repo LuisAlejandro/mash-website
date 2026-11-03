@@ -1,10 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { SidebarTrigger } from "fumadocs-ui/layouts/docs/slots/sidebar";
+import { SearchTrigger } from "fumadocs-ui/layouts/shared/slots/search-trigger";
 import VersionBadge from "./version-badge";
 import { REPO_URL } from "@/lib/site";
 
 const SECTIONS = [
+  ["#orchestration", "Orchestration"],
   ["#setup", "Setup"],
   ["#workspaces", "Workspaces"],
   ["#code", "Code"],
@@ -13,7 +17,8 @@ const SECTIONS = [
   ["#install", "Install"],
 ] as const;
 
-export default function Header() {
+export default function Header({ mode = "home" }: { mode?: "home" | "docs" }) {
+  const isDocs = mode === "docs";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -22,7 +27,7 @@ export default function Header() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    const items = document.querySelectorAll(".reveal");
+    const items = isDocs ? [] : document.querySelectorAll(".reveal");
     let observer: IntersectionObserver | undefined;
     if (!("IntersectionObserver" in window)) {
       items.forEach((el) => el.classList.add("in"));
@@ -45,7 +50,7 @@ export default function Header() {
       window.removeEventListener("scroll", onScroll);
       observer?.disconnect();
     };
-  }, []);
+  }, [isDocs]);
 
   function closeMenu() {
     setOpen(false);
@@ -55,7 +60,11 @@ export default function Header() {
     <>
       <nav id="nav" className={scrolled ? "scrolled" : undefined}>
         <div className="nav-container">
-          <a href="#top" className="nav-logo" aria-label="Mash, back to top">
+          <a
+            href={isDocs ? "/" : "#top"}
+            className="nav-logo"
+            aria-label={isDocs ? "Mash, home" : "Mash, back to top"}
+          >
             <img
               src="/assets/mash/logo-wordmark.png"
               srcSet="/assets/mash/logo-wordmark.png 1x, /assets/mash/logo-wordmark@2x.png 2x"
@@ -65,23 +74,38 @@ export default function Header() {
             />
             <VersionBadge />
           </a>
-          <button
-            className={open ? "hamburger active" : "hamburger"}
-            aria-label="Menu"
-            aria-controls="mobile-menu"
-            aria-expanded={open}
-            onClick={() => setOpen((value) => !value)}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+          {isDocs ? (
+            <div className="docs-mobile-actions">
+              <SearchTrigger className="docs-search-trigger" />
+              <SidebarTrigger className="hamburger docs-sidebar-trigger">
+                <span></span>
+                <span></span>
+                <span></span>
+              </SidebarTrigger>
+            </div>
+          ) : (
+            <button
+              className={open ? "hamburger active" : "hamburger"}
+              aria-label="Menu"
+              aria-controls="mobile-menu"
+              aria-expanded={open}
+              onClick={() => setOpen((value) => !value)}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          )}
           <div className="nav-links">
             {SECTIONS.map(([href, label]) => (
-              <a key={href} href={href}>
+              <a key={href} href={isDocs ? `/${href}` : href}>
                 {label}
               </a>
             ))}
+            {isDocs && <SearchTrigger className="docs-search-trigger" />}
+            <Link href="/docs/" aria-current={isDocs ? "page" : undefined}>
+              Docs
+            </Link>
             <a
               href={REPO_URL}
               target="_blank"
@@ -101,10 +125,13 @@ export default function Header() {
       >
         <div className="mobile-menu-content">
           {SECTIONS.map(([href, label]) => (
-            <a key={href} href={href} onClick={closeMenu}>
+            <a key={href} href={isDocs ? `/${href}` : href} onClick={closeMenu}>
               {label}
             </a>
           ))}
+          <Link href="/docs/" onClick={closeMenu}>
+            Docs
+          </Link>
           <a href={REPO_URL} target="_blank" rel="noreferrer">
             GitHub
           </a>

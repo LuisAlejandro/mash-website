@@ -3,6 +3,8 @@
 The homepage shows only real Mash states. The hero film was reshot from the
 complete Mash window on 2026-10-25. The chapter stills and workflow frames are
 from the earlier capture session and were not reshot with this film.
+A separate 2026-10-28 neutral demo supplies the orchestration film; Pi Voice
+stills show real recording and editable-transcript states from two takes.
 
 Assets land in `public/assets/mash/` and are committed. The capture script does
 not run in the site build.
@@ -56,6 +58,13 @@ and agent → command palette → workspace picker → file finder → review �
   `keyboard.png`: 1620×1012 stills from the earlier capture, not this reshoot.
 - `loop-1.png` through `loop-4.png`: 800×500 stills for the workflow proof
   (workspace picker, agents beside the editor, review tab, command palette).
+- `orchestration-film.mp4`: complete 1600×1000 Mash window, silent H.264,
+  15.83 seconds, about 2.4 MB. `orchestration-film-poster.png` is its first
+  frame; `orchestration-film.en.vtt` narrates the four actual beats.
+- `voice-recording.png` and `voice-transcript.png`: full-window 1600×1000
+  states. The recording indicator is from an earlier real Pi Voice take;
+  the editable transcript is from the owner's later successful spoken demo.
+  They are not frames from one continuous recording. No microphone audio ships.
 
 PNG is used for stills because this machine has no WebP encoder. A WebP
 conversion later may reduce bytes without changing the captured states.
@@ -73,6 +82,27 @@ Re-read live window bounds for each new capture; do not reuse these numbers
 blindly. Compare a frame from the resulting film against a native screenshot
 of the full window, including title bar, right edge, and bottom status bar.
 Keep `hero-film.en.vtt` timed to the edit even though the video is silent.
+
+## Orchestration and voice proof
+
+The neutral `/tmp/mash-demo` repository had two small, disjoint tasks: a
+blank-name greeting and a finite-number guard. The coordinator dispatched two
+Pi workers, answered a real worker question, gathered their completions, and
+invited review. The site uses four short intervals from that run rather than
+compressing the wide, personal recording supplied as reference. All visible
+paths in the exported film belong to the neutral demo.
+
+The display recording was 3440×1440, and the separate Mash demo window was
+verified at `(x=0, y=30, width=1600, height=1000)`. Only pixels outside that
+entire window were removed; no pane was cropped or rebuilt. The agent cursor
+was disabled for the published take; verify no pointer appears in the film.
+Check the film's first frame against the full-window
+poster and keep `orchestration-film.en.vtt` aligned to the four time cuts.
+
+The voice stills use the same neutral project. The owner explicitly approved
+these captures for publication. The recording and transcript stills are
+separate genuine states, not a claim that the two images are adjacent frames.
+Only the transcript screenshot is published; raw microphone audio is not.
 
 ## Privacy check, every frame
 

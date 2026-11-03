@@ -1,0 +1,14 @@
+---
+title: Fork a conversation
+description: Restart a Pi session from an earlier user message in a separate place.
+---
+
+When the current conversation has gone down the wrong path, **Fork agent from message** lets you choose an earlier user message and start a new branch of that Pi session. Keep the original conversation; the fork is a separate path to test an alternative approach.
+
+Focus the Pi agent pane first, invoke **Fork agent from message**, and select a message in the picker. The default action creates a new tab with Fresh and the forked Pi agent. For a different destination, choose the separate **Fork agent beside current pane** or **Fork agent into new workspace** action from [command palette](/docs/tools/command-palette/). The action identifies the session from the **focused pane**, so if the wrong pane is focused it cannot fork the intended session. The bundled plugin supports Pi for this flow; do not assume another agent CLI can replay the same transcript.
+
+| Action                  | macOS Mash keys | Linux Mash keys  | Native               |
+| ----------------------- | --------------- | ---------------- | -------------------- |
+| Fork agent from message | ⌘⌥Y             | Ctrl+Alt+Shift+Y | Ctrl+B, then Shift+Y |
+
+Forking a conversation is different from [creating a Git worktree](/docs/workspaces/worktrees/): the former branches agent history; the latter gives code a separate checkout. Use both when independent edits must not collide. Review both results before merging.

@@ -1,0 +1,21 @@
+---
+title: Find and resume sessions
+description: Move between running agents and reopen earlier Pi conversations.
+---
+
+Mash offers three different ways to get back to work:
+
+- **Go to session** is Herdr's navigator for live workspaces, tabs, and agent sessions.
+- **Workspace picker** includes running workspaces, configured entries, and known zoxide directories; it is useful when you remember the project, not the conversation.
+- **Session search** searches Pi's saved JSONL transcripts, including message text. Each row shows whether it is open or closed, the workspace label when known, a date, and a title from the first user message. **Enter** focuses an open session. A closed one reopens in a new single-pane Pi tab with that transcript.
+
+Sessions live under `~/.mash/pi/agent/sessions`; Mash does not scan the standalone Pi installation under `~/.pi`. If a session's workspace is no longer running, its transcript can still be found; the search uses the invoking workspace when it cannot uniquely identify an open workspace with a matching directory.
+
+| Action           | macOS Mash keys | Linux Mash keys  |
+| ---------------- | --------------- | ---------------- |
+| Go to session    | ⌘⌃G             | Ctrl+Alt+Shift+G |
+| Workspace picker | ⌘⌃O             | Ctrl+Alt+Shift+O |
+| Search sessions  | ⌘⌥L             | Ctrl+Alt+Shift+L |
+| Detach           | ⌘U              | Ctrl+Alt+U       |
+
+**Detach** leaves the Herdr session available. Native mode uses **Ctrl+B**, then **g** for Go to session, **Shift+F** for the picker, **Shift+E** for session search, and **q** to detach. You can also search inside the currently focused Pi transcript using Pi's own search; see the [quick reference](/docs/reference/keybindings-macos/).

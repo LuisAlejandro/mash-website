@@ -1,0 +1,46 @@
+---
+title: Linux shortcuts
+description: Mash / Cursor-style keybindings on supported Ubuntu desktops.
+---
+
+This is the **Mash / Cursor-style** preset on Ubuntu 24.04 GNOME, transcribed from the shipped Linux quick-reference. Linux does not simply swap Command for Control: GNOME intercepts some combinations, so pane focus uses **Ctrl+Super** and workspace rename has its own binding. If you selected Native, use [Native shortcuts](/docs/reference/keybindings-native/) instead.
+
+## Workspaces, tabs and panes
+
+| Action                               | Keys                                                                 |
+| ------------------------------------ | -------------------------------------------------------------------- |
+| New workspace with layout profile    | Ctrl+Alt+Shift+N                                                     |
+| New worktree with layout profile     | Ctrl+Alt+Shift+E                                                     |
+| Previous / next workspace            | Ctrl+Alt+Shift+[ / Ctrl+Alt+Shift+]                                  |
+| Switch to workspace 1–9              | Ctrl+Alt+Shift+1–9                                                   |
+| Rename / close workspace             | Ctrl+Alt+Shift+M / Ctrl+Alt+Shift+W                                  |
+| Remove worktree                      | Ctrl+Alt+Shift+⌫                                                     |
+| Go to session / workspace picker     | Ctrl+Alt+Shift+G / Ctrl+Alt+Shift+O                                  |
+| New Dev / Agent / Review / Shell tab | Ctrl+Alt+T / Ctrl+Alt+Shift+T / Ctrl+Shift+R / Ctrl+Shift+T          |
+| Previous / next tab                  | Ctrl+Shift+Tab / Ctrl+Tab                                            |
+| Switch to tab 1–9                    | Alt+1–9                                                              |
+| Rename / close tab                   | Ctrl+Shift+M / Ctrl+Shift+W                                          |
+| Focus pane left / down / up / right  | Ctrl+Super+Left / Ctrl+Super+Down / Ctrl+Super+Up / Ctrl+Super+Right |
+| Cycle pane previous / next           | Ctrl+Alt+[ / Ctrl+Alt+]                                              |
+| Split vertical / horizontal          | Ctrl+Alt+\ / Ctrl+Alt+-                                              |
+| Close / zoom pane                    | Ctrl+Alt+W / Ctrl+Alt+Z                                              |
+| Resize mode                          | Ctrl+Alt+R                                                           |
+| New shell pane under Fresh           | Ctrl+Shift+Backtick                                                  |
+
+## Agents and tools
+
+| Action                                   | Keys                                                       |
+| ---------------------------------------- | ---------------------------------------------------------- |
+| Previous / next agent                    | Ctrl+Shift+Up / Ctrl+Shift+Down                            |
+| Pi Voice dictation                       | Not listed as a distinct Mash shortcut; use `/voice` in Pi |
+| Source control / container status        | Ctrl+Shift+G / Ctrl+Shift+O                                |
+| Snippets / file finder / command palette | Ctrl+Alt+Shift+P / Ctrl+Alt+P / Ctrl+Shift+P               |
+| Session search                           | Ctrl+Alt+Shift+L                                           |
+| Capture / paste annotations              | Ctrl+Alt+K / Ctrl+Alt+L                                    |
+| Manage annotations / pick link or ID     | Ctrl+Shift+L / Alt+G                                       |
+| Plugin manager / fork from message       | Ctrl+Shift+X / Ctrl+Alt+Shift+Y                            |
+| Toggle sidebar / open notification       | Ctrl+Alt+B / Ctrl+Alt+Y                                    |
+| Settings / help / reload config          | Ctrl+, / Ctrl+Shift+I / Ctrl+Shift+,                       |
+| Detach                                   | Ctrl+Alt+U                                                 |
+
+Copy/paste in the terminal is **Ctrl+Shift+C / Ctrl+Shift+V**, or the mouse. Bare Control keys continue to work inside a shell. Fresh's editor chords depend on the mode chosen at first launch; run `fresh --cmd config paths` or inspect Fresh's keymap for your installed configuration. No Linux Pi Voice chord is claimed here because the shipped Linux quick-reference does not list one; use Pi's `/voice` onboarding and in-app control instead.
