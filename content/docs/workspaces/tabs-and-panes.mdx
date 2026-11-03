@@ -1,0 +1,19 @@
+---
+title: Tabs and panes
+description: Put an editor, an agent, and a shell where you need them.
+---
+
+A workspace can hold several tabs, and each tab can hold multiple panes. The default **Dev** tab has Fresh and a tracked Pi agent side by side. New tabs from the **+** button are enriched into that editor-and-agent layout as well. Use an **Agent** tab for Pi alone, a **Shell** tab for a terminal, or a [Review](/docs/editor/review/) tab for a diff beside the agent.
+
+| Action                      | macOS Mash keys | Linux Mash keys                  |
+| --------------------------- | --------------- | -------------------------------- |
+| Dev tab                     | ⌘T (or ⌘⇧N)     | Ctrl+Alt+T (or Ctrl+Shift+N)     |
+| Agent tab                   | ⌘⌥T (or ⌘⌥N)    | Ctrl+Alt+Shift+T (or Ctrl+Alt+N) |
+| Plain shell tab             | ⌘⇧T             | Ctrl+Shift+T                     |
+| Review tab                  | ⌘⇧R             | Ctrl+Shift+R                     |
+| Vertical / horizontal split | ⌘⌥\ / ⌘⌥-       | Ctrl+Alt+\ / Ctrl+Alt+-          |
+| Zoom focused pane           | ⌘⌥Z             | Ctrl+Alt+Z                       |
+
+These shortcuts apply to Mash mode; Native mode keeps Herdr's **Ctrl+B** prefix ([Native keymap](/docs/reference/keybindings-native/)). The general split command splits the **focused** pane. In a Dev tab, the dedicated **new shell pane under Fresh** action targets Fresh even when Pi is focused; it does nothing in other tab types. Use it when you want a shell stacked below the editor without disturbing the agent.
+
+Switch tabs, focus/cycle panes, and enter resize mode from the [platform shortcut tables](/docs/reference/keybindings-macos/). Closing a tab kills its PTYs and cannot be undone. **Detach** leaves the Herdr session available rather than deleting a workspace: **⌘U** (macOS Mash), **Ctrl+Alt+U** (Linux Mash), or **Ctrl+B**, then **q** (Native).

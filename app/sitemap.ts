@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { CAPTURES, FILM, SITE_URL } from "@/lib/site";
+import { CAPTURES, FILM, ORCHESTRATION_FILM, SITE_URL } from "@/lib/site";
+import { source } from "@/lib/source";
 
 export const dynamic = "force-static";
 
@@ -28,6 +29,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
           live: "no",
           tag: "agentic coding, macOS, Linux, developer tools",
         },
+        {
+          title: ORCHESTRATION_FILM.title,
+          thumbnail_loc: `${SITE_URL}${ORCHESTRATION_FILM.poster}`,
+          description: ORCHESTRATION_FILM.description,
+          content_loc: `${SITE_URL}${ORCHESTRATION_FILM.path}`,
+          duration: ORCHESTRATION_FILM.seconds,
+          publication_date: ORCHESTRATION_FILM.uploadDate,
+          family_friendly: "yes",
+          live: "no",
+          tag: "agent orchestration, agentic coding, developer tools",
+        },
       ],
     },
     {
@@ -42,5 +54,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    ...source.getPages().map((page) => ({
+      url: `${SITE_URL}${page.url}/`,
+      changeFrequency: "monthly" as const,
+      priority: page.url === "/docs/" ? 0.9 : 0.7,
+    })),
   ];
 }

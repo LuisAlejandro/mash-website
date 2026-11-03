@@ -1,0 +1,27 @@
+---
+title: Workspaces
+description: Keep each task in its own Mash workspace.
+---
+
+A Mash workspace is a place for one project or task: its own directory, tabs, panes, and agents. You can leave one task running and switch to another without merging their terminal histories or editor state.
+
+## Create a workspace
+
+Open **New workspace (layout profile)**, choose an existing directory, name it, then select a profile card. The **Dev** card starts an editor and agent; **Agent** and **Shell** make simpler layouts. The popup accepts directory suggestions with **Tab** and saves only when you choose **Save**. See [layout profiles](/docs/workspaces/layout-profiles/) to change the starting arrangement.
+
+| Action                    | macOS Mash keys | Linux Mash keys                     |
+| ------------------------- | --------------- | ----------------------------------- |
+| New workspace             | ⌘⌃N             | Ctrl+Alt+Shift+N                    |
+| Previous / next workspace | ⌘⌃[ / ⌘⌃]       | Ctrl+Alt+Shift+[ / Ctrl+Alt+Shift+] |
+| Go to session             | ⌘⌃G             | Ctrl+Alt+Shift+G                    |
+| Workspace picker          | ⌘⌃O             | Ctrl+Alt+Shift+O                    |
+
+These are **Mash / Cursor-style** bindings. If you chose **Native** at first launch, use **Ctrl+B, then Shift+N** for a new profiled workspace, or [Native shortcuts](/docs/reference/keybindings-native/).
+
+## Find an existing workspace
+
+**Go to session** opens Herdr's session navigator. **Workspace picker** lists running workspaces, configured entries, and places in zoxide history. If a directory has never appeared in zoxide and is not configured as a workspace, the picker cannot create it from a typed path; use **New workspace** or register the directory with `zoxide add <path>`.
+
+## Close or rename
+
+You can rename from Herdr's workspace actions. Closing a workspace closes its tabs and panes; there is no undo for those PTYs. It does not delete an ordinary project directory. For a linked Git worktree, [removal is a separate action](/docs/workspaces/worktrees/) and deletes the checkout after confirmation. [Keybinding reference](/docs/reference/keybindings-macos/) lists the complete navigation and close keys.

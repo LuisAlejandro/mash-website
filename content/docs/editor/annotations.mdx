@@ -1,0 +1,14 @@
+---
+title: Annotations
+description: Capture text and hand it to the agent in the current tab.
+---
+
+Annotations are a way to collect feedback while reading output and send it to Pi as a batch. **Annotate text** captures the selected text, **Manage annotations** lets you inspect what you collected, and **Paste annotations into this tab's agent and archive them** sends the batch to the _real agent_ beside the editor. This matters in a Dev tab: Fresh is also reported to Herdr for restoration, so the Mash action deliberately targets Pi rather than pasting into the editor buffer.
+
+| Action                    | macOS Mash keys | Linux Mash keys | Native               |
+| ------------------------- | --------------- | --------------- | -------------------- |
+| Annotate text             | ⌘K              | Ctrl+Alt+K      | Ctrl+B, then i       |
+| Paste into agent, archive | ⌘L              | Ctrl+Alt+L      | Ctrl+B, then Shift+I |
+| Manage annotations        | ⌘⇧L             | Ctrl+Shift+L    | Ctrl+B, then m       |
+
+Focus the tab with the agent you mean to instruct before sending. After pasting, inspect the message in Pi and continue the conversation; treat annotations as feedback, not automatic approval to commit. For a separate task, create a [workspace](/docs/workspaces/) instead of sending the same annotations to two agents.

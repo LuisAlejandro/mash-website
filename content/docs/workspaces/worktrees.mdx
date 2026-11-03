@@ -1,0 +1,26 @@
+---
+title: Git worktrees
+description: Give parallel tasks their own linked checkout and workspace.
+---
+
+A worktree is a linked Git checkout with its own branch. Mash creates it from a Git workspace you already have open; choose a branch and base ref, then a layout profile. The new workspace is labeled with the branch name. This lets an agent edit a task without sharing the original checkout's working tree.
+
+## Create one
+
+1. Open the project workspace in Mash.
+2. Open **New worktree (layout profile)**: **⌘⌃⇧N** on macOS or **Ctrl+Alt+Shift+E** on Linux (Mash keymap). In Native mode: **Ctrl+B**, release, then **Shift+G**.
+3. Enter a new branch name. Search local branches, remote branches or tags for the **base ref**; **Tab** accepts a suggestion.
+4. Pick **Dev**, **Agent**, or **Shell**, then choose **Save**. Mash creates the linked worktree, applies the profile, and updates the checkout from the chosen base.
+
+If the source is not a Git workspace, this flow cannot create a linked worktree. Use [New workspace](/docs/workspaces/) for a directory without Git worktrees.
+
+## Remove one
+
+**Remove worktree** acts on the active worktree. The app asks for confirmation because it deletes that checkout and has no undo. Before confirming, make sure you have committed or otherwise saved changes you want to keep. Do not confuse **Close workspace**, which closes its panes, with **Remove worktree**, which removes files in the linked checkout.
+
+| Action          | macOS Mash keys | Linux Mash keys  |
+| --------------- | --------------- | ---------------- |
+| New worktree    | ⌘⌃⇧N            | Ctrl+Alt+Shift+E |
+| Remove worktree | ⌘⌃⌫             | Ctrl+Alt+Shift+⌫ |
+
+Use [layout profiles](/docs/workspaces/layout-profiles/) when you want different tabs or startup commands for the new task.

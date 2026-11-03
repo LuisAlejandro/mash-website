@@ -1,0 +1,14 @@
+---
+title: Review changes
+description: Read the working diff with a Pi agent beside it.
+---
+
+**New review tab (diff + agent)** opens a tab with reviewr on the left and a tracked Pi agent on the right, using the same broad proportions as a Dev tab. It is a separate view of the current project's changes, so you can inspect what changed and ask Pi about a questionable hunk without hiding the diff behind a conversation.
+
+| Action     | macOS Mash keys | Linux Mash keys | Native               |
+| ---------- | --------------- | --------------- | -------------------- |
+| Review tab | ⌘⇧R             | Ctrl+Shift+R    | Ctrl+B, then Shift+V |
+
+A sensible workflow: finish a task in the [Dev tab](/docs/editor/), open Review, read the diff, run the project's checks, then decide what to keep. The agent does not decide what lands. You can also open [Source control](/docs/editor/source-control/) for the repository's Git state or use [annotations](/docs/editor/annotations/) to send feedback to the agent.
+
+**Close tab** kills the tab's PTYs and has no reopen-closed-tab action. If you want to revisit a Pi conversation after closing its tab, use [session search](/docs/agents/sessions/) instead of relying on undo.

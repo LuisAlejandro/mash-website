@@ -4,7 +4,6 @@ import {
   CAPABILITIES,
   PLATFORMS,
   RELEASES_URL,
-  REPO_URL,
   type PlatformId,
 } from "@/lib/site";
 import { useRelease } from "./release";
@@ -35,7 +34,7 @@ export default function InstallBlocks() {
           <p>
             {ready
               ? `Mash ${version} for macOS and Linux. Install it, and the first launch sets up Git, your agent, and the skills.`
-              : "The first public build is not out yet. It will appear on the Mash repository with its release notes, and this page will offer the download as soon as it does."}
+              : "Download the latest build from the Mash releases page, with its release notes."}
           </p>
         </div>
 
@@ -123,33 +122,36 @@ export default function InstallBlocks() {
                   <>
                     {isLinux ? (
                       <div className="install-actions">
-                        <span
-                          className="btn-solid is-pending"
-                          aria-disabled="true"
+                        <a
+                          className="btn-solid install-download"
+                          href={RELEASES_URL}
+                          rel="noreferrer"
                         >
-                          Coming soon · amd64
-                        </span>
-                        <span
-                          className="btn-solid is-pending"
-                          aria-disabled="true"
+                          Download · amd64
+                        </a>
+                        <a
+                          className="btn-solid install-download"
+                          href={RELEASES_URL}
+                          rel="noreferrer"
                         >
-                          Coming soon · arm64
-                        </span>
+                          Download · arm64
+                        </a>
                       </div>
                     ) : (
-                      <span
-                        className="btn-solid is-pending install-download"
-                        aria-disabled="true"
+                      <a
+                        className="btn-solid install-download"
+                        href={RELEASES_URL}
+                        rel="noreferrer"
                       >
-                        Coming soon to {platform.label}
-                      </span>
+                        Download Mash for {platform.label}
+                      </a>
                     )}
                     <p className="install-card-note">
-                      In the meantime, the{" "}
-                      <a href={REPO_URL} target="_blank" rel="noreferrer">
-                        repository
-                      </a>{" "}
-                      is where the build and its notes will land.
+                      Builds and notes are on the{" "}
+                      <a href={RELEASES_URL} target="_blank" rel="noreferrer">
+                        releases page
+                      </a>
+                      .
                     </p>
                   </>
                 )}

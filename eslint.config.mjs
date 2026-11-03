@@ -9,9 +9,10 @@ const eslintConfig = defineConfig([
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",
-    "out/**",
     "build/**",
     "next-env.d.ts",
+    // Fumadocs-generated content sources, rebuilt on every dev run and build.
+    ".source/**",
   ]),
   {
     rules: {

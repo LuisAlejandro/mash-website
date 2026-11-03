@@ -15,7 +15,6 @@
 
 # next.js
 /.next/
-/out/
 
 # production
 /build
@@ -42,3 +41,6 @@ next-env.d.ts
 
 # netlify
 .netlify/
+
+# fumadocs generated content sources
+/.source/

@@ -1,6 +1,6 @@
-import { FAQ } from "@/lib/structured-data";
+import type { FaqItem } from "@/lib/structured-data";
 
-export default function Faq() {
+export default function Faq({ items }: { items: FaqItem[] }) {
   return (
     <section className="section wrap" id="faq">
       <div className="section-head reveal">
@@ -17,7 +17,7 @@ export default function Faq() {
         </h2>
       </div>
       <div className="faq-list reveal">
-        {FAQ.map((item, index) => (
+        {items.map((item, index) => (
           <details className="faq-item" key={item.question} open={index === 0}>
             <summary>
               <span className="faq-q">{item.question}</span>

@@ -1,0 +1,204 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+/* The docs read like the marketing page: warm near-black paper, one bright
+   red accent, Instrument Serif for display type, Inter for prose. Every value
+   here comes from the palette in globals.css; this file adds no colour and no
+   font of its own. */
+@theme {
+  --font-sans:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif:
+    "Instrument Serif", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-mono:
+    "SF Mono", "Cascadia Code", "Fira Code", "JetBrains Mono", Consolas,
+    "Liberation Mono", Menlo, monospace;
+}
+
+/* Match the fixed 68px header used on the homepage. */
+:root {
+  --fd-nav-height: 68px !important;
+}
+
+#nd-docs-layout {
+  --fd-header-height: 68px !important;
+}
+
+/* Mash ships no light mode, so the docs are dark by default and the tokens
+   below are the dark set only. */
+.dark {
+  --color-fd-background: #272823;
+  --color-fd-foreground: #ece9e2;
+  --color-fd-muted: #2f302a;
+  --color-fd-muted-foreground: #aaaaaa;
+  --color-fd-popover: #202119;
+  --color-fd-popover-foreground: #ece9e2;
+  --color-fd-card: #202119;
+  --color-fd-card-foreground: #ece9e2;
+  --color-fd-border: rgba(236, 233, 226, 0.1);
+  --color-fd-primary: #ff5555;
+  --color-fd-primary-foreground: #272823;
+  --color-fd-secondary: #35362f;
+  --color-fd-secondary-foreground: #ece9e2;
+  --color-fd-accent: rgba(255, 85, 85, 0.14);
+  --color-fd-accent-foreground: #ece9e2;
+  --color-fd-ring: #ff5555;
+  --color-fd-overlay: rgba(32, 33, 25, 0.7);
+}
+
+/* neutral.css nudges the sidebar towards its own greys; keep it on the palette
+   instead so the rail matches the page. */
+.dark #nd-sidebar {
+  --color-fd-muted: #2f302a;
+  --color-fd-secondary: #35362f;
+  --color-fd-muted-foreground: #aaaaaa;
+}
+
+/* A real page title sits above its section headings, with more room to breathe. */
+#nd-page > h1 {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 3.4vw, 2.9rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+}
+
+#nd-page > p {
+  max-width: 62ch;
+  margin: 0 0 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.55;
+}
+
+/* Marketing's global `h2` is a display-sized chapter heading. In prose,
+   re-establish documentation scale and spacing so a section stays readable. */
+#nd-page .prose h2 {
+  margin-block: 2.5rem 0.75rem;
+  font-size: clamp(1.65rem, 2.4vw, 1.95rem);
+  line-height: 1.12;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.008em;
+}
+
+#nd-page .prose h3 {
+  margin-block: 1.75rem 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+#nd-page .prose {
+  max-width: 72ch;
+  line-height: 1.75;
+}
+
+#nd-page .prose :is(p, ul, ol) {
+  margin-block: 0 1rem;
+}
+
+#nd-page .prose :is(code, pre, kbd) {
+  font-family: var(--font-mono);
+}
+
+/* The shared site header is fixed above the docs grid. Keep the title and
+   side rails below it instead of letting them collide with the nav. */
+#nd-page {
+  padding-block-start: 100px;
+}
+
+#nd-sidebar {
+  inset-block-start: 68px;
+}
+
+#nd-toc {
+  top: 68px;
+  height: calc(100dvh - 68px);
+  padding-top: 2rem;
+}
+
+#nd-sidebar > div:first-child {
+  gap: 0.75rem;
+  padding: 1rem 1.125rem 0.875rem;
+}
+
+#nd-sidebar > div:first-child > div:first-child {
+  justify-content: flex-end;
+}
+
+#nd-sidebar > div:first-child > div:first-child > a {
+  display: none;
+}
+
+#nd-sidebar [data-search-full] {
+  min-height: 42px;
+  padding: 0.5rem 0.75rem;
+}
+
+#nd-sidebar [data-radix-scroll-area-viewport] {
+  padding: 0.875rem 1rem 1.5rem;
+}
+
+.docs-mobile-actions {
+  display: none;
+}
+
+.docs-search-trigger {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--paper-2);
+}
+
+.docs-search-trigger:hover {
+  border-color: var(--accent);
+  background: transparent;
+  color: var(--paper);
+}
+
+.docs-sidebar-trigger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7.5px) rotate(45deg);
+}
+
+.docs-sidebar-trigger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+
+.docs-sidebar-trigger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7.5px) rotate(-45deg);
+}
+
+@media (max-width: 767px) {
+  #nd-page {
+    padding-block-start: 76px;
+  }
+
+  #nd-sidebar {
+    inset-block-start: 0;
+  }
+}
+
+@media (max-width: 980px) {
+  .docs-mobile-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+/* Links keep the page's ink and take the accent on hover, like the site. */
+#nd-page .prose a {
+  color: var(--color-fd-foreground);
+  text-decoration-color: var(--color-fd-border);
+}
+
+#nd-page .prose a:hover {
+  color: var(--color-fd-primary);
+  text-decoration-color: currentColor;
+}

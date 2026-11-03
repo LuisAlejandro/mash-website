@@ -1,6 +1,62 @@
 # Changelog
 
 
+## 1.1.2 (2026-10-30)
+
+### Changed
+
+* Read the app release once on the server, not per visitor. [Luis Alejandro Martínez Faneyth]
+
+
+### Fixed
+
+* Claim a download only when the release has a file. [Luis Alejandro Martínez Faneyth]
+
+
+## 1.1.1 (2026-10-30)
+
+### Added
+
+* Name Starship among the mashed programs. [Luis Alejandro Martínez Faneyth]
+
+
+### Changed
+
+* Hold each hero word for two seconds. [Luis Alejandro Martínez Faneyth]
+
+
+## 1.1.0 (2026-10-30)
+
+### Added
+
+* Describe orchestration and dictation for assistants. [Luis Alejandro Martínez Faneyth]
+
+* Spotlight agent orchestration and voice dictation. [Luis Alejandro Martínez Faneyth]
+
+* Neutral orchestration film and Pi Voice captures. [Luis Alejandro Martínez Faneyth]
+
+* Document the branch-name rule that gates auto-merge. [Luis Alejandro Martínez Faneyth]
+
+
+### Changed
+
+* Document the repo for agents. [Luis Alejandro Martínez Faneyth]
+
+* Drop the out/ static export; the build writes .next. [Luis Alejandro Martínez Faneyth]
+
+* Read the latest release at build time instead of hardcoding it. [Luis Alejandro Martínez Faneyth]
+
+
+### Fixed
+
+* Describe the 0.1.1 release on every static surface. [Luis Alejandro Martínez Faneyth]
+
+
+### Other
+
+* Update. [Luis Alejandro Martínez Faneyth]
+
+
 ## 1.0.0 (2026-10-26)
 
 ### Added

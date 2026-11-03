@@ -1,0 +1,18 @@
+---
+title: Layout profiles
+description: Choose the starting tabs and panes of a workspace or worktree.
+---
+
+Mash's new-workspace and new-worktree popups show three starting cards:
+
+- **Dev (editor + agent):** Fresh on the left and a tracked Pi agent on the right. The editor keeps the larger share; focus starts on Pi.
+- **Agent:** a tab containing a tracked Pi agent.
+- **Shell:** a plain shell tab.
+
+The same arrangements are available when creating [tabs](/docs/workspaces/tabs-and-panes/) in an existing workspace. The Dev card is selected first by default, but you can change it before saving.
+
+## Edit the layouts
+
+Run `herdr plugin config-dir herdr-workspace` in a Mash shell to find this plugin's configuration directory. Its `config.yaml` contains the `profiles` list; edit that file, then reopen the popup. Profiles can name tabs, arrange splits, give a pane a startup command, or declare a tracked agent. The plugin seeds a missing config from its example and does not require rebuilding the app for an edit.
+
+A profile chooses a starting arrangement, not a permanent constraint. After creation, you can [split and focus panes](/docs/workspaces/tabs-and-panes/) by hand. For local config changes, see [configuration](/docs/reference/configuration/). Avoid editing the signed app bundle; `~/.mash` is the writable copy.

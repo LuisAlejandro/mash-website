@@ -19,7 +19,7 @@ help:
 	@echo "  stop          - Stop the container"
 	@echo "  down          - Stop and remove the container"
 	@echo "  dependencies  - npm ci inside the container"
-	@echo "  serve         - next dev on 0.0.0.0:3000"
+	@echo "  serve         - next dev at http://localhost:3100 (HOST_PORT overrides)"
 	@echo "  build         - next build inside the container"
 	@echo "  lint          - eslint inside the container"
 	@echo "  format        - prettier inside the container"
@@ -60,6 +60,7 @@ format: start
 
 test: start
 	@$(exec_on_docker) npm run type-check
+	@$(exec_on_docker) npm run docs:check
 
 console: start
 	@$(exec_on_docker) bash
