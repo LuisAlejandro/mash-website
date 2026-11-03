@@ -7,6 +7,19 @@ const nextConfig: NextConfig = {
   // Docs and marketing pages share that one build; `/docs` is a route in this
   // app, not a second site.
   trailingSlash: true,
+  // Markdown twins. The rule sits in `afterFiles`, which Next tries after the
+  // filesystem, so the real `/index.md` route keeps winning and only paths with
+  // no route of their own reach the twin handler.
+  async rewrites() {
+    return {
+      afterFiles: [
+        {
+          source: "/:path((?!(?:_next|api|\\.well-known)).*)\\.md",
+          destination: "/markdown-twin/:path",
+        },
+      ],
+    };
+  },
 };
 
 const withMDX = createMDX();
