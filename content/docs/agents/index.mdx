@@ -1,0 +1,14 @@
+---
+title: Agents in Mash
+description: Work with Pi in a tracked pane beside your code.
+---
+
+Mash's Dev layout puts Fresh and Pi side by side. Pi runs as a **tracked Herdr agent**, not merely a shell command: Herdr can show whether it is idle, working, or blocked, give it a live name in the sidebar, and target it for prompts. Open an **Agent** tab if you want just Pi in a pane.
+
+## Working with the agent
+
+Describe the task in Pi's message box, inspect the files it edits in Fresh, and keep final approval in a [review tab](/docs/editor/review/). Pi can use tools to read, edit, and run checks, but its proposed changes remain on your working tree until you decide to commit them. You can open another [workspace](/docs/workspaces/) for an independent task.
+
+Pi's prompt controls in Mash mode include **Esc** to interrupt, **Shift+Tab** to cycle thinking level, **Ctrl+O** to expand tool output, **Ctrl+P** to cycle models, **Ctrl+G** for the external editor and **Ctrl+Shift+F** to search the current transcript (macOS quick-reference). See [model setup](/docs/agents/providers/) and the [platform keymaps](/docs/reference/keybindings-macos/) for the keys applicable to you.
+
+For work that can be split across agents, use [orchestration](/docs/agents/orchestration/). To resume a prior conversation, use [session search](/docs/agents/sessions/); to try a different direction from an earlier request, [fork it](/docs/agents/forking/). For speech-to-text prompts, see [dictation](/docs/agents/voice/).

@@ -1,0 +1,14 @@
+---
+title: Source control
+description: Inspect Git state from the active project without leaving Mash.
+---
+
+**Source control** opens bundled lazygit in a popup, starting from the focused pane's current working directory. It is a convenient place to inspect the working tree, branches, and commits while the editor and agent remain in their tab. The popup belongs to the active project: focus the project's pane before opening it.
+
+| Action         | macOS Mash keys | Linux Mash keys | Native         |
+| -------------- | --------------- | --------------- | -------------- |
+| Source control | ⌃⇧G             | Ctrl+Shift+G    | Ctrl+B, then y |
+
+Mash's Git identity from first launch lives under `~/.mash/config/git/config`. Optional GitHub CLI sign-in uses its own config under `~/.mash/config/gh`; it does not reuse an inherited token silently. The PR Watch plugin can refresh PR badges and ahead/behind counts while Mash runs and on focus, so the workspace list may show fresh repository status when you return.
+
+Use a [review tab](/docs/editor/review/) to read the diff with an agent beside it before committing. A Git worktree is a separate checkout for an independent task, not another tab in the same working tree; see [worktrees](/docs/workspaces/worktrees/).

@@ -1,0 +1,32 @@
+---
+title: Install Mash
+description: Install Mash on a supported Apple silicon Mac or Ubuntu desktop.
+---
+
+Download the latest installer and its SHA-256 checksum from [Mash releases](https://github.com/LuisAlejandro/mash/releases/latest). Use the asset for your machine; no Intel Mac, Windows, or other Linux distribution package is shipped.
+
+| Platform | Supported machine                                 | Release asset                        |
+| -------- | ------------------------------------------------- | ------------------------------------ |
+| macOS    | Apple silicon, macOS 14 or newer                  | `Mash-<version>-mac-arm64.dmg`       |
+| Linux    | Ubuntu 24.04 with GNOME on Wayland or Xorg; amd64 | `letsmash-<version>-linux-amd64.deb` |
+| Linux    | Ubuntu 24.04 with GNOME on Wayland or Xorg; arm64 | `letsmash-<version>-linux-arm64.deb` |
+
+## macOS
+
+1. Download the signed, notarized DMG from [the latest release](https://github.com/LuisAlejandro/mash/releases/latest).
+2. Open the DMG, then copy **Mash.app** to **Applications**.
+3. Launch Mash from Applications and [complete first launch](/docs/first-launch/).
+
+## Ubuntu
+
+Download the `.deb` for your architecture from [the latest release](https://github.com/LuisAlejandro/mash/releases/latest). In a shell, install the file you downloaded:
+
+```sh
+sudo apt install ./letsmash-<version>-linux-amd64.deb
+```
+
+Substitute the actual release filename. For arm64, use the `linux-arm64` package instead. The package configures Mash's signed APT repository so later releases arrive through ordinary system updates. Launch Mash and [complete first launch](/docs/first-launch/).
+
+## Your data survives upgrades
+
+Mash keeps its own settings, sessions, and installed resources in `~/.mash`; it does not replace your normal `~/.config` or `~/.pi`. Upgrading preserves files you edited and resources you installed. Removing the app or package does **not** delete `~/.mash`. See [configuration and data](/docs/reference/configuration/) before changing or removing any of those files.

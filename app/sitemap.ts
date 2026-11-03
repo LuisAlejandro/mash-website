@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { CAPTURES, FILM, ORCHESTRATION_FILM, SITE_URL } from "@/lib/site";
+import { source } from "@/lib/source";
 
 export const dynamic = "force-static";
 
@@ -53,5 +54,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    ...source.getPages().map((page) => ({
+      url: `${SITE_URL}${page.url}/`,
+      changeFrequency: "monthly" as const,
+      priority: page.url === "/docs/" ? 0.9 : 0.7,
+    })),
   ];
 }

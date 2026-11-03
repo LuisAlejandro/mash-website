@@ -1,0 +1,14 @@
+---
+title: Plugins
+description: Open Mash's plugin manager and discover the actions it adds.
+---
+
+Mash bundles Herdr plugins for layout profiles, command and file search, session picking, review, annotations, link picking, notifications, and more. Each plugin adds actions that can appear in the command palette. Use the **Plugin manager** to inspect or manage available Herdr plugins; use [command palette](/docs/tools/command-palette/) to run their actions by name.
+
+| Action         | macOS Mash keys | Linux Mash keys | Native               |
+| -------------- | --------------- | --------------- | -------------------- |
+| Plugin manager | ⌘⇧X             | Ctrl+Shift+X    | Ctrl+B, then Shift+U |
+
+Plugin settings are writable under `~/.mash/config/herdr/`, separate from the signed bundle. Run `herdr plugin config-dir herdr-workspace` for the layout profile plugin's directory. An installed plugin's actions are visible in Herdr's action list; a plugin's own instructions define its other settings and permissions. For personal Pi packages, extensions and skills, see [Pi skills and packages](/docs/agents/skills-and-packages/) instead — they use `~/.mash/pi/agent/`, not the Herdr registry.
+
+Only enable plugins you trust: actions can run commands in your workspace. See [configuration](/docs/reference/configuration/) for where Mash stores them and why editing the signed app bundle is not a configuration path.

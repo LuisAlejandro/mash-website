@@ -1,0 +1,14 @@
+---
+title: Agent orchestration
+description: Let a coordinator supervise worker agents in sibling Herdr panes.
+---
+
+A coordinator Pi agent can split a requested job into tasks, start worker agents in sibling panes, answer questions from those workers, and gather results for your review. The Herdr orchestration plugin keeps a local supervised loop: a worker's task is not considered settled merely because its pane exited; it needs an explicit completion report.
+
+## How to use it
+
+Open a Dev or Agent tab in the workspace for the project. Tell Pi which independent tasks you want coordinated, what files each worker may change, and how you want the results checked. Leave the coordinator pane open while workers run. The agent can report progress and bring a worker's question back to you when it needs a decision. Review the resulting files and diffs yourself in a [review tab](/docs/editor/review/) before committing.
+
+When a dispatched worker needs an answer, it calls the bundled **ask_coordinator** tool. That tool works only while its pane has an open Dispatch; a pane without one must ask you instead. The worker waits for the coordinator's response as a tool result rather than accepting typed text pasted into its terminal. If a question is still pending, the worker resumes it by its message ID rather than opening a duplicate.
+
+For tasks that only need a separate experiment, not supervision, [fork a session](/docs/agents/forking/) or start another [workspace](/docs/workspaces/) instead.

@@ -84,6 +84,16 @@ ${CAPABILITIES.map((item) => `- ${item}`).join("\n")}
 - Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `${latestLine(release)} is published at ${RELEASES_URL} with release notes: a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. ${SITE_URL}/ offers the file for the visitor's platform. Every release publishes all platforms together.`}
 - Source: ${REPO_URL}
 
+## Documentation
+
+The complete user guide is at [${SITE_URL}/docs/](${SITE_URL}/docs/). It covers
+[installation](${SITE_URL}/docs/installation/),
+[first launch](${SITE_URL}/docs/first-launch/),
+[workspaces and worktrees](${SITE_URL}/docs/workspaces/),
+[agents and sessions](${SITE_URL}/docs/agents/),
+[editing and review](${SITE_URL}/docs/editor/), and
+[configuration and shortcuts](${SITE_URL}/docs/reference/configuration/).
+
 ## Captures
 
 Each image below is a real state from the application.

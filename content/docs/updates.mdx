@@ -1,0 +1,28 @@
+---
+title: Updates
+description: Update Mash while keeping your settings and sessions.
+---
+
+Get new Mash releases from the [releases page](https://github.com/LuisAlejandro/mash/releases/latest). Updates preserve your edited files and installed resources under `~/.mash`.
+
+## Ubuntu
+
+The `.deb` registers Mash's signed APT repository. To refresh package lists and install available updates:
+
+```sh
+sudo apt update && sudo apt upgrade
+```
+
+If Mash shows an update notice, it offers the focused command:
+
+```sh
+sudo apt install --only-upgrade letsmash
+```
+
+Restart Mash afterward. The notice closes when you press any key.
+
+## macOS
+
+If Mash detects a newer release, its update popup can offer **u** to update now; any other key dismisses it. The helper downloads and verifies the replacement, asks for confirmation, then quits and reopens Mash. If the running app cannot be replaced (for example, it is still mounted from a read-only DMG), the popup sends you to [the latest release](https://github.com/LuisAlejandro/mash/releases/latest) instead. Download its DMG, copy Mash.app to Applications, and launch the replacement there.
+
+Do not update bundled Pi, Herdr, or Fresh separately inside Mash. Mash carries its own pinned copies; update the application instead. User-installed Pi packages remain in `~/.mash/pi/agent` and are separate from the signed bundle.

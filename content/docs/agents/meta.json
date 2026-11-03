@@ -1,0 +1,12 @@
+{
+  "title": "Agents and sessions",
+  "pages": [
+    "index",
+    "providers",
+    "sessions",
+    "orchestration",
+    "voice",
+    "forking",
+    "skills-and-packages"
+  ]
+}
