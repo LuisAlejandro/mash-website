@@ -3,7 +3,7 @@ import {
   listPublishedPostsByCategory,
 } from "@/lib/blog";
 import { FEATURE_BLOG } from "@/lib/features";
-import type { MarkdownTwin } from "@/lib/markdown/resolve-twin";
+import type { MarkdownTwin } from "@/lib/markdown/types";
 
 /**
  * One public blog page as a Markdown document.

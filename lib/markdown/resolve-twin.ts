@@ -1,14 +1,9 @@
+import type { MarkdownTwin } from "@/lib/markdown/types";
 import { blogTwin } from "@/lib/markdown/twins/blog";
 import { docsTwin } from "@/lib/markdown/twins/docs";
 import { marketingMarkdown } from "@/lib/markdown/twins/marketing";
 
-/** One page as a Markdown document: what a `.md` URL serves. */
-export type MarkdownTwin = {
-  title: string;
-  /** Canonical URL of the HTML page this document mirrors. */
-  url: string;
-  markdown: string;
-};
+export type { MarkdownTwin };
 
 /**
  * Resolve one path, below the twin route, to the Markdown document it mirrors.

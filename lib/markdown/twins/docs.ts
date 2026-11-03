@@ -1,4 +1,4 @@
-import type { MarkdownTwin } from "@/lib/markdown/resolve-twin";
+import type { MarkdownTwin } from "@/lib/markdown/types";
 import { source } from "@/lib/source";
 
 /**
