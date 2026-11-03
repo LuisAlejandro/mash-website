@@ -1,6 +1,15 @@
 # Changelog
 
 
+## 1.2.0 (2026-11-03)
+
+### Added
+
+* Add branded Mash documentation. [Luis Alejandro Martínez Faneyth]
+
+* Show who maintains Mash below the hero. [Luis Alejandro Martínez Faneyth]
+
+
 ## 1.1.2 (2026-10-30)
 
 ### Changed
