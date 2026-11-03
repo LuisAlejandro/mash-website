@@ -163,3 +163,5 @@ release of `LuisAlejandro/mash` at prerender time (revalidated every 12 hours) a
 the `softwareVersion` in structured data, the download FAQ, `index.md`,
 `llms.txt`, and `ai.txt`. If that lookup fails, those pages say "the latest
 release is on the releases page" and claim no version.
+
+<!-- Temporary Netlify deploy-preview trigger for one-off adapter smoke; do not merge. -->
