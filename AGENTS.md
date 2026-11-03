@@ -106,7 +106,7 @@ The blog is off by default and the site is expected to keep building, deploying,
 - **Admin authorization is re-checked inside every server action.** A server action is a public endpoint; the page that rendered the form proves nothing.
 - **The allowlist is fail-closed.** An empty `ADMIN_EMAIL_ALLOWLIST` denies everyone, including the first person to sign in.
 - **Publishing fails loudly when the CDN purge is not configured.** `revalidateAfterPostChange` throws rather than report a publish that leaves stale pages served.
-- **Cache tag names appear twice**: `lib/netlify/purge-by-tags.ts` and the `Netlify-Cache-Tag` headers in `netlify.toml`. Changing one side silently stops purging.
+- **Cache tag names appear twice**: `lib/netlify/purge-by-tags.ts` and the `Netlify-Cache-Tag` headers in `next.config.ts` (`headers()`, because `netlify.toml` `[[headers]]` rules never reach function-served responses on this host). Changing one side silently stops purging.
 - Schema changes go through `npm run db:generate` and `npm run db:migrate`; migrations need `DATABASE_URL_UNPOOLED`.
 - `scripts/check-blog.mjs` (`make test`) covers the allowlist and excerpt logic directly, with no framework and no database. Extend it when you touch those pure functions.
 

@@ -1,12 +1,14 @@
 /**
- * Cache tags attached to blog responses in netlify.toml. Purging these is what
- * makes a publish visible before the CDN's own TTL expires.
+ * Cache tags attached to blog responses by the `headers()` rules in
+ * next.config.ts. Purging these is what makes a publish visible before the
+ * CDN's own TTL expires.
  */
 export const BLOG_PURGE_TAGS = [
   "blog-posts",
   "blog-index",
   "blog-listings",
   "sitemap",
+  "llms-full",
 ] as const;
 
 export type PurgeByTagsResult = {

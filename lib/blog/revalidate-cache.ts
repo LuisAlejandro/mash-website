@@ -10,8 +10,10 @@ import { BLOG_PURGE_TAGS, purgeByTags } from "@/lib/netlify/purge-by-tags";
  * exists to prevent, so both happen here and the result reports each.
  *
  * The surfaces listed below are the ones that actually render post data. The
- * site's other machine-readable files (/llms.txt, /ai.txt, /index.md) describe
- * the product rather than the blog, so a publish deliberately leaves them be.
+ * site's product-only machine-readable files (/llms.txt, /ai.txt, /index.md)
+ * describe the product rather than the blog, so a publish deliberately leaves
+ * them be; the documentation corpus (/llms-full.txt) and the Markdown twins of
+ * blog pages do carry published posts, so they are revalidated too.
  */
 
 const SLUG_PATTERN = /^[a-z0-9-]+$/;
@@ -57,12 +59,17 @@ export async function revalidateBlogCache(
     // skip it rather than guess.
     if (post.slug && isValidPostSlug(post.slug)) {
       revalidate(`/blog/posts/${post.slug}`);
+      // The twin's rewrite destination, not the public `.md` alias: the alias
+      // is a rewrite source, so there is no path of its own to revalidate.
+      revalidate(`/markdown-twin/blog/posts/${post.slug}`);
     }
   }
 
   for (const category of input.categories ?? []) {
     if (category.slug && category.slug.trim()) {
-      revalidate(`/blog/category/${categoryPathSegment(category.slug)}`);
+      const segment = categoryPathSegment(category.slug);
+      revalidate(`/blog/category/${segment}`);
+      revalidate(`/markdown-twin/blog/category/${segment}`);
     }
   }
 
@@ -70,6 +77,8 @@ export async function revalidateBlogCache(
   revalidate("/blog/posts/atom.xml");
   revalidate("/blog/posts/feed.json");
   revalidate("/sitemap.xml");
+  // The full documentation corpus renders every published post body.
+  revalidate("/llms-full.txt");
 
   const purgedTags = [...BLOG_PURGE_TAGS];
   const [netlifyPurge, cfPurge] = await Promise.all([
