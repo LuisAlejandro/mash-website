@@ -1,0 +1,18 @@
+---
+title: More tools
+description: Snippets, containers, cache status, and showing agent output.
+---
+
+Mash includes small helpers alongside the core editor-and-agent workflow:
+
+- **Snippets** opens the bundled Pet snippet executor. Use a saved command instead of retyping it; review the command before running it in the focused project.
+- **Container status** opens lazydocker for the active pane's working directory. Docker must be running to show live containers.
+- **Cache Hit** can display an agent's prompt-cache status, countdown and token counts in Herdr's sidebar. Its data comes from local agent usage records; it is a status hint, not a bill or a guarantee of future cache hits.
+- **Show file** lets Pi open a text result in the Fresh pane beside it. An image result opens in a Herdr split at real resolution. Other file types are not opened in an external app by this tool.
+
+| Action           | macOS Mash keys | Linux Mash keys  | Native               |
+| ---------------- | --------------- | ---------------- | -------------------- |
+| Snippets         | ⌘⌥P             | Ctrl+Alt+Shift+P | Ctrl+B, then Shift+S |
+| Container status | ⌘⇧O             | Ctrl+Shift+O     | Ctrl+B, then Shift+O |
+
+These tools rely on your local environment. If a picker reports a missing binary, see [first-launch tools](/docs/first-launch/) and [troubleshooting](/docs/reference/troubleshooting/). For Herdr plugin settings, use [plugin manager](/docs/tools/plugins/); for Pi-installed packages, use [skills and packages](/docs/agents/skills-and-packages/).

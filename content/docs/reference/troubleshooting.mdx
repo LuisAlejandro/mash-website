@@ -1,0 +1,24 @@
+---
+title: Troubleshooting
+description: Find a failed setup step, missing tool, wrong shortcut, or lost session.
+---
+
+## Setup does not finish
+
+If the wizard stops on an installation or identity step, do not edit the signed app bundle. Read `~/.mash/setup/setup.log` for the failed step and `~/.mash/setup/state.txt` for setup state; Mash records the error and offers setup again on launch. The macOS launcher also writes `~/.mash/local/state/mash-launch.log`. Select only the tool groups you need; if an optional host tool is missing, install it using your platform's normal tooling, then retry setup.
+
+## Shortcut does nothing
+
+Check which mode was chosen at first launch: `~/.mash/setup/keybindings-mode`. **Mash / Cursor-style** and **Native** use different keys; Native requires **Ctrl+B**, release, then the next key. On Linux GNOME grabs some chords before Mash receives them, so use the [Linux map](/docs/reference/keybindings-linux/), not an imagined macOS translation. In Linux Native mode, use Pi's **Ctrl+↑/↓** instead of **Ctrl+Shift+↑/↓** to jump between messages. If you changed Herdr's keymap yourself, its menu still sends the shipped shortcut. Use the action in the [command palette](/docs/tools/command-palette/) or restore the intended binding.
+
+## A config edit does not appear
+
+Herdr's `config.toml` is read at start; run `herdr server reload-config` or use **Reload Configuration**. Reopen the Fresh editor after editing its config; the app menu does not reload Fresh. Settings live in `~/.mash/config/` or `~/.mash/pi/agent/`, not in a standalone Pi or personal Ghostty directory. The launcher preserves an edited seeded file on update; deleting it deliberately lets Mash seed a fresh default on the next launch.
+
+## A session seems lost
+
+The [session search popup](/docs/agents/sessions/) searches Pi transcripts under `~/.mash/pi/agent/sessions`. An open hit focuses its pane; a closed hit opens a new tab on that transcript. If a directory is absent from the separate workspace picker, it may not be in zoxide history yet; create a workspace from the directory or run `zoxide add <path>` inside a Mash shell.
+
+## An update fails
+
+On Ubuntu, use the APT command in [Updates](/docs/updates/) and restart Mash. On macOS, an app on a read-only DMG cannot use the one-key replacement: download the latest DMG, copy Mash.app to Applications and relaunch. If a configured tool or plugin reports a missing binary, check the first-launch choices and the tool's own config rather than installing into the signed bundle.

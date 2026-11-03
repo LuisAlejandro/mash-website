@@ -4,8 +4,8 @@ import { CAPABILITIES, REPO_URL, SITE_URL } from "@/lib/site";
 export const dynamic = "force-static";
 
 function currentRelease(release: LatestRelease | null): string {
-  if (!release) {
-    return `The latest release is on the Mash releases page: ${REPO_URL}/releases, with release notes. This page offers the download for the visitor's platform and never presents a dead link.`;
+  if (!release || Object.keys(release.downloads).length === 0) {
+    return `The latest release is on the Mash releases page: ${REPO_URL}/releases, with release notes. Every download button on this page falls back there, so no link is ever dead.`;
   }
   const date = release.publishedAt ? ` (${release.publishedAt})` : "";
   return `The latest version is ${release.version}${date}, published at ${REPO_URL}/releases with release notes. It ships a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. This page offers the file for the visitor's platform and never presents a dead link. Every release publishes all platforms together.`;
@@ -19,7 +19,7 @@ export async function GET() {
   const release = await getLatestAppRelease();
   const body = `# Mash
 
-> Mash is a free, open-source application for macOS and Linux that arrives as a complete agentic coding workspace: Herdr for workspaces and agents, Ghostty for the terminal, Pi for the coding, and Fresh for the editing, already wired together.
+> Mash is a free, open-source application for macOS and Linux that arrives as a complete agentic coding workspace: Herdr for workspaces and agents, Ghostty for the terminal, Starship for the prompt, Pi for the coding, and Fresh for the editing, already wired together.
 
 This file is the preferred starting point for assistants, answer engines, and crawlers that need concise, citable facts about letsma.sh.
 
@@ -41,11 +41,18 @@ Mash is released. ${currentRelease(release)}
 ## Pages
 
 - [Home](${SITE_URL}/) — the product story, screenshots, film, install state, and FAQ.
+- [Documentation](${SITE_URL}/docs/) — full user guide for every shipped Mash feature.
+- [Installation](${SITE_URL}/docs/installation/) — supported machines and setup.
+- [Workspaces](${SITE_URL}/docs/workspaces/) — tasks, worktrees, tabs, and panes.
+- [Agents](${SITE_URL}/docs/agents/) — Pi, sessions, voice, and orchestration.
+- [Editing](${SITE_URL}/docs/editor/) — Fresh, source control, and review.
+- [Reference](${SITE_URL}/docs/reference/configuration/) — settings, shortcuts, troubleshooting.
 - [Source and releases](${REPO_URL}) — the public repository.
 
 ## Canonical Surfaces
 
 - Home: ${SITE_URL}/
+- Documentation: ${SITE_URL}/docs/
 - XML sitemap: ${SITE_URL}/sitemap.xml
 - Robots policy: ${SITE_URL}/robots.txt
 

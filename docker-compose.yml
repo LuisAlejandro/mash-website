@@ -13,4 +13,4 @@ services:
       - /home/node/app/node_modules
       - /home/node/app/.next
     ports:
-      - "${HOST_PORT:-3000}:3000"
+      - "${HOST_PORT:-3100}:3000"

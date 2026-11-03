@@ -1,0 +1,16 @@
+---
+title: Mash Terminal
+description: A shell, Herdr workspaces, and tools in one application window.
+---
+
+Mash Terminal is the app's bundled terminal. Its startup command launches a Herdr pane instead of a bare shell. Herdr manages workspaces, tabs, and splits; the terminal draws them but does not use Ghostty's own parallel tab and split system. A new **Shell** tab or pane runs Mash's shell in the current workspace.
+
+## Shell and appearance
+
+The wizard offers a terminal font and size, plus a Mash-wide light or dark theme. The shipped terminal starts with the Monokai Cursor theme and MesloLGS NF font; your choice is stored in `~/.mash/config/ghostty/config`. Mash's Starship prompt is shared between supported shells through `~/.mash/config/starship.toml`. Your ordinary shell files and personal `~/.config` remain separate.
+
+## Menus and keys
+
+The macOS menu bar and Linux titlebar menu use Mash's own File, Edit, View, Go and Tools commands. They send the displayed shortcut to the **focused terminal**. Settings opens Herdr settings; Reload Configuration reloads the terminal and Herdr, not a running Fresh editor. If you rebind a Herdr key in `~/.mash/config/herdr/config.toml`, a menu item can still send the original chord; use the updated key directly or the command palette.
+
+Copy and paste follow platform conventions: **⌘C / ⌘V** on macOS, **Ctrl+Shift+C / Ctrl+Shift+V** on Linux, or select/copy with the mouse. On macOS, `⌘C` copies a terminal selection when there is one; in Fresh, editor copy takes precedence. See [tabs and panes](/docs/workspaces/tabs-and-panes/) for navigation and [configuration](/docs/reference/configuration/) for writable settings.

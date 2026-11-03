@@ -8,54 +8,78 @@ import InstallBlocks from "./components/install-blocks";
 import { ReleaseCta, ReleaseProvider } from "./components/release";
 import { REPO_URL } from "@/lib/site";
 import { getLatestAppRelease } from "@/lib/app-release";
-import { buildFaq } from "@/lib/structured-data";
+import {
+  buildFaq,
+  buildFaqSchema,
+  buildSiteGraph,
+  toJsonLdScript,
+} from "@/lib/structured-data";
 
 export default async function Home() {
   const release = await getLatestAppRelease();
+  const faq = buildFaq(release);
+  const faqSchema = buildFaqSchema(faq);
+
   return (
-    <ReleaseProvider>
-      <Header />
-      <Hero />
-      <main>
-        <FeatureSpotlights />
-        <Chapters />
-        <InstallBlocks />
-        <Faq items={buildFaq(release)} />
-        {/* Closing */}
-        <section className="closing wrap">
-          <div className="reveal">
-            <p className="kicker">Your next task has somewhere to go.</p>
-            <img
-              className="closing-logo"
-              src="/assets/mash/logo-wordmark-lg.png"
-              srcSet="/assets/mash/logo-wordmark-lg.png 1x, /assets/mash/logo-wordmark-lg@2x.png 2x"
-              alt="Mash"
-              width="200"
-              height="144"
-              loading="lazy"
-            />
-            <p className="tag">
-              A complete agentic workspace, <em>in one app.</em>
-            </p>
-            <div className="closing-actions">
-              <ReleaseCta />
-              <a
-                href={REPO_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="btn-quiet"
-              >
-                <img src="/github-icon.svg" alt="" width="15" height="15" />
-                GitHub
-              </a>
-            </div>
-            <p className="fine">
-              macOS on Apple silicon · Linux on amd64 and arm64
-            </p>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </ReleaseProvider>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: toJsonLdScript(buildSiteGraph(release)),
+        }}
+      />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: toJsonLdScript(faqSchema) }}
+        />
+      )}
+      <ReleaseProvider release={release}>
+        <div id="home-page">
+          <Header />
+          <Hero />
+          <main>
+            <FeatureSpotlights />
+            <Chapters />
+            <InstallBlocks />
+            <Faq items={faq} />
+            {/* Closing */}
+            <section className="closing wrap">
+              <div className="reveal">
+                <p className="kicker">Your next task has somewhere to go.</p>
+                <img
+                  className="closing-logo"
+                  src="/assets/mash/logo-wordmark-lg.png"
+                  srcSet="/assets/mash/logo-wordmark-lg.png 1x, /assets/mash/logo-wordmark-lg@2x.png 2x"
+                  alt="Mash"
+                  width="200"
+                  height="144"
+                  loading="lazy"
+                />
+                <p className="tag">
+                  A complete agentic workspace, <em>in one app.</em>
+                </p>
+                <div className="closing-actions">
+                  <ReleaseCta />
+                  <a
+                    href={REPO_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-quiet"
+                  >
+                    <img src="/github-icon.svg" alt="" width="15" height="15" />
+                    GitHub
+                  </a>
+                </div>
+                <p className="fine">
+                  macOS on Apple silicon · Linux on amd64 and arm64
+                </p>
+              </div>
+            </section>
+          </main>
+          <Footer />
+        </div>
+      </ReleaseProvider>
+    </>
   );
 }

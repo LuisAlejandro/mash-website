@@ -37,7 +37,7 @@ const CHAPTERS: Chapter[] = [
     body: "Most agentic setups are a weekend of wiring: an agent, a workspace manager, a set of skills, a keybinding file. Mash ships them already fitted together and opens on a workspace you can type in.",
     points: [
       [
-        "Herdr, Ghostty, Pi, Fresh",
+        "Herdr, Ghostty, Starship, Pi, Fresh",
         "shipped inside the app, with the Mash skills that teach the workflow",
       ],
       [

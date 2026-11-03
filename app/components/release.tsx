@@ -4,27 +4,14 @@ import {
   createContext,
   useContext,
   useEffect,
-  useState,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
+import type { Downloads } from "@/lib/app-release";
 import { RELEASES_URL, type PlatformId } from "@/lib/site";
 
-const LATEST_RELEASE =
-  "https://api.github.com/repos/LuisAlejandro/mash/releases/latest";
-
-/**
- * The asset names `artifacts.yml` publishes: one macOS DMG and two Linux .deb
- * packages (amd64 and arm64).
- */
-const ASSETS = {
-  mac: /^Mash-.+-mac-arm64\.dmg$/i,
-  linuxAmd64: /^letsmash-.+-linux-amd64\.deb$/i,
-  linuxArm64: /^letsmash-.+-linux-arm64\.deb$/i,
-} as const;
-
-export type AssetKey = keyof typeof ASSETS;
-export type Downloads = Partial<Record<AssetKey, string>>;
+export type AssetKey = keyof Downloads;
+export type { Downloads };
 
 export type Release = {
   state: "unavailable" | "ready";
@@ -33,44 +20,14 @@ export type Release = {
 };
 
 /**
- * Server render and pre-fetch state. Nothing is known about the release yet, so
- * every CTA links to the releases page rather than to a file that may not exist.
+ * Pre-fetch state. Nothing is known about the release yet, so every CTA links
+ * to the releases page rather than to a file that may not exist.
  */
 const UNAVAILABLE: Release = {
   state: "unavailable",
   version: "",
   downloads: {},
 };
-
-type Asset = { name?: unknown; browser_download_url?: unknown };
-
-function parseRelease(payload: unknown): Release | null {
-  if (typeof payload !== "object" || payload === null) return null;
-  const { tag_name: tag, assets } = payload as {
-    tag_name?: unknown;
-    assets?: unknown;
-  };
-  if (typeof tag !== "string" || tag.length === 0) return null;
-  if (!Array.isArray(assets)) return null;
-
-  const downloads: Downloads = {};
-  for (const [key, pattern] of Object.entries(ASSETS) as [AssetKey, RegExp][]) {
-    const match = (assets as Asset[]).find(
-      (asset) =>
-        typeof asset?.name === "string" &&
-        pattern.test(asset.name) &&
-        typeof asset.browser_download_url === "string"
-    );
-    if (match && typeof match.browser_download_url === "string") {
-      downloads[key] = match.browser_download_url;
-    }
-  }
-
-  // A release with no asset this page can offer is not a release yet.
-  if (Object.keys(downloads).length === 0) return null;
-
-  return { state: "ready", version: tag, downloads };
-}
 
 const ReleaseContext = createContext<Release>(UNAVAILABLE);
 const PlatformContext = createContext<PlatformId>("mac");
@@ -101,12 +58,18 @@ function usePlatformDetection(): PlatformId {
 }
 
 /**
- * One latest-release request for the whole page. The server render is the
- * coming-soon state, so no dead download can ever ship; a resolved release
- * upgrades every CTA together.
+ * One release for the whole page, resolved on the server at prerender time and
+ * handed down. No request leaves the browser, so the download path cannot be
+ * stalled by GitHub's per-IP rate limit; the version refreshes when the page
+ * revalidates or the site is rebuilt.
  */
-export function ReleaseProvider({ children }: { children: ReactNode }) {
-  const [release, setRelease] = useState<Release>(UNAVAILABLE);
+export function ReleaseProvider({
+  release,
+  children,
+}: {
+  release: { version: string; downloads: Downloads } | null;
+  children: ReactNode;
+}) {
   const platform = usePlatformDetection();
 
   useEffect(() => {
@@ -115,26 +78,19 @@ export function ReleaseProvider({ children }: { children: ReactNode }) {
     document.documentElement.dataset.platform = platform;
   }, [platform]);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    let live = true;
-
-    fetch(LATEST_RELEASE, { signal: controller.signal, credentials: "omit" })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((payload: unknown) => {
-        const next = parseRelease(payload);
-        if (live && next) setRelease(next);
-      })
-      .catch(() => {});
-
-    return () => {
-      live = false;
-      controller.abort();
-    };
-  }, []);
+  // A release with no asset this page can offer is not a release yet: every
+  // CTA then points at the releases page instead of a missing file.
+  const value: Release =
+    release && Object.keys(release.downloads).length > 0
+      ? {
+          state: "ready",
+          version: release.version,
+          downloads: release.downloads,
+        }
+      : UNAVAILABLE;
 
   return (
-    <ReleaseContext.Provider value={release}>
+    <ReleaseContext.Provider value={value}>
       <PlatformContext.Provider value={platform}>
         {children}
       </PlatformContext.Provider>

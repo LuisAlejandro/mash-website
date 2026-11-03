@@ -1,0 +1,12 @@
+---
+title: Pick a link or ID
+description: Select a path, URL, or identifier printed in a pane.
+---
+
+When an agent prints a file path, URL, hash, IP address or UUID, you need not retype it. Focus the pane with the text, then invoke **Pick link or ID**. Mash's bundled picker reads visible text from the focused pane, highlights matches with short letter hints, and lets you pick one to copy to the clipboard.
+
+| Action          | macOS Mash keys | Linux Mash keys | Native         |
+| --------------- | --------------- | --------------- | -------------- |
+| Pick link or ID | ⌥G              | Alt+G           | Ctrl+B, then u |
+
+The picker scans the pane you are looking at, not every buffer or previous session. If an item has scrolled away, return to the pane output or use [session search](/docs/agents/sessions/) for an earlier Pi message. For a file already in the project, the [file finder](/docs/editor/files-and-search/) opens it without needing to copy a path. The picker is a Herdr plugin action, so it can also be found in [command palette](/docs/tools/command-palette/).

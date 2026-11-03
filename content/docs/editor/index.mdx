@@ -1,0 +1,14 @@
+---
+title: Edit with Fresh
+description: Read and change code beside the agent in Mash.
+---
+
+A **Dev** tab opens Fresh on the left and a tracked Pi agent on the right. You can open a file in Fresh, make an edit yourself, and ask the agent to continue from the working tree. A [review tab](/docs/editor/review/) is the place to inspect a change before it lands.
+
+## Open and save
+
+Fresh has a file explorer that follows the active buffer and shows hidden and Git-ignored files in Mash's shipped configuration. Use **Open file**, **Save**, and **Find** in the editor. The Mash/Cursor-style quick-reference lists **⌘O**, **⌘S**, **⌘F**, and **⌘⇧E** (file explorer) on macOS. Native mode leaves Fresh's own bindings; [Native keys](/docs/reference/keybindings-native/) lists **Ctrl+O**, **Ctrl+S**, **Ctrl+F**, and **Ctrl+E** to focus the explorer.
+
+Mash configures format-on-save for supported language modes, including Markdown, TypeScript, JavaScript, CSS, Svelte, Bash, and others. Formatters such as Prettier and shfmt are selected in `~/.mash/config/fresh/config.json`. The optional formatters and language servers selected at first launch provide completion and diagnostics; an absent tool means an editor integration may not work until you install it. Fresh's theme follows the Mash choice made in the wizard.
+
+When you need a terminal in the Dev layout, use the **new shell pane under Fresh** action. It stacks a shell under Fresh even when Pi is focused; generic split commands instead split whichever pane has focus. Learn [tabs and panes](/docs/workspaces/tabs-and-panes/) or [find a file](/docs/editor/files-and-search/) next.

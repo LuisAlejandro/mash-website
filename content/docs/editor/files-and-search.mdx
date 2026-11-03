@@ -1,0 +1,15 @@
+---
+title: Files and search
+description: Find a file by name, search its contents, or use Fresh's Quick Open.
+---
+
+Mash has two different pickers. **File finder** is a Herdr popup rooted in the focused pane's working directory. It searches filenames and opens the chosen file in the editor in a new pane or tab. **Fresh Quick Open** runs _inside the editor_ and can find files, commands (`>`), buffers (`#`), or a line number (`:`).
+
+| Action            | macOS Mash keys   | Linux Mash keys   | Native            |
+| ----------------- | ----------------- | ----------------- | ----------------- |
+| Herdr file finder | ⌘P                | Ctrl+Alt+P        | Ctrl+B, then f    |
+| Fresh Quick Open  | Ctrl+P (in Fresh) | Ctrl+P (in Fresh) | Ctrl+P (in Fresh) |
+
+The separate [command palette](/docs/tools/command-palette/) opens **actions only** on its main shortcut; it does not replace the file finder. From the full Telescope action, type `@` to switch to filenames or `/` to search file _contents_ with ripgrep. Press Backspace on an empty query to return to actions. File matches come from `fd` when available, then Git's file list, then a bounded `find` fallback. Select **New pane** or **New window** to open the selected file.
+
+If files are missing, check the focused pane's working directory first. Fresh's own explorer can display hidden and Git-ignored files, while a Git-aware picker filters differently. For paths printed by a terminal or agent, [Pick link or ID](/docs/tools/link-picker/) is faster than retyping.
