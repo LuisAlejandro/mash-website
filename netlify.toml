@@ -37,7 +37,7 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     # Advertise the AI-oriented index without requiring a crawl.
-    Link = "</llms.txt>; rel=\"describedby\"; type=\"text/markdown\""
+    Link = "</llms.txt>; rel=\"describedby\"; type=\"text/plain\""
 
 [[headers]]
   for = "/llms.txt"

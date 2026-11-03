@@ -9,7 +9,13 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   async headers() {
     const varyAccept = [{ key: "Vary", value: "Accept" }];
+    const discoveryLink =
+      '</llms.txt>; rel="describedby"; type="text/plain", </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json"';
     return [
+      {
+        source: "/:path*",
+        headers: [{ key: "Link", value: discoveryLink }],
+      },
       { source: "/", headers: varyAccept },
       { source: "/docs/:path*", headers: varyAccept },
       { source: "/blog/posts/:path*", headers: varyAccept },
