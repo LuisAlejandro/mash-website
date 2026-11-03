@@ -1,6 +1,6 @@
 {
   "name": "mash-website",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,15 +11,29 @@
     "format:check": "prettier --check .",
     "type-check": "next typegen && tsc --noEmit",
     "docs:check": "node scripts/check-docs.mjs",
-    "typegen": "next typegen"
+    "blog:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-blog.mjs",
+    "typegen": "next typegen",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "better-auth": "^1.6.23",
+    "drizzle-orm": "^0.45.2",
+    "feed": "^6.0.0",
     "fumadocs-core": "^16.17.9",
     "fumadocs-mdx": "^15.4.10",
     "fumadocs-ui": "^16.17.9",
+    "isomorphic-dompurify": "^4.6.0",
     "next": "16.4.1",
     "react": "19.3.1",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "rehype-stringify": "^10.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "unified": "^11.0.5",
+    "ws": "^8.21.0"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.15.13",
@@ -27,6 +41,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/ws": "^8.18.1",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
     "prettier": "^3.9.6",
