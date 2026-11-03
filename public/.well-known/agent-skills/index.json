@@ -1,0 +1,18 @@
+{
+  "skills": [
+    {
+      "name": "site-discovery",
+      "type": "text/markdown",
+      "description": "Enumerate Mash's published surfaces from /llms.txt and the API catalog.",
+      "url": "/.well-known/agent-skills/site-discovery/SKILL.md",
+      "sha256": "74e741529f38e23b20d6095bd4738c6adf448d263bfda285d2e86d257de733eb"
+    },
+    {
+      "name": "citation",
+      "type": "text/markdown",
+      "description": "Cite Mash's canonical pages and defer inference rules to /ai.txt.",
+      "url": "/.well-known/agent-skills/citation/SKILL.md",
+      "sha256": "c74f3c18f6e272c724cfbd7df590a4b590f65a973878762a8537bd7f2a08dfa8"
+    }
+  ]
+}

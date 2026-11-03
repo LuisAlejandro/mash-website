@@ -10,7 +10,7 @@ export HOST_UID HOST_GID
 COMPOSE = docker compose -p $(PROJECT_NAME) -f docker-compose.yml
 exec_on_docker = $(COMPOSE) exec app
 
-.PHONY: help image start stop down dependencies serve build lint format test console release release-patch release-minor release-major release-preflight undo-release
+.PHONY: help image start stop down dependencies serve build lint format test smoke console release release-patch release-minor release-major release-preflight undo-release
 
 help:
 	@echo "Available commands:"
@@ -24,6 +24,7 @@ help:
 	@echo "  lint          - eslint inside the container"
 	@echo "  format        - prettier inside the container"
 	@echo "  test          - type-check and self-checks inside the container"
+	@echo "  smoke         - agent readiness smoke check against BASE_URL (default http://localhost:3000)"
 	@echo "  console       - bash shell inside the container"
 	@echo "  release       - cut a release (VERSION_TYPE=patch|minor|major)"
 	@echo "  release-patch - cut a patch release"
@@ -62,6 +63,12 @@ test: start
 	@$(exec_on_docker) npm run type-check
 	@$(exec_on_docker) npm run docs:check
 	@$(exec_on_docker) npm run blog:check
+	@$(exec_on_docker) npm run markdown:check
+
+# Needs a served site rather than a build, so it is not part of `test`. Inside
+# the container the dev server answers on 3000; deploy checks pass a URL.
+smoke: start
+	@$(exec_on_docker) bash scripts/agent-readiness-smoke.sh "$${BASE_URL:-http://localhost:3000}"
 
 console: start
 	@$(exec_on_docker) bash
