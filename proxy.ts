@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { acceptPrefersMarkdown } from "@/lib/markdown/accept-negotiation";
-import { resolveMarkdownTwin } from "@/lib/markdown/resolve-twin";
+import { hasMarkdownTwin } from "@/lib/markdown/has-twin";
 import { NEGOTIATED_TWIN_REQUEST_HEADER } from "@/lib/markdown/twin-headers";
 
 export async function proxy(request: NextRequest) {
@@ -35,12 +35,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Reuse the twin resolver for both safe-path validation and mapping checks.
-  try {
-    if (!(await resolveMarkdownTwin(segments))) return NextResponse.next();
-  } catch {
-    return NextResponse.next();
-  }
+  if (!hasMarkdownTwin(segments)) return NextResponse.next();
 
   const destination = request.nextUrl.clone();
   destination.pathname = segments.length

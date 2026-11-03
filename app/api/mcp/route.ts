@@ -78,18 +78,12 @@ function withResponseHeaders(
 ): Response {
   const headers = new Headers(response.headers);
   headers.set("Cache-Control", "no-store");
-  const corsHeaders = responseHeaders(origin);
-  for (const name of [
-    "Access-Control-Allow-Origin",
-    "Access-Control-Allow-Methods",
-    "Access-Control-Allow-Headers",
-    "Access-Control-Expose-Headers",
-  ]) {
-    const value = corsHeaders.get(name);
-    if (value) headers.set(name, value);
-  }
-  if (origin && ALLOWED_ORIGINS.has(origin)) {
-    headers.append("Vary", "Origin");
+  for (const [name, value] of responseHeaders(origin)) {
+    if (name === "vary") {
+      headers.append(name, value);
+    } else {
+      headers.set(name, value);
+    }
   }
   return new Response(response.body, {
     status: response.status,

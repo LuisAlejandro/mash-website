@@ -21,12 +21,9 @@ export type DocsEntry = {
 };
 
 /**
- * The single enumeration every docs-consuming surface renders from.
- *
- * `/llms.txt`, `/llms-full.txt`, the sitemap and the Markdown twins all read
- * this list instead of keeping their own copy, so adding an `.mdx` file
- * appears everywhere at once or fails `make test` in `scripts/check-docs.mjs`.
- * The loader already returns pages in `meta.json` sidebar order.
+ * Shared enumeration for discovery surfaces, MCP tools, and Markdown twin
+ * static params. `/llms.txt` keeps a curated list rather than rendering this
+ * inventory. The loader returns pages in `meta.json` sidebar order.
  */
 export function docsInventory(): DocsEntry[] {
   return source.getPages().map((page) => ({

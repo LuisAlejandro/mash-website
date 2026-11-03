@@ -1,7 +1,3 @@
-import {
-  getPublishedPostBySlug,
-  listPublishedPostsByCategory,
-} from "@/lib/blog";
 import { FEATURE_BLOG } from "@/lib/features";
 import type { MarkdownTwin } from "@/lib/markdown/types";
 
@@ -18,6 +14,9 @@ export async function blogTwin(
 ): Promise<MarkdownTwin | null> {
   if (!FEATURE_BLOG) return null;
 
+  const { getPublishedPostBySlug, listPublishedPostsByCategory } = await import(
+    "@/lib/blog"
+  );
   const [section, slug, ...rest] = segments;
   if (rest.length > 0 || !section || !slug) return null;
 

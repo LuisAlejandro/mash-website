@@ -1,4 +1,5 @@
 import type { MarkdownTwin } from "@/lib/markdown/types";
+import { isSafePathSegment } from "@/lib/markdown/path-safety";
 import { blogTwin } from "@/lib/markdown/twins/blog";
 import { docsTwin } from "@/lib/markdown/twins/docs";
 import { marketingMarkdown } from "@/lib/markdown/twins/marketing";
@@ -14,7 +15,7 @@ import { marketingMarkdown } from "@/lib/markdown/twins/marketing";
 export async function resolveMarkdownTwin(
   segments: string[]
 ): Promise<MarkdownTwin | null> {
-  if (!segments.every(isSafeSegment)) return null;
+  if (!segments.every(isSafePathSegment)) return null;
 
   const [surface, ...rest] = segments;
 
@@ -26,19 +27,4 @@ export async function resolveMarkdownTwin(
   if (surface === "docs") return docsTwin(rest);
   if (surface === "blog") return blogTwin(rest);
   return null;
-}
-
-/**
- * A segment arrives already split and decoded, so it can only be unsafe if it
- * carries its own separators or a parent reference.
- */
-function isSafeSegment(segment: string): boolean {
-  return (
-    segment.length > 0 &&
-    segment !== "." &&
-    segment !== ".." &&
-    !segment.includes("/") &&
-    !segment.includes("\\") &&
-    !segment.includes("\0")
-  );
 }

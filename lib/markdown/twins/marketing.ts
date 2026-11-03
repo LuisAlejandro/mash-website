@@ -1,6 +1,10 @@
-import { getLatestAppRelease, type LatestRelease } from "@/lib/app-release";
+import { getLatestAppRelease } from "@/lib/app-release";
 import { getMarketingNarrative } from "@/lib/llms/marketing";
 import { buildFaq } from "@/lib/structured-data";
+import {
+  latestLine,
+  substituteMarketingPlaceholders,
+} from "@/lib/markdown/marketing-copy";
 import {
   CAPABILITIES,
   CAPTURES,
@@ -12,19 +16,6 @@ import {
   REPO_URL,
   SITE_URL,
 } from "@/lib/site";
-
-/**
- * The release line, which may only claim the page offers a file when the
- * release actually carries one. A release published by hand in the GitHub UI
- * builds nothing, so that state is reachable by mistake.
- */
-function latestLine(release: LatestRelease | null): string {
-  if (!release || Object.keys(release.downloads).length === 0) {
-    return "the latest release";
-  }
-  const date = release.publishedAt ? ` (${release.publishedAt})` : "";
-  return `latest release ${release.version}${date}`;
-}
 
 /**
  * Markdown twin of the homepage, generated at build time from the same arrays
@@ -70,10 +61,11 @@ ${CAPTURES.map((c) => `- [${c.title}](${SITE_URL}${c.path}) — ${c.alt}`).join(
 
 ${faq.map((item) => `### ${item.question}\n\n${item.answer}`).join("\n\n")}`;
 
-  const narrative = getMarketingNarrative()
-    .replaceAll("{{SITE_URL}}", SITE_URL)
-    .replace("{{DERIVED_AVAILABILITY}}", availability)
-    .replace("{{DERIVED_CAPTURES}}", captures);
+  const narrative = substituteMarketingPlaceholders(
+    getMarketingNarrative(),
+    availability,
+    captures,
+  );
 
   return `# Mash
 

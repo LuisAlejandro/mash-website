@@ -63,6 +63,7 @@ test: start
 	@$(exec_on_docker) npm run type-check
 	@$(exec_on_docker) npm run docs:check
 	@$(exec_on_docker) npm run blog:check
+	@$(exec_on_docker) npm run markdown:check
 
 # Needs a served site rather than a build, so it is not part of `test`. Inside
 # the container the dev server answers on 3000; deploy checks pass a URL.

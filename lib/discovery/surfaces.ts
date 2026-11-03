@@ -50,6 +50,16 @@ export const DISCOVERY_SURFACES: DiscoverySurface[] = [
     type: "application/json",
   },
   {
+    href: `${SITE_URL}/api/mcp`,
+    title: `${APP_NAME} MCP endpoint (read-only)`,
+    type: "application/json",
+  },
+  {
+    href: `${SITE_URL}/.well-known/mcp/server-card.json`,
+    title: `${APP_NAME} MCP server card`,
+    type: "application/json",
+  },
+  {
     href: `${SITE_URL}/`,
     title: `${APP_NAME} homepage (Markdown via Accept negotiation)`,
     type: "text/markdown",

@@ -576,6 +576,70 @@ INITIALIZE_BODY='{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protoc
 INITIALIZED_BODY='{"jsonrpc":"2.0","method":"notifications/initialized"}'
 TOOLS_BODY='{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'
 
+assert_mcp_tool_content() { # <tool name> <result check>
+  local tool=$1
+  local check=$2
+  if node --input-type=module - "$BODY_FILE" "$check" <<'NODE'
+import { readFileSync } from "node:fs";
+
+const [file, check] = process.argv.slice(2);
+const response = JSON.parse(readFileSync(file, "utf8"));
+const text = response.result?.content?.find((item) => item.type === "text")?.text;
+if (typeof text !== "string" || !text.trim()) {
+  throw new Error("tool returned no text content");
+}
+const value = JSON.parse(text);
+if (check === "search_docs") {
+  if (
+    !Array.isArray(value) ||
+    !value.some((page) => typeof page.url === "string" && page.url.includes("/docs/"))
+  ) {
+    throw new Error("search result contains no documentation URL");
+  }
+} else if (check === "get_site_discovery") {
+  if (!Array.isArray(value) || value.length === 0) {
+    throw new Error("discovery list is empty");
+  }
+} else if (
+  check === "get_docs_page" &&
+  (typeof value.url !== "string" ||
+    !value.url.includes("/docs/installation") ||
+    typeof value.markdown !== "string" ||
+    !value.markdown.trim())
+) {
+  throw new Error("installation page result is missing");
+}
+NODE
+  then
+    print_pass "POST $MCP_URL tools/call — $tool returned valid content"
+  else
+    print_fail "POST $MCP_URL tools/call — $tool returned invalid content"
+  fi
+}
+
+call_mcp_tool() { # <request body>
+  request "$MCP_URL" -X POST -H "$MCP_JSON" -H "$MCP_ACCEPT" \
+    "${mcp_session_flags[@]+"${mcp_session_flags[@]}"}" \
+    --data-binary "$1"
+}
+
+assert_mcp_tool_call() { # <tool name> <result check> <id> <arguments>
+  local tool=$1
+  local check=$2
+  local id=$3
+  local arguments=$4
+  local body
+  body=$(printf '{"jsonrpc":"2.0","id":%s,"method":"tools/call","params":{"name":"%s","arguments":%s}}' "$id" "$tool" "$arguments")
+
+  if ! call_mcp_tool "$body"; then
+    print_fail "POST $MCP_URL tools/call — $tool no response ($(describe_error))"
+  elif [[ $STATUS != 200 ]]; then
+    print_fail "POST $MCP_URL tools/call — $tool expected 200, got $STATUS"
+  else
+    assert_mcp_tool_content "$tool" "$check"
+  fi
+}
+
 MCP_SESSION=''
 MCP_READY=no
 
@@ -628,6 +692,10 @@ if [[ $MCP_READY == yes ]]; then
   else
     print_fail "POST $MCP_URL tools/list — no response ($(describe_error))"
   fi
+
+  assert_mcp_tool_call search_docs search_docs 3 '{"query":"installation"}'
+  assert_mcp_tool_call get_site_discovery get_site_discovery 4 '{}'
+  assert_mcp_tool_call get_docs_page get_docs_page 5 '{"path":"installation"}'
 fi
 
 # ---------------------------------------------------------------------------

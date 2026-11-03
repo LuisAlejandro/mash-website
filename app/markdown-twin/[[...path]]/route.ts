@@ -1,4 +1,3 @@
-import { listPublishedPosts } from "@/lib/blog";
 import { FEATURE_BLOG } from "@/lib/features";
 import { logError } from "@/lib/logger";
 import { resolveMarkdownTwin } from "@/lib/markdown/resolve-twin";
@@ -23,6 +22,7 @@ export async function generateStaticParams() {
 
   if (FEATURE_BLOG) {
     try {
+      const { listPublishedPosts } = await import("@/lib/blog");
       const posts = await listPublishedPosts();
       paths.push(
         ...posts.map((post) => ({ path: ["blog", "posts", post.slug] }))

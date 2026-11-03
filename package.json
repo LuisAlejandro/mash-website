@@ -13,6 +13,7 @@
     "type-check": "next typegen && tsc --noEmit",
     "docs:check": "node scripts/check-docs.mjs",
     "blog:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-blog.mjs",
+    "markdown:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-markdown.mjs",
     "agent-readiness:smoke": "bash scripts/agent-readiness-smoke.sh",
     "typegen": "next typegen",
     "db:generate": "drizzle-kit generate",

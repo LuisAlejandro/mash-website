@@ -65,7 +65,14 @@ export async function generateMetadata(
   return {
     title,
     description: page.data.description,
-    alternates: { canonical: page.url },
+    alternates: {
+      canonical: page.url.replace(/\/?$/, "/"),
+      types: {
+        "text/markdown": [
+          { url: `${page.url}.md`, title: `${title} (Markdown)` },
+        ],
+      },
+    },
     openGraph: {
       ...SOCIAL_OPEN_GRAPH,
       title,

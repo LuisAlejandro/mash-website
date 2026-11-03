@@ -5,6 +5,8 @@ import packageJson from "@/package.json";
 import { DISCOVERY_SURFACES } from "@/lib/discovery/surfaces";
 import { FEATURE_BLOG } from "@/lib/features";
 import { logError } from "@/lib/logger";
+import { isSafePathSegment } from "@/lib/markdown/path-safety";
+import { MCP_TOOL_REGISTRY, type McpToolName } from "@/lib/mcp/tool-registry";
 import { docsInventory, source } from "@/lib/source";
 import { APP_NAME, SITE_URL } from "@/lib/site";
 
@@ -23,6 +25,28 @@ function toolError(message: string) {
   };
 }
 
+type ToolResult = ReturnType<typeof textResult> | ReturnType<typeof toolError>;
+
+function registerTool(
+  server: McpServer,
+  name: McpToolName,
+  handler: (input: Record<string, string>) => Promise<ToolResult>,
+) {
+  const definition = MCP_TOOL_REGISTRY[name];
+  const inputSchema = Object.fromEntries(
+    Object.entries(definition.inputSchema.properties).map(([key, field]) => [
+      key,
+      z.string().trim().min(field.minLength).max(field.maxLength),
+    ]),
+  );
+
+  server.registerTool(
+    definition.name,
+    { description: definition.description, inputSchema },
+    handler,
+  );
+}
+
 function docsSlugs(value: string): string[] | null {
   const rawPath = value
     .trim()
@@ -37,17 +61,7 @@ function docsSlugs(value: string): string[] | null {
   }
 
   if (segments[0] === "docs") segments = segments.slice(1);
-  if (
-    !segments.every(
-      (segment) =>
-        segment.length > 0 &&
-        segment !== "." &&
-        segment !== ".." &&
-        !segment.includes("/") &&
-        !segment.includes("\\") &&
-        !segment.includes("\0"),
-    )
-  ) {
+  if (!segments.every(isSafePathSegment)) {
     return null;
   }
 
@@ -90,98 +104,66 @@ export async function createMcpServer(): Promise<McpServer> {
     version: packageJson.version,
   });
 
-  server.registerTool(
-    "get_site_discovery",
-    {
-      description: "Return canonical public surface URLs for this deployment.",
-      inputSchema: {},
-    },
-    async () => textResult(DISCOVERY_SURFACES),
+  registerTool(server, "get_site_discovery", async () =>
+    textResult(DISCOVERY_SURFACES),
   );
 
-  server.registerTool(
-    "search_docs",
-    {
-      description: "Search documentation titles and descriptions locally.",
-      inputSchema: { query: z.string().trim().min(1).max(200) },
-    },
-    async ({ query }) => textResult(scoreDocs(query)),
+  registerTool(server, "search_docs", async ({ query }) =>
+    textResult(scoreDocs(query)),
   );
 
-  server.registerTool(
-    "get_docs_page",
-    {
-      description:
-        "Return a documentation page as Markdown; pass a slug or /docs/ path.",
-      inputSchema: { path: z.string().trim().min(1).max(500) },
-    },
-    async ({ path }) => {
-      const slugs = docsSlugs(path);
-      const entry =
-        slugs &&
-        docsInventory().find(
-          (page) =>
-            page.slugs.length === slugs.length &&
-            page.slugs.every((slug, index) => slug === slugs[index]),
-        );
-      const page = entry && source.getPage(entry.slugs);
-      if (!entry || !page) return toolError("Documentation page not found.");
+  registerTool(server, "get_docs_page", async ({ path }) => {
+    const slugs = docsSlugs(path);
+    const entry =
+      slugs &&
+      docsInventory().find(
+        (page) =>
+          page.slugs.length === slugs.length &&
+          page.slugs.every((slug, index) => slug === slugs[index]),
+      );
+    const page = entry && source.getPage(entry.slugs);
+    if (!entry || !page) return toolError("Documentation page not found.");
 
-      let markdown: string | null | undefined;
-      try {
-        markdown = await page.data.getText("processed");
-      } catch (error) {
-        logError("mcp-get-docs-page", error);
-        return toolError("Documentation Markdown is unavailable.");
-      }
-      if (typeof markdown !== "string") {
-        return toolError("Documentation Markdown is unavailable.");
-      }
+    let markdown: string | null | undefined;
+    try {
+      markdown = await page.data.getText("processed");
+    } catch (error) {
+      logError("mcp-get-docs-page", error);
+      return toolError("Documentation Markdown is unavailable.");
+    }
+    if (typeof markdown !== "string") {
+      return toolError("Documentation Markdown is unavailable.");
+    }
 
-      return textResult({
-        title: entry.title,
-        url: `${SITE_URL}${entry.url}`,
-        markdown,
-      });
-    },
-  );
+    return textResult({
+      title: entry.title,
+      url: `${SITE_URL}${entry.url}`,
+      markdown,
+    });
+  });
 
   if (FEATURE_BLOG) {
     const { getLatestPublishedPosts, searchPublishedPosts } = await import(
       "@/lib/blog"
     );
 
-    server.registerTool(
-      "search_blog_posts",
-      {
-        description: "Search published blog posts by title, body, or category.",
-        inputSchema: { query: z.string().trim().min(1).max(200) },
-      },
-      async ({ query }) => {
-        try {
-          return textResult(await searchPublishedPosts(query));
-        } catch (error) {
-          logError("mcp-search-blog-posts", error);
-          return toolError("Blog search is temporarily unavailable.");
-        }
-      },
-    );
+    registerTool(server, "search_blog_posts", async ({ query }) => {
+      try {
+        return textResult(await searchPublishedPosts(query));
+      } catch (error) {
+        logError("mcp-search-blog-posts", error);
+        return toolError("Blog search is temporarily unavailable.");
+      }
+    });
 
-    server.registerTool(
-      "get_latest_posts",
-      {
-        description: "Return the latest published blog posts.",
-        inputSchema: {},
-      },
-      async () => {
-        try {
-          return textResult(await getLatestPublishedPosts());
-        } catch (error) {
-          logError("mcp-latest-blog-posts", error);
-          return toolError("Blog posts are temporarily unavailable.");
-        }
-      },
-    );
+    registerTool(server, "get_latest_posts", async () => {
+      try {
+        return textResult(await getLatestPublishedPosts());
+      } catch (error) {
+        logError("mcp-latest-blog-posts", error);
+        return toolError("Blog posts are temporarily unavailable.");
+      }
+    });
   }
 
   return server;

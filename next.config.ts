@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   // Docs and marketing pages share that one build; `/docs` is a route in this
   // app, not a second site.
   trailingSlash: true,
+  outputFileTracingIncludes: {
+    "/*": ["./content/llms/**/*"],
+  },
   async headers() {
     const varyAccept = [{ key: "Vary", value: "Accept" }];
     const discoveryLink =

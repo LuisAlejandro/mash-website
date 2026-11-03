@@ -53,6 +53,12 @@ Mash is released. ${currentRelease(release)}
 
 - Home: ${SITE_URL}/
 - Documentation: ${SITE_URL}/docs/
+- Full documentation corpus: ${SITE_URL}/llms-full.txt
+- Documentation Markdown twins: ${SITE_URL}/docs/<path>.md
+- API catalog: ${SITE_URL}/.well-known/api-catalog
+- Agent instructions: ${SITE_URL}/agents.md
+- Agent skills index: ${SITE_URL}/.well-known/agent-skills/index.json
+- MCP endpoint: ${SITE_URL}/api/mcp
 - XML sitemap: ${SITE_URL}/sitemap.xml
 - Robots policy: ${SITE_URL}/robots.txt
 

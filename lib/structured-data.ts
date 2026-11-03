@@ -9,7 +9,7 @@ import {
   RELEASES_URL,
   REPO_URL,
   SITE_URL,
-} from "./site";
+} from "./site.ts";
 
 export type FaqItem = { question: string; answer: string };
 
@@ -159,8 +159,7 @@ export function buildWebPageSchema(page: {
   name: string;
   description?: string;
 }) {
-  // `page.url` has no trailing slash while Next normalises the canonical to
-  // one, so the page node is spelled the way the canonical is.
+  // The sitemap and docs canonical use trailing slashes.
   const url = `${SITE_URL}${page.url}`.replace(/\/?$/, "/");
 
   return {
