@@ -3,8 +3,6 @@ import { blogTwin } from "@/lib/markdown/twins/blog";
 import { docsTwin } from "@/lib/markdown/twins/docs";
 import { marketingMarkdown } from "@/lib/markdown/twins/marketing";
 
-export type { MarkdownTwin };
-
 /**
  * Resolve one path, below the twin route, to the Markdown document it mirrors.
  *

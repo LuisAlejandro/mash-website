@@ -40,7 +40,7 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 
 ## Layout
 
-- `app/layout.tsx`: root layout and site metadata. Async: it reads the latest release. The social preview image, site name, locale and twitter card come from `lib/metadata.ts`, so a page that returns its own `openGraph` keeps the inherited image.
+- `app/layout.tsx`: root layout and static site metadata. Synchronous, with no release read and no JSON-LD. The social preview image, site name, locale and twitter card come from `lib/metadata.ts`, so a page that returns its own `openGraph` keeps the inherited image.
 - `app/page.tsx`: the single homepage route. Async: emits the site JSON-LD `@graph` and the FAQPage, and passes the FAQ built from the release into `Faq`.
 - `app/components/`: UI sections. `release.tsx` holds the `ReleaseProvider` that fetches the latest release in the browser, plus `ReleaseCta`. `install-blocks.tsx` and `header.tsx` consume it.
 - `app/index.md/`, `app/llms.txt/`, `app/llms-full.txt/`, `app/ai.txt/`, `app/robots.txt/`, `app/sitemap.ts`: text and XML endpoints, generated at build time.
