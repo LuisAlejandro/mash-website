@@ -43,7 +43,11 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 - `app/page.tsx`: the single homepage route. Async: passes the FAQ built from the release into `Faq`.
 - `app/components/`: UI sections. `release.tsx` holds the `ReleaseProvider` that fetches the latest release in the browser, plus `ReleaseCta`. `install-blocks.tsx` and `header.tsx` consume it.
 - `app/index.md/route.ts`, `app/llms.txt/route.ts`, `app/ai.txt/route.ts`, `app/robots.txt/route.ts`, `app/sitemap.ts`: text and XML endpoints, all generated at build time.
+- `app/blog/`, `app/admin/`, `app/api/{auth,revalidate,search-posts,last-posts,trending-posts}/`: the optional blog module. Dormant unless `FEATURE_BLOG=1`.
+- `lib/features.ts`: the `FEATURE_BLOG` flag and its `NEXT_PUBLIC` mirror.
+- `lib/db/`, `lib/auth*`, `lib/blog/`, `drizzle/`: Neon/Drizzle schema, Better Auth, post queries and mutations, and SQL migrations. All blog-only.
 - `lib/site.ts`: shared constants (`SITE_URL`, `REPO_URL`, `RELEASES_URL`, `PLATFORMS`, `CAPABILITIES`, `CAPTURES`, `FILM`, `MASHED`, `DOWNLOAD_URL`).
+- `.env.example`: every environment variable the site reads, all optional.
 - `lib/app-release.ts`: `getLatestAppRelease()` fetches `LuisAlejandro/mash` latest release with `next: { revalidate: 3600 }`. Returns `null` on failure.
 - `lib/structured-data.ts`: JSON-LD graph (`buildSiteGraph`), FAQ list (`buildFaq`), FAQ schema (`buildFaqSchema`).
 - `public/`: static assets only (`assets/mash/`, `fonts/`, `github-icon.svg`). The old `public/llms.txt` and `public/ai.txt` are now route handlers in `app/`.
@@ -66,7 +70,7 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 - Formatting is Prettier with `printWidth: 80`, `semi`, double quotes, `trailingComma: es5`. Run `make format` before pushing; the release preflight fails if it changes files.
 - Lint is `eslint` with `eslint-config-next` (core-web-vitals and TypeScript). Ignores: `.next/`, `build/`, `next-env.d.ts`.
 - Path alias `@/*` maps to the repo root.
-- Do not add a dependency for something the standard library or the platform already provides (see `package.json`: only `next`, `react`, `react-dom` at runtime).
+- Do not add a dependency for something the standard library or the platform already provides. The marketing site and docs run on `next`, `react`, `react-dom`, and `fumadocs-*`; everything else at runtime (`@neondatabase/serverless`, `better-auth`, `drizzle-orm`, `feed`, the `unified`/`remark`/`rehype` chain, `ws`) exists only to serve the optional blog and must stay behind `FEATURE_BLOG`.
 
 ## Workflow
 
@@ -90,6 +94,21 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 - When you change a user-visible claim (platforms, capabilities, pricing, licence), check the same claim in all of these: `lib/structured-data.ts` (FAQ and schema), `app/index.md/route.ts`, `app/llms.txt/route.ts`, `app/ai.txt/route.ts`, `app/components/install-blocks.tsx`, and `README.md`.
 - The brand and media assets in `public/assets/mash/` are generated from the app repo. Re-running `scripts/build-brand-assets.py` needs `sips` (macOS) and `ffmpeg`.
 - Before committing, run `make lint`, `make test`, and `make build`. Without Docker, `npx eslint`, `npx next typegen && npx tsc --noEmit`, and `npx next build` are equivalent.
+
+## The blog module
+
+The blog is off by default and the site is expected to keep building, deploying, and passing `make test` with no environment at all. Treat that as the invariant.
+
+- **Both flags or neither.** `FEATURE_BLOG` gates routes, APIs, and server module loading; `NEXT_PUBLIC_FEATURE_BLOG` is inlined into the client bundle and drives navigation. Setting one without the other produces a site that links to pages that 404.
+- **Guard every data-fetching page, not just the layout.** A layout's `notFound()` does not stop a page component from running during prerender, so a page that queries the database and only relies on the layout guard fails the blog-off build. Each such page checks `FEATURE_BLOG` before its first query.
+- **`lib/db/index.ts` and `lib/auth.ts` compare `process.env.FEATURE_BLOG` directly** so the condition stays a build-time literal and the unused branch can be dropped. Importing `lib/features` there would OR in the public mirror and break that.
+- **Drafts are excluded in the query, never in the view** (`lib/blog/queries.ts`). A new page cannot leak one by forgetting to filter.
+- **Admin authorization is re-checked inside every server action.** A server action is a public endpoint; the page that rendered the form proves nothing.
+- **The allowlist is fail-closed.** An empty `ADMIN_EMAIL_ALLOWLIST` denies everyone, including the first person to sign in.
+- **Publishing fails loudly when the CDN purge is not configured.** `revalidateAfterPostChange` throws rather than report a publish that leaves stale pages served.
+- **Cache tag names appear twice**: `lib/netlify/purge-by-tags.ts` and the `Netlify-Cache-Tag` headers in `netlify.toml`. Changing one side silently stops purging.
+- Schema changes go through `npm run db:generate` and `npm run db:migrate`; migrations need `DATABASE_URL_UNPOOLED`.
+- `scripts/check-blog.mjs` (`make test`) covers the allowlist and excerpt logic directly, with no framework and no database. Extend it when you touch those pure functions.
 
 ## Known issues
 
