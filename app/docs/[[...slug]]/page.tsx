@@ -7,8 +7,11 @@ import {
   DocsPage,
   DocsTitle,
 } from "fumadocs-ui/layouts/docs/page";
+import { JsonLdScript } from "@/app/components/json-ld-script";
 import { getMDXComponents } from "@/lib/mdx";
+import { SOCIAL_OPEN_GRAPH, SOCIAL_TWITTER } from "@/lib/metadata";
 import { source } from "@/lib/source";
+import { buildWebPageSchema } from "@/lib/structured-data";
 
 export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
   const params = await props.params;
@@ -18,18 +21,27 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
   const MDX = page.data.body;
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
-      <DocsBody>
-        <MDX
-          components={getMDXComponents({
-            // Lets a page link to another page with its relative file path.
-            a: createRelativeLink(source, page),
-          })}
-        />
-      </DocsBody>
-    </DocsPage>
+    <>
+      <JsonLdScript
+        data={buildWebPageSchema({
+          url: page.url,
+          name: page.data.title,
+          description: page.data.description,
+        })}
+      />
+      <DocsPage toc={page.data.toc} full={page.data.full}>
+        <DocsTitle>{page.data.title}</DocsTitle>
+        <DocsDescription>{page.data.description}</DocsDescription>
+        <DocsBody>
+          <MDX
+            components={getMDXComponents({
+              // Lets a page link to another page with its relative file path.
+              a: createRelativeLink(source, page),
+            })}
+          />
+        </DocsBody>
+      </DocsPage>
+    </>
   );
 }
 
@@ -44,19 +56,29 @@ export async function generateMetadata(
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
+  const title = `${page.data.title} | Mash docs`;
+
   return {
-    title: `${page.data.title} | Mash docs`,
+    title,
     description: page.data.description,
-    alternates: { canonical: page.url },
+    alternates: {
+      canonical: page.url.replace(/\/?$/, "/"),
+      types: {
+        "text/markdown": [
+          { url: `${page.url}.md`, title: `${title} (Markdown)` },
+        ],
+      },
+    },
     openGraph: {
-      title: `${page.data.title} | Mash docs`,
+      ...SOCIAL_OPEN_GRAPH,
+      title,
       description: page.data.description,
       url: page.url,
       type: "article",
     },
     twitter: {
-      card: "summary_large_image",
-      title: `${page.data.title} | Mash docs`,
+      ...SOCIAL_TWITTER,
+      title,
       description: page.data.description,
     },
   };

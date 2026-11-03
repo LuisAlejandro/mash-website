@@ -31,6 +31,7 @@ Prefer Docker through Make when the container setup is running (`Dockerfile`, `d
 | Lint | `make lint` |
 | Type-check (CI `make test`) | `make test` |
 | Format | `make format` |
+| Agent readiness smoke check (needs a served URL) | `make smoke BASE_URL=https://letsma.sh` |
 | Full release preflight | `make release-preflight` |
 
 On the host, the same scripts exist in `package.json`: `npm run dev`, `npm run build`, `npm run lint`, `npm run type-check`, `npm run format`.
@@ -39,19 +40,30 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 
 ## Layout
 
-- `app/layout.tsx`: root layout, metadata, and the JSON-LD `<script>` tags. Async: it reads the latest release.
-- `app/page.tsx`: the single homepage route. Async: passes the FAQ built from the release into `Faq`.
+- `app/layout.tsx`: root layout and static site metadata. Synchronous, with no release read and no JSON-LD. The social preview image, site name, locale and twitter card come from `lib/metadata.ts`, so a page that returns its own `openGraph` keeps the inherited image.
+- `app/page.tsx`: the single homepage route. Async: emits the site JSON-LD `@graph` and the FAQPage, and passes the FAQ built from the release into `Faq`.
 - `app/components/`: UI sections. `release.tsx` holds the `ReleaseProvider` that fetches the latest release in the browser, plus `ReleaseCta`. `install-blocks.tsx` and `header.tsx` consume it.
-- `app/index.md/route.ts`, `app/llms.txt/route.ts`, `app/ai.txt/route.ts`, `app/robots.txt/route.ts`, `app/sitemap.ts`: text and XML endpoints, all generated at build time.
+- `app/index.md/`, `app/llms.txt/`, `app/llms-full.txt/`, `app/ai.txt/`, `app/robots.txt/`, `app/sitemap.ts`: text and XML endpoints, generated at build time.
+- `app/markdown-twin/[[...path]]/route.ts`: the one route behind every Markdown twin. `lib/markdown/resolve-twin.ts` maps a path to a document, `lib/markdown/twins/` holds one builder per surface, and `lib/markdown/twin-headers.ts` holds the shared response headers.
+- `proxy.ts`, `lib/markdown/accept-negotiation.ts`: `Accept` negotiation. A Markdown-preferring request is rewritten to the twin route for paths the resolver can answer; `/api`, `/.well-known`, `/admin`, `_next` and `.md` paths are skipped.
+- `app/.well-known/`, `public/.well-known/`, `public/agents.md`: the discovery documents. The API catalog and the permissions file are route handlers over `lib/discovery/surfaces.ts`. The agent-skills index is written at prebuild by `scripts/generate-agent-skills.mjs`, which hashes the two hand-written `SKILL.md` documents beside it.
+- `app/api/mcp/`, `lib/mcp/`: the read-only MCP endpoint and its server, rate limit and tools.
 - `app/blog/`, `app/admin/`, `app/api/{auth,revalidate,search-posts,last-posts,trending-posts}/`: the optional blog module. Dormant unless `FEATURE_BLOG=1`.
 - `lib/features.ts`: the `FEATURE_BLOG` flag and its `NEXT_PUBLIC` mirror.
 - `lib/db/`, `lib/auth*`, `lib/blog/`, `drizzle/`: Neon/Drizzle schema, Better Auth, post queries and mutations, and SQL migrations. All blog-only.
 - `lib/site.ts`: shared constants (`SITE_URL`, `REPO_URL`, `RELEASES_URL`, `PLATFORMS`, `CAPABILITIES`, `CAPTURES`, `FILM`, `MASHED`, `DOWNLOAD_URL`).
+- `lib/source.ts`: the only docs accessor. `source` reads one page; `docsInventory()` returns the ordered list the twin route, the API catalog and the MCP tools render from. `source.config.ts` enables processed Markdown and Git-derived `lastModified`.
+- `lib/llms/`: `build-llms-full.ts` assembles the corpus from the same processed Markdown the pages render; `marketing.ts` reads the authored narrative.
+- `lib/discovery/surfaces.ts`: the one list of published surfaces, which the API catalog and the permissions file both render.
 - `.env.example`: every environment variable the site reads, all optional.
 - `lib/app-release.ts`: `getLatestAppRelease()` fetches `LuisAlejandro/mash` latest release with `next: { revalidate: 3600 }`. Returns `null` on failure.
-- `lib/structured-data.ts`: JSON-LD graph (`buildSiteGraph`), FAQ list (`buildFaq`), FAQ schema (`buildFaqSchema`).
-- `public/`: static assets only (`assets/mash/`, `fonts/`, `github-icon.svg`). The old `public/llms.txt` and `public/ai.txt` are now route handlers in `app/`.
-- `scripts/`: release tooling from maintainer-tools (`release.sh`, `lib.sh`, `rollback.sh`) and `build-brand-assets.py` (macOS `sips`). Do not hand-edit `lib.sh`; it is managed upstream.
+- `lib/structured-data.ts`: the homepage graph (`buildSiteGraph`), FAQ list (`buildFaq`) and FAQ schema (`buildFaqSchema`), plus the page-level nodes: `buildWebPageSchema` for a docs page, `buildBlogSchema` and `buildBlogPostSchema` for the blog. `toJsonLdScript()` is the only serializer.
+- `lib/metadata.ts`: the social preview image object, site name, locale and twitter card, declared once for every page.
+- `next.config.ts`: `headers()` (the discovery `Link` and every `Netlify-Cache-Tag`) and the `.md` rewrite.
+- `lib/netlify/purge-by-tags.ts`, `lib/blog/revalidate-cache.ts`: the purge contract and the post-change invalidation.
+- `content/llms/`: the authored homepage narrative with `{{SITE_URL}}`, `{{DERIVED_AVAILABILITY}}` and `{{DERIVED_CAPTURES}}` placeholders, filled by `/index.md` from `lib/site.ts` and `lib/structured-data.ts`.
+- `public/`: static assets only (`assets/mash/`, `fonts/`, `github-icon.svg`, `agents.md`). The old `public/llms.txt` and `public/ai.txt` are now route handlers in `app/`.
+- `scripts/`: release tooling from maintainer-tools (`release.sh`, `lib.sh`, `rollback.sh`), `build-brand-assets.py` (macOS `sips`), `generate-agent-skills.mjs` (prebuild) and `agent-readiness-smoke.sh` (`make smoke`). Do not hand-edit `lib.sh`; it is managed upstream.
 - `docs/media-capture.md`: the capture contract for hero film and stills.
 
 ## Rules that have bitten this repo
@@ -62,7 +74,10 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 - **Structured data must not claim a download that 404s.** `DOWNLOAD_URL` stays empty until a stable per-file URL exists; `offers.url` uses `RELEASES_URL` instead.
 - **Do not describe unshipped capabilities.** Platforms are macOS 14+ on Apple silicon and Ubuntu 24.04 (amd64, arm64). No Intel Mac, no Windows.
 - **Route handlers are `force-static` plus `fetch` with `revalidate`.** A new text endpoint that needs live data should follow `app/llms.txt/route.ts`, not a file in `public/`.
-- **Netlify headers still target `/llms.txt`, `/ai.txt`, `/index.md` by path.** Keep those paths when renaming.
+- **`netlify.toml` headers reach static files only.** Verified live on this host: a `[[headers]]` rule never reaches a function-served response, so a header a page or route handler must carry belongs in `next.config.ts` `headers()` or in the handler itself. `netlify.toml` stays correct for `public/` assets and is wrong for anything Next renders.
+- **Negotiated Markdown is never cached.** `proxy.ts` rewrites a Markdown-preferring request to the twin route, which serves `Cache-Control: private, no-store` on purpose: no cache may hand Markdown to a browser. Do not trade that for a public TTL.
+- **One docs accessor.** `lib/source.ts` is the only thing that reads `content/docs`; `docsInventory()` is the ordered list the twin route, the API catalog and the MCP tools render from. A second walk of the content tree is how the surfaces drift apart.
+- **Keep the `/llms.txt`, `/ai.txt` and `/index.md` paths.** `netlify.toml` and the discovery documents name them, so a rename has to update both.
 
 ## Conventions
 
@@ -71,6 +86,7 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 - Lint is `eslint` with `eslint-config-next` (core-web-vitals and TypeScript). Ignores: `.next/`, `build/`, `next-env.d.ts`.
 - Path alias `@/*` maps to the repo root.
 - Do not add a dependency for something the standard library or the platform already provides. The marketing site and docs run on `next`, `react`, `react-dom`, and `fumadocs-*`; everything else at runtime (`@neondatabase/serverless`, `better-auth`, `drizzle-orm`, `feed`, the `unified`/`remark`/`rehype` chain, `ws`) exists only to serve the optional blog and must stay behind `FEATURE_BLOG`.
+- **The one knowing dependency exception is `@modelcontextprotocol/sdk`.** It exists solely for the read-only `/api/mcp` endpoint in `lib/mcp/`. That endpoint must not grow a write path, an admin surface or a second transport, and no further dependency may join it without the same justification.
 
 ## Workflow
 
@@ -90,8 +106,8 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 
 ## Editing guidance for agents
 
-- Read the relevant file before editing. `app/components/release.tsx` and `lib/structured-data.ts` are the two places most copy depends on.
-- When you change a user-visible claim (platforms, capabilities, pricing, licence), check the same claim in all of these: `lib/structured-data.ts` (FAQ and schema), `app/index.md/route.ts`, `app/llms.txt/route.ts`, `app/ai.txt/route.ts`, `app/components/install-blocks.tsx`, and `README.md`.
+- Read the relevant file before editing. `app/components/release.tsx`, `lib/structured-data.ts` and `content/llms/` hold most of the copy a visitor or an agent reads.
+- When you change a user-visible claim (platforms, capabilities, pricing, licence), the fact belongs in `lib/site.ts` or `lib/structured-data.ts` and everything that repeats it has to follow: the authored narrative in `content/llms/`, `app/index.md/route.ts`, `app/llms.txt/route.ts`, `app/llms-full.txt` and the docs in `content/docs/` that it and the twins are built from, `app/ai.txt/route.ts`, `public/agents.md`, `app/components/install-blocks.tsx`, and `README.md`.
 - The brand and media assets in `public/assets/mash/` are generated from the app repo. Re-running `scripts/build-brand-assets.py` needs `sips` (macOS) and `ffmpeg`.
 - Before committing, run `make lint`, `make test`, and `make build`. Without Docker, `npx eslint`, `npx next typegen && npx tsc --noEmit`, and `npx next build` are equivalent.
 
@@ -106,7 +122,7 @@ The blog is off by default and the site is expected to keep building, deploying,
 - **Admin authorization is re-checked inside every server action.** A server action is a public endpoint; the page that rendered the form proves nothing.
 - **The allowlist is fail-closed.** An empty `ADMIN_EMAIL_ALLOWLIST` denies everyone, including the first person to sign in.
 - **Publishing fails loudly when the CDN purge is not configured.** `revalidateAfterPostChange` throws rather than report a publish that leaves stale pages served.
-- **Cache tag names appear twice**: `lib/netlify/purge-by-tags.ts` and the `Netlify-Cache-Tag` headers in `netlify.toml`. Changing one side silently stops purging.
+- **Cache tag names appear twice**: `lib/netlify/purge-by-tags.ts` and the `Netlify-Cache-Tag` headers in `next.config.ts` `headers()`. Changing one side silently stops purging.
 - Schema changes go through `npm run db:generate` and `npm run db:migrate`; migrations need `DATABASE_URL_UNPOOLED`.
 - `scripts/check-blog.mjs` (`make test`) covers the allowlist and excerpt logic directly, with no framework and no database. Extend it when you touch those pure functions.
 

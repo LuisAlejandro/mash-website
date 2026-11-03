@@ -1,4 +1,5 @@
 import type { LatestRelease } from "./app-release";
+import type { PublicPost, PublicPostSummary } from "./blog/types";
 import {
   APP_NAME,
   DOWNLOAD_URL,
@@ -8,13 +9,16 @@ import {
   RELEASES_URL,
   REPO_URL,
   SITE_URL,
-} from "./site";
+} from "./site.ts";
 
 export type FaqItem = { question: string; answer: string };
 
 const ORGANIZATION_ID = `${SITE_URL}/#Organization`;
 const WEBSITE_ID = `${SITE_URL}/#WebSite`;
 const APP_ID = `${SITE_URL}/#SoftwareApplication`;
+const BLOG_ID = `${SITE_URL}/#Blog`;
+
+const BLOG_DESCRIPTION = "Release notes and writing from the Mash project.";
 
 const DESCRIPTION =
   "Mash is one app with Herdr, Ghostty, Starship, Pi, and Fresh already wired together: parallel agents, a review path you control, and code you can still read and edit by hand.";
@@ -142,6 +146,83 @@ export function buildSiteGraph(release: LatestRelease | null) {
       orchestrationVideoObject(),
     ],
   };
+}
+
+/**
+ * One docs page as an entity, tied to the site's `WebSite` node.
+ *
+ * No dates: a docs page has no trustworthy publication or modification time,
+ * and a guessed one would outlive the text it claims to describe.
+ */
+export function buildWebPageSchema(page: {
+  url: string;
+  name: string;
+  description?: string;
+}) {
+  // The sitemap and docs canonical use trailing slashes.
+  const url = `${SITE_URL}${page.url}`.replace(/\/?$/, "/");
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${url}#WebPage`,
+    url,
+    name: page.name,
+    ...(page.description ? { description: page.description } : {}),
+    isPartOf: { "@id": WEBSITE_ID },
+  };
+}
+
+/**
+ * The blog index as a `Blog` entity, listing the published posts it shows.
+ * Only what a listing entry can state truthfully is carried; the body and the
+ * modified time live on each post node instead.
+ */
+export function buildBlogSchema(posts: PublicPostSummary[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": BLOG_ID,
+    url: `${SITE_URL}/blog`,
+    name: `${APP_NAME} blog`,
+    description: BLOG_DESCRIPTION,
+    inLanguage: "en",
+    isPartOf: { "@id": WEBSITE_ID },
+    publisher: { "@id": ORGANIZATION_ID },
+    blogPost: posts.map((post) => ({
+      "@type": "BlogPosting",
+      "@id": `${blogPostUrl(post.slug)}#BlogPosting`,
+      url: blogPostUrl(post.slug),
+      headline: post.title,
+      datePublished: post.createdAt,
+    })),
+  };
+}
+
+/**
+ * One published post as a `BlogPosting`, attributed to the organization rather
+ * than to a person the database does not record.
+ */
+export function buildBlogPostSchema(post: PublicPost) {
+  const url = blogPostUrl(post.slug);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${url}#BlogPosting`,
+    url,
+    headline: post.title,
+    ...(post.excerpt ? { description: post.excerpt } : {}),
+    datePublished: post.createdAt,
+    dateModified: post.updatedAt,
+    author: { "@id": ORGANIZATION_ID },
+    publisher: { "@id": ORGANIZATION_ID },
+    isPartOf: { "@id": BLOG_ID },
+  };
+}
+
+function blogPostUrl(slug: string): string {
+  return `${SITE_URL}/blog/posts/${slug}`;
 }
 
 /**
