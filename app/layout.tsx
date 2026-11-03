@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { SOCIAL_OPEN_GRAPH, SOCIAL_TWITTER } from "@/lib/metadata";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -47,23 +48,13 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     url: "/",
-    siteName: "Mash",
     type: "website",
-    locale: "en_US",
-    images: [
-      {
-        url: "/assets/mash/og.png",
-        width: 1200,
-        height: 630,
-        alt: "Mash, a complete agentic workspace in one Mac app",
-      },
-    ],
+    ...SOCIAL_OPEN_GRAPH,
   },
   twitter: {
-    card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    images: ["/assets/mash/og.png"],
+    ...SOCIAL_TWITTER,
   },
 };
 

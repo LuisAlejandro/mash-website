@@ -4,11 +4,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import FriendlyDate from "@/app/components/friendly-date";
+import { JsonLdScript } from "@/app/components/json-ld-script";
 import { getPublishedPostBySlug } from "@/lib/blog";
 import { FEATURE_BLOG } from "@/lib/features";
 import { logError } from "@/lib/logger";
 import { markdownToHtml } from "@/lib/markdown-to-html";
+import { SOCIAL_OPEN_GRAPH } from "@/lib/metadata";
 import { APP_NAME } from "@/lib/site";
+import { buildBlogPostSchema } from "@/lib/structured-data";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -29,8 +32,19 @@ export async function generateMetadata({
   return {
     title: `${post.title} | ${APP_NAME}`,
     description: post.excerpt,
-    alternates: { canonical: `/blog/posts/${post.slug}` },
+    alternates: {
+      canonical: `/blog/posts/${post.slug}`,
+      types: {
+        "text/markdown": [
+          {
+            url: `/blog/posts/${post.slug}.md`,
+            title: `${post.title} (Markdown)`,
+          },
+        ],
+      },
+    },
     openGraph: {
+      ...SOCIAL_OPEN_GRAPH,
       type: "article",
       title: post.title,
       description: post.excerpt,
@@ -65,6 +79,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <div className="blog-wrap">
+      <JsonLdScript data={buildBlogPostSchema(post)} />
       <Link href="/blog" className="blog-back">
         ← Blog
       </Link>

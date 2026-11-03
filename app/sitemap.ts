@@ -8,6 +8,22 @@ import { source } from "@/lib/source";
 export const dynamic = "force-static";
 
 /**
+ * A docs page's modification time, when the checkout can answer for it.
+ *
+ * Fumadocs resolves the value from Git history, so a shallow clone, a fresh
+ * checkout or an uncommitted file has none. A sitemap date is a claim, and
+ * guessing it from the build clock would tell crawlers every page changed on
+ * deploy, so the field is dropped rather than filled in.
+ */
+function gitLastModified(data: object): Date | undefined {
+  const value = "lastModified" in data ? data.lastModified : undefined;
+
+  return value instanceof Date && !Number.isNaN(value.getTime())
+    ? value
+    : undefined;
+}
+
+/**
  * Blog entries, or nothing when the blog is off.
  *
  * A database that is unreachable at build time costs the blog its sitemap
@@ -59,9 +75,11 @@ async function blogEntries(): Promise<MetadataRoute.Sitemap> {
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
+    // The marketing entries below carry no `lastModified`. None of them has a
+    // content-derived modification time, and the build clock is not one: an
+    // absent date is truthful, a fixed or generated one is not.
     {
       url: `${SITE_URL}/`,
-      lastModified: new Date("2026-10-20"),
       changeFrequency: "weekly",
       priority: 1,
       images: CAPTURES.map((capture) => `${SITE_URL}${capture.path}`),
@@ -93,21 +111,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${SITE_URL}/index.md`,
-      lastModified: new Date("2026-10-20"),
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${SITE_URL}/llms.txt`,
-      lastModified: new Date("2026-10-20"),
       changeFrequency: "monthly",
       priority: 0.5,
     },
-    ...source.getPages().map((page) => ({
-      url: `${SITE_URL}${page.url}/`,
-      changeFrequency: "monthly" as const,
-      priority: page.url === "/docs/" ? 0.9 : 0.7,
-    })),
+    ...source.getPages().map((page) => {
+      const lastModified = gitLastModified(page.data);
+
+      return {
+        url: `${SITE_URL}${page.url}/`,
+        ...(lastModified ? { lastModified } : {}),
+        changeFrequency: "monthly" as const,
+        priority: page.url === "/docs/" ? 0.9 : 0.7,
+      };
+    }),
     ...(await blogEntries()),
   ];
 }

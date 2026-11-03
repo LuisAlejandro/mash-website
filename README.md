@@ -91,21 +91,63 @@ Astro site or Netlify proxy is needed.
 
 ## Discovery
 
-Three surfaces serve assistants and answer engines:
+The site publishes a discovery layer for assistants, answer engines and agents:
+Markdown documents for every page that can have one, a linkset catalog, a
+read-only MCP endpoint, and a smoke check that asserts the contract against a
+deployed URL. `/llms.txt` is agent tooling — a curated entry point an agent
+reads first — not a search-ranking lever; ranking is the HTML, the sitemap and
+the structured data.
 
-- `app/llms.txt/route.ts` — curated site and docs index, advertised through the
-  `Link: rel="describedby"` header in `netlify.toml`.
-- `app/index.md/route.ts` — the page's markdown twin, generated at build time
-  from the same arrays the HTML renders, so lists cannot drift.
-- `app/robots.txt/route.ts` — names the AI crawlers explicitly and states a
-  Content-Signal (`ai-train` is a one-line constant, `yes` by default).
-- `app/ai.txt/route.ts` — attribution and citation policy. Structured data on
-  the homepage comes from `lib/structured-data.ts`: an `@graph` of Organization,
-  WebSite, SoftwareApplication, and VideoObject, plus an FAQPage built from the
-  same array the FAQ section renders. `lib/site.ts` holds the canonical URL,
-  repository, capability list, captures, and the `DOWNLOAD_URL` that gates the
-  schema's download claim. The sitemap lists every docs page and declares image
-  and video namespaces only for entries it actually emits.
+- `app/llms.txt/route.ts` — the curated site and docs index, advertised through
+  the `Link: rel="describedby"` header.
+- `app/llms-full.txt/route.ts` — the whole documentation as one Markdown
+  document, assembled by `lib/llms/build-llms-full.ts` from the same processed
+  Markdown the pages render, with published post bodies appended when the blog
+  is on.
+- `app/index.md/route.ts` — the homepage in Markdown, rendered from the authored
+  narrative in `content/llms/` with its `{{SITE_URL}}`,
+  `{{DERIVED_AVAILABILITY}}` and `{{DERIVED_CAPTURES}}` placeholders filled from
+  `lib/site.ts` and `lib/structured-data.ts`.
+- Markdown twins — any docs page answers at `<page>.md`, and blog posts and
+  categories do when the blog is on. One resolver (`lib/markdown/`) maps a path
+  to a document and the `.md` rewrite in `next.config.ts` routes it there;
+  `/index.md` keeps its own route so the homepage twin is untouched.
+- Accept negotiation — `proxy.ts` serves that Markdown twin to a request that
+  prefers `text/markdown`, and the HTML page to everything else. Negotiated
+  Markdown is `Cache-Control: private, no-store` on purpose: a cache must never
+  hand Markdown to a browser.
+- `public/agents.md` — the short guide an agent reads after arriving.
+- `app/.well-known/api-catalog` and `app/.well-known/agent-permissions.json` —
+  the linkset catalog of the published surfaces and the matching read-only
+  permission set, both rendered from `lib/discovery/surfaces.ts` so they cannot
+  disagree.
+- `.well-known/agent-skills/` — two hand-written `SKILL.md` documents and an
+  index that hashes them, written at prebuild by
+  `scripts/generate-agent-skills.mjs`.
+- `app/api/mcp` — a read-only MCP endpoint exposing `get_site_discovery`,
+  `search_docs` and `get_docs_page`, plus `search_blog_posts` and
+  `get_latest_posts` when the blog is on. `@modelcontextprotocol/sdk` is the one
+  runtime dependency outside the docs and blog stacks, and it stays read-only.
+- `app/robots.txt/route.ts` — names the AI crawlers explicitly, states a
+  Content-Signal (`ai-train` is a one-line constant, `yes` by default) and the
+  canonical `Host`.
+- `app/ai.txt/route.ts` — attribution and citation policy.
+- `app/sitemap.ts` — every docs and blog surface, with docs modification dates
+  read from Git history and left out entirely when a checkout has none.
+
+Structured data comes from `lib/structured-data.ts`: the homepage `@graph`
+(Organization, WebSite, SoftwareApplication, VideoObject) with a FAQPage built
+from the array the FAQ section renders, a WebPage node on each docs page, and
+Blog and BlogPosting nodes on the blog surfaces. `lib/site.ts` holds the
+canonical URL, repository, capability list, captures and the `DOWNLOAD_URL` that
+gates the schema's download claim.
+
+`scripts/agent-readiness-smoke.sh` (`make smoke BASE_URL=…`) asserts the whole
+contract against a deployed URL: surface statuses and media types, the `Link`
+relations, cache tags, the negotiation cases, the no-store and `Vary`
+invariants, every docs twin, catalog and permission agreement, the skill
+digests, the MCP handshake, and the blog-off 404s. It is not part of
+`make test`, which never needs a running site.
 
 ## Release state
 
