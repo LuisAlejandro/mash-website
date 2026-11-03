@@ -1,14 +1,63 @@
 import type { MetadataRoute } from "next";
+import { listPublishedPosts } from "@/lib/blog";
+import { FEATURE_BLOG } from "@/lib/features";
+import { logError } from "@/lib/logger";
 import { CAPTURES, FILM, ORCHESTRATION_FILM, SITE_URL } from "@/lib/site";
 import { source } from "@/lib/source";
 
 export const dynamic = "force-static";
 
 /**
+ * Blog entries, or nothing when the blog is off.
+ *
+ * A database that is unreachable at build time costs the blog its sitemap
+ * entries; it does not fail the build and drop the 30-odd pages that do not
+ * depend on it. Publishing revalidates /sitemap.xml, so entries appear as
+ * soon as the next render succeeds.
+ */
+async function blogEntries(): Promise<MetadataRoute.Sitemap> {
+  if (!FEATURE_BLOG) {
+    return [];
+  }
+
+  try {
+    const posts = await listPublishedPosts();
+    const categories = new Set(
+      posts
+        .map((post) => post.category)
+        .filter((category): category is string => Boolean(category))
+    );
+
+    return [
+      {
+        url: `${SITE_URL}/blog`,
+        lastModified: posts[0] ? new Date(posts[0].updatedAt) : undefined,
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+      },
+      ...posts.map((post) => ({
+        url: `${SITE_URL}/blog/posts/${post.slug}`,
+        lastModified: new Date(post.updatedAt),
+        changeFrequency: "monthly" as const,
+        priority: 0.6,
+      })),
+      ...[...categories].map((category) => ({
+        url: `${SITE_URL}/blog/category/${encodeURIComponent(category)}`,
+        changeFrequency: "monthly" as const,
+        priority: 0.5,
+      })),
+    ];
+  } catch (error) {
+    logError("sitemap-blog-entries", error);
+    return [];
+  }
+}
+
+/**
  * Next emits the image and video namespaces only for the elements it is given,
  * so this sitemap declares nothing it does not also populate.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     {
       url: `${SITE_URL}/`,
@@ -59,5 +108,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: page.url === "/docs/" ? 0.9 : 0.7,
     })),
+    ...(await blogEntries()),
   ];
 }

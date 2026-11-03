@@ -1,0 +1,516 @@
+/* Blog and admin surfaces.
+   Scoped under #blog-page / #admin-page for the same reason globals.css
+   scopes its reset to #home-page: an unlayered global `*` rule outranks the
+   Tailwind utility layer Fumadocs uses on the docs pages. */
+
+:where(#blog-page, #blog-page *),
+:where(#admin-page, #admin-page *) {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#blog-page,
+#admin-page {
+  min-height: 100vh;
+}
+
+#blog-page main,
+#admin-page main {
+  padding: 120px 0 96px;
+}
+
+.blog-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* Header ------------------------------------------------------------ */
+
+.blog-head {
+  margin-bottom: 56px;
+}
+
+.blog-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--paper);
+}
+
+.blog-lede {
+  margin-top: 16px;
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--faint);
+}
+
+.blog-back {
+  display: inline-block;
+  margin-bottom: 24px;
+  font-size: 15px;
+  color: var(--faint);
+  transition: color 0.3s var(--ease);
+}
+
+.blog-back:hover {
+  color: var(--paper);
+}
+
+/* Post list --------------------------------------------------------- */
+
+.post-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.post-item {
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--line);
+}
+
+.post-item:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.post-category {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  transition: opacity 0.3s var(--ease);
+}
+
+.post-category:hover {
+  opacity: 0.75;
+}
+
+.post-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(26px, 3.4vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.post-title a {
+  color: var(--paper);
+  transition: color 0.3s var(--ease);
+}
+
+.post-title a:hover {
+  color: var(--accent);
+}
+
+.post-excerpt {
+  margin-top: 12px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--paper-2);
+}
+
+.post-meta {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--faint);
+}
+
+.blog-empty {
+  font-size: 18px;
+  color: var(--faint);
+}
+
+/* Category index ---------------------------------------------------- */
+
+.category-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.category-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 15px;
+  color: var(--paper);
+  transition:
+    border-color 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+.category-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Single post ------------------------------------------------------- */
+
+.post-body {
+  margin-top: 40px;
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--paper-2);
+}
+
+.post-body > * + * {
+  margin-top: 1.1em;
+}
+
+.post-body h2,
+.post-body h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  color: var(--paper);
+  line-height: 1.25;
+  margin-top: 1.8em;
+}
+
+.post-body h2 {
+  font-size: 30px;
+}
+
+.post-body h3 {
+  font-size: 23px;
+}
+
+.post-body a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.post-body ul,
+.post-body ol {
+  padding-left: 1.3em;
+}
+
+.post-body li + li {
+  margin-top: 0.4em;
+}
+
+.post-body code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(236, 233, 226, 0.08);
+  color: var(--paper);
+}
+
+.post-body pre {
+  padding: 18px 20px;
+  border-radius: 10px;
+  background: var(--chrome);
+  border: 1px solid var(--line);
+  overflow-x: auto;
+}
+
+.post-body pre code {
+  padding: 0;
+  background: none;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.post-body blockquote {
+  padding-left: 18px;
+  border-left: 2px solid var(--accent);
+  color: var(--faint);
+}
+
+.post-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.post-body th,
+.post-body td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  text-align: left;
+}
+
+/* Search ------------------------------------------------------------ */
+
+.blog-search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.blog-search-input {
+  flex: 1 1 240px;
+  padding: 12px 16px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: var(--chrome);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s var(--ease);
+}
+
+.blog-search-input:focus {
+  border-color: var(--accent);
+}
+
+.blog-search-status {
+  margin-bottom: 28px;
+  font-size: 15px;
+  color: var(--faint);
+}
+
+.blog-search-error {
+  margin-bottom: 28px;
+  font-size: 15px;
+  color: var(--accent);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Admin ------------------------------------------------------------- */
+
+.admin-bar {
+  border-bottom: 1px solid var(--line);
+  background: var(--chrome);
+}
+
+.admin-bar-row {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 20px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.admin-bar-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  font-size: 15px;
+}
+
+.admin-bar-links a {
+  color: var(--faint);
+  transition: color 0.3s var(--ease);
+}
+
+.admin-bar-links a:hover {
+  color: var(--paper);
+}
+
+.admin-bar-links a.is-current {
+  color: var(--paper);
+}
+
+.admin-identity {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  color: var(--faint);
+}
+
+.admin-post-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 40px;
+}
+
+.admin-post-item {
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-post-item:last-child {
+  border-bottom: 0;
+}
+
+.admin-post-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.admin-status {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.admin-status[data-status="published"] {
+  color: var(--accent);
+}
+
+.admin-post-title {
+  margin-top: 6px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.admin-post-title a {
+  color: var(--paper);
+}
+
+.admin-post-title a:hover {
+  color: var(--accent);
+}
+
+.admin-post-slug {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--faint);
+}
+
+.admin-post-meta {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--faint);
+}
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-link-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--faint);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.3s var(--ease);
+}
+
+.admin-link-button:hover {
+  color: var(--paper);
+}
+
+.admin-link-button.is-danger:hover {
+  color: var(--accent);
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-field-label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.admin-input,
+.admin-select,
+.admin-textarea {
+  padding: 12px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--chrome);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s var(--ease);
+}
+
+.admin-input:focus,
+.admin-select:focus,
+.admin-textarea:focus {
+  border-color: var(--accent);
+}
+
+.admin-input.is-mono,
+.admin-textarea {
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.admin-textarea {
+  resize: vertical;
+  min-height: 420px;
+}
+
+.admin-message {
+  font-size: 15px;
+  color: var(--faint);
+}
+
+.admin-message.is-error {
+  color: var(--accent);
+}
+
+.admin-note {
+  margin-top: 16px;
+  font-size: 15px;
+  color: var(--faint);
+}
+
+.admin-note code {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--paper);
+}
