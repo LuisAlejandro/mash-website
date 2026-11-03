@@ -7,10 +7,11 @@ import {
   DocsPage,
   DocsTitle,
 } from "fumadocs-ui/layouts/docs/page";
+import { JsonLdScript } from "@/app/components/json-ld-script";
 import { getMDXComponents } from "@/lib/mdx";
 import { SOCIAL_OPEN_GRAPH, SOCIAL_TWITTER } from "@/lib/metadata";
 import { source } from "@/lib/source";
-import { buildWebPageSchema, toJsonLdScript } from "@/lib/structured-data";
+import { buildWebPageSchema } from "@/lib/structured-data";
 
 export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
   const params = await props.params;
@@ -21,17 +22,12 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: toJsonLdScript(
-            buildWebPageSchema({
-              url: page.url,
-              name: page.data.title,
-              description: page.data.description,
-            })
-          ),
-        }}
+      <JsonLdScript
+        data={buildWebPageSchema({
+          url: page.url,
+          name: page.data.title,
+          description: page.data.description,
+        })}
       />
       <DocsPage toc={page.data.toc} full={page.data.full}>
         <DocsTitle>{page.data.title}</DocsTitle>
