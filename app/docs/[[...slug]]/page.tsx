@@ -8,6 +8,7 @@ import {
   DocsTitle,
 } from "fumadocs-ui/layouts/docs/page";
 import { getMDXComponents } from "@/lib/mdx";
+import { SOCIAL_OPEN_GRAPH, SOCIAL_TWITTER } from "@/lib/metadata";
 import { source } from "@/lib/source";
 
 export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
@@ -44,19 +45,22 @@ export async function generateMetadata(
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
+  const title = `${page.data.title} | Mash docs`;
+
   return {
-    title: `${page.data.title} | Mash docs`,
+    title,
     description: page.data.description,
     alternates: { canonical: page.url },
     openGraph: {
-      title: `${page.data.title} | Mash docs`,
+      ...SOCIAL_OPEN_GRAPH,
+      title,
       description: page.data.description,
       url: page.url,
       type: "article",
     },
     twitter: {
-      card: "summary_large_image",
-      title: `${page.data.title} | Mash docs`,
+      ...SOCIAL_TWITTER,
+      title,
       description: page.data.description,
     },
   };

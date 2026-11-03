@@ -7,6 +7,7 @@ import { getPublishedPostBySlug } from "@/lib/blog";
 import { FEATURE_BLOG } from "@/lib/features";
 import { logError } from "@/lib/logger";
 import { markdownToHtml } from "@/lib/markdown-to-html";
+import { SOCIAL_OPEN_GRAPH } from "@/lib/metadata";
 import { APP_NAME } from "@/lib/site";
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -30,6 +31,7 @@ export async function generateMetadata({
     description: post.excerpt,
     alternates: { canonical: `/blog/posts/${post.slug}` },
     openGraph: {
+      ...SOCIAL_OPEN_GRAPH,
       type: "article",
       title: post.title,
       description: post.excerpt,
