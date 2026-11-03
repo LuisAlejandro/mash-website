@@ -30,6 +30,11 @@ export const DISCOVERY_SURFACES: DiscoverySurface[] = [
     type: "text/plain",
   },
   {
+    href: `${SITE_URL}/.well-known/agent-skills/index.json`,
+    title: `${APP_NAME} agent skills index`,
+    type: "application/json",
+  },
+  {
     href: `${SITE_URL}/robots.txt`,
     title: "Robots policy",
     type: "text/plain",
