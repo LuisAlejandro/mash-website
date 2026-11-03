@@ -45,6 +45,43 @@ for behavior and platform-specific keys; update the relevant pages when that
 app changes. `app/docs/` renders the pages in the existing Next.js build and
 `/api/search/` serves a static search index built from the same content.
 
+## Blog (optional)
+
+The site ships an optional blog with a GitHub-authenticated admin. It is off by
+default: with no environment set, `/blog` and `/admin` return 404, no database
+or auth code is bundled, and the site builds and deploys exactly as it did
+before the blog existed.
+
+Turning it on needs a Neon project, a GitHub OAuth app, and a Netlify purge
+token. Copy `.env.example` to `.env` and fill in the marked sections, then:
+
+```bash
+npm run db:migrate   # needs DATABASE_URL_UNPOOLED
+```
+
+Set both `FEATURE_BLOG=1` and `NEXT_PUBLIC_FEATURE_BLOG=1`; the first gates
+routes and server modules, the second drives client navigation, and setting
+only one leaves the site linking to pages that 404.
+
+What it serves:
+
+- `/blog`, `/blog/posts/<slug>`, `/blog/category`, `/blog/category/<name>`
+- RSS, Atom, and JSON feeds under `/blog/posts/`, advertised through the
+  blog's `alternates` metadata
+- `/admin` for creating, editing, publishing, unpublishing, and deleting posts
+- `/api/search-posts`, `/api/last-posts`, `/api/trending-posts`, and
+  `POST /api/revalidate` for invalidating caches from outside the admin UI
+
+Access is limited to the addresses in `ADMIN_EMAIL_ALLOWLIST`, matched against
+the signed-in GitHub account's email. An empty allowlist denies everyone, so
+set it before expecting to get in. Publishing clears Next's cache and then
+purges the CDN by tag; if the purge is not configured the action fails rather
+than reporting a publish that leaves stale pages on the CDN.
+
+Posts are written in Markdown and rendered with raw HTML passed through, so the
+trust boundary is the allowlist. Widening it to people who should not be able
+to inject markup means adding a sanitizer in `lib/markdown-to-html.ts` first.
+
 ## Deploy
 
 `npm run build` writes `.next/`, served by Netlify's Next.js runtime via

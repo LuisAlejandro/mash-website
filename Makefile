@@ -23,7 +23,7 @@ help:
 	@echo "  build         - next build inside the container"
 	@echo "  lint          - eslint inside the container"
 	@echo "  format        - prettier inside the container"
-	@echo "  test          - type-check inside the container"
+	@echo "  test          - type-check and self-checks inside the container"
 	@echo "  console       - bash shell inside the container"
 	@echo "  release       - cut a release (VERSION_TYPE=patch|minor|major)"
 	@echo "  release-patch - cut a patch release"
@@ -61,6 +61,7 @@ format: start
 test: start
 	@$(exec_on_docker) npm run type-check
 	@$(exec_on_docker) npm run docs:check
+	@$(exec_on_docker) npm run blog:check
 
 console: start
 	@$(exec_on_docker) bash
