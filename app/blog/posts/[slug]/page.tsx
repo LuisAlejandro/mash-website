@@ -9,6 +9,7 @@ import { logError } from "@/lib/logger";
 import { markdownToHtml } from "@/lib/markdown-to-html";
 import { SOCIAL_OPEN_GRAPH } from "@/lib/metadata";
 import { APP_NAME } from "@/lib/site";
+import { buildBlogPostSchema, toJsonLdScript } from "@/lib/structured-data";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -66,6 +67,12 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <div className="blog-wrap">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: toJsonLdScript(buildBlogPostSchema(post)),
+        }}
+      />
       <Link href="/blog" className="blog-back">
         ← Blog
       </Link>

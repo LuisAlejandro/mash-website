@@ -4,6 +4,7 @@ import BlogSearch from "@/app/components/blog-search";
 import { listPublishedPosts } from "@/lib/blog";
 import { FEATURE_BLOG } from "@/lib/features";
 import { logError } from "@/lib/logger";
+import { buildBlogSchema, toJsonLdScript } from "@/lib/structured-data";
 
 export default async function BlogIndexPage() {
   // The layout guard does not stop this component from running during
@@ -24,6 +25,12 @@ export default async function BlogIndexPage() {
 
   return (
     <div className="blog-wrap">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: toJsonLdScript(buildBlogSchema(posts)),
+        }}
+      />
       <header className="blog-head">
         <h1 className="blog-title">Blog</h1>
         <p className="blog-lede">
