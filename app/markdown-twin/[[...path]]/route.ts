@@ -2,7 +2,11 @@ import { listPublishedPosts } from "@/lib/blog";
 import { FEATURE_BLOG } from "@/lib/features";
 import { logError } from "@/lib/logger";
 import { resolveMarkdownTwin } from "@/lib/markdown/resolve-twin";
-import { TWIN_HEADERS } from "@/lib/markdown/twin-headers";
+import {
+  NEGOTIATED_TWIN_HEADERS,
+  NEGOTIATED_TWIN_REQUEST_HEADER,
+  TWIN_HEADERS,
+} from "@/lib/markdown/twin-headers";
 import { docsInventory } from "@/lib/source";
 
 /**
@@ -41,7 +45,7 @@ export async function generateStaticParams() {
  * short one.
  */
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: RouteContext<"/markdown-twin/[[...path]]">
 ) {
   const { path } = await params;
@@ -54,5 +58,9 @@ export async function GET(
     });
   }
 
-  return new Response(twin.markdown, { headers: TWIN_HEADERS });
+  const headers =
+    request.headers.get(NEGOTIATED_TWIN_REQUEST_HEADER) === "1"
+      ? NEGOTIATED_TWIN_HEADERS
+      : TWIN_HEADERS;
+  return new Response(twin.markdown, { headers });
 }

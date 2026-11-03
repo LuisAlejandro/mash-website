@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
   // Docs and marketing pages share that one build; `/docs` is a route in this
   // app, not a second site.
   trailingSlash: true,
+  async headers() {
+    const varyAccept = [{ key: "Vary", value: "Accept" }];
+    return [
+      { source: "/", headers: varyAccept },
+      { source: "/docs/:path*", headers: varyAccept },
+      { source: "/blog/posts/:path*", headers: varyAccept },
+      { source: "/blog/category/:path*", headers: varyAccept },
+    ];
+  },
   // Markdown twins. The rule sits in `afterFiles`, which Next tries after the
   // filesystem, so the real `/index.md` route keeps winning and only paths with
   // no route of their own reach the twin handler.
