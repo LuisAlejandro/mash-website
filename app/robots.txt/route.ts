@@ -16,6 +16,9 @@ const CONTENT_SIGNAL = `search=yes, ai-input=yes, ai-train=${AI_TRAIN}`;
 
 const BASE_URL = "https://letsma.sh";
 
+/** The Host directive takes a bare hostname, never a scheme. */
+const HOST = new URL(BASE_URL).hostname;
+
 const AI_CRAWLERS = [
   "GPTBot",
   "OAI-SearchBot",
@@ -48,6 +51,8 @@ Content-Signal: ${CONTENT_SIGNAL}
 # Named AI crawlers and answer engines, declared explicitly rather than
 # relying on the wildcard so the policy is visible to each operator.
 ${AI_CRAWLERS.map(crawlerBlock).join("\n")}
+# Canonical host, for the engines that still read the Host directive.
+Host: ${HOST}
 Sitemap: ${BASE_URL}/sitemap.xml
 `;
 
