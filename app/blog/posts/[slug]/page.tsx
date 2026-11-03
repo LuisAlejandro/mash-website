@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import DOMPurify from "isomorphic-dompurify";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -83,7 +84,10 @@ export default async function BlogPostPage({ params }: PageProps) {
             Published <FriendlyDate dateString={post.createdAt} />
           </p>
         </header>
-        <div className="post-body" dangerouslySetInnerHTML={{ __html: html }} />
+        <div
+          className="post-body"
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }}
+        />
       </article>
     </div>
   );
