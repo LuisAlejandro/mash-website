@@ -1,3 +1,4 @@
+import DOMPurify from "isomorphic-dompurify";
 import rehypeStringify from "rehype-stringify";
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
@@ -9,10 +10,10 @@ import { logError } from "@/lib/logger";
 /**
  * Render a post body to HTML.
  *
- * Raw HTML in a post is passed through, so the trust boundary is the admin
- * allowlist: only an allowlisted account can create a body, and anyone who can
- * publish could already publish anything. Loosen that allowlist and this needs
- * a sanitizer before it renders anyone else's markup.
+ * Raw HTML in a post is passed through remark/rehype, then sanitized with
+ * DOMPurify before render. The trust boundary is still the admin allowlist:
+ * only an allowlisted account can create a body. Loosen that allowlist before
+ * relying on sanitization alone for untrusted authors.
  */
 export async function markdownToHtml(markdown: string): Promise<string> {
   if (!markdown) {
@@ -26,7 +27,7 @@ export async function markdownToHtml(markdown: string): Promise<string> {
       .use(remarkRehype, { allowDangerousHtml: true })
       .use(rehypeStringify, { allowDangerousHtml: true })
       .process(markdown);
-    return result.toString();
+    return DOMPurify.sanitize(result.toString());
   } catch (error) {
     logError("markdown-to-html", error, { length: markdown.length });
     return "";
