@@ -69,7 +69,9 @@
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-* {
+/* Keep the reset on marketing only: unlayered global `*` rules outrank the
+   Tailwind utility layer Fumadocs relies on for its spacing and controls. */
+:where(#home-page, #home-page *) {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -89,6 +91,7 @@ html {
 }
 
 body {
+  margin: 0;
   background: var(--ink);
   color: var(--paper);
   font-family: var(--sans);

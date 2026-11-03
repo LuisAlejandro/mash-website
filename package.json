@@ -10,9 +10,13 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "next typegen && tsc --noEmit",
+    "docs:check": "node scripts/check-docs.mjs",
     "typegen": "next typegen"
   },
   "dependencies": {
+    "fumadocs-core": "^16.17.9",
+    "fumadocs-mdx": "^15.4.10",
+    "fumadocs-ui": "^16.17.9",
     "next": "16.4.1",
     "react": "19.2.8",
     "react-dom": "19.2.8"

@@ -41,11 +41,18 @@ Mash is released. ${currentRelease(release)}
 ## Pages
 
 - [Home](${SITE_URL}/) — the product story, screenshots, film, install state, and FAQ.
+- [Documentation](${SITE_URL}/docs/) — full user guide for every shipped Mash feature.
+- [Installation](${SITE_URL}/docs/installation/) — supported machines and setup.
+- [Workspaces](${SITE_URL}/docs/workspaces/) — tasks, worktrees, tabs, and panes.
+- [Agents](${SITE_URL}/docs/agents/) — Pi, sessions, voice, and orchestration.
+- [Editing](${SITE_URL}/docs/editor/) — Fresh, source control, and review.
+- [Reference](${SITE_URL}/docs/reference/configuration/) — settings, shortcuts, troubleshooting.
 - [Source and releases](${REPO_URL}) — the public repository.
 
 ## Canonical Surfaces
 
 - Home: ${SITE_URL}/
+- Documentation: ${SITE_URL}/docs/
 - XML sitemap: ${SITE_URL}/sitemap.xml
 - Robots policy: ${SITE_URL}/robots.txt
 

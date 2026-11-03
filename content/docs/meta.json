@@ -1,0 +1,14 @@
+{
+  "title": "Mash",
+  "pages": [
+    "index",
+    "installation",
+    "first-launch",
+    "updates",
+    "workspaces",
+    "agents",
+    "editor",
+    "tools",
+    "reference"
+  ]
+}

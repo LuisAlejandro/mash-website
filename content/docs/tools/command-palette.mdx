@@ -1,0 +1,15 @@
+---
+title: Command palette
+description: Find native and plugin actions; switch to file or content search.
+---
+
+The palette merges Herdr's native actions, installed plugin actions, and workspace jumps. Start typing a command such as **Close pane**, a plugin name, or part of a workspace name; the selected row shows the command and its current keybinding when one is bound.
+
+| Action          | macOS Mash keys | Linux Mash keys | Native         |
+| --------------- | --------------- | --------------- | -------------- |
+| Actions palette | ⌘⇧P             | Ctrl+Shift+P    | Ctrl+B, then ; |
+| File finder     | ⌘P              | Ctrl+Alt+P      | Ctrl+B, then f |
+
+**Important:** the bound **Command palette** shortcut opens _actions only_. The separate **File finder** shortcut is for filenames. The full Telescope action remains available from the action list: in its popup type `@` to filter file names, or `/` to search file contents with ripgrep. Press Backspace on an empty query to return to actions. This is the difference between [Fresh Quick Open](/docs/editor/files-and-search/) (inside the editor) and the Herdr popup (which acts on the focused pane's working directory).
+
+If a plugin action is missing, check whether its plugin is enabled in the [plugin manager](/docs/tools/plugins/). The palette discovers bindings at runtime from Herdr's active configuration; rebinding a shortcut there changes what the row displays.

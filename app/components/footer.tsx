@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { RELEASES_URL, REPO_URL } from "@/lib/site";
 
 export default function Footer() {
@@ -7,6 +8,7 @@ export default function Footer() {
       <footer>
         <div className="wrap footer-row">
           <div className="footer-links">
+            <Link href="/docs/">Docs</Link>
             <a href={REPO_URL} target="_blank" rel="noreferrer">
               GitHub
             </a>
