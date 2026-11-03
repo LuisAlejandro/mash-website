@@ -7,6 +7,12 @@ import { defineConfig, defineDocs } from "fumadocs-mdx/config";
  */
 export const docs = defineDocs({
   dir: "content/docs",
+  docs: {
+    // Exposes the processed Markdown of each page, which the discovery
+    // surfaces need: llms-full.txt and the .md twins read the same text a
+    // reader gets on the page rather than a second hand-written copy.
+    postprocess: { includeProcessedMarkdown: true },
+  },
 });
 
 export default defineConfig();
