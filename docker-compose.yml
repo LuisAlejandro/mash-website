@@ -23,4 +23,6 @@ services:
       # The npm cache is machine-wide and belongs outside the checkout.
       - ~/.npm:/home/node/.npm
     ports:
-      - "${HOST_PORT:-3100}:3000"
+      # 3100 on both sides: the container serves the port the scripts name, so a
+      # dockerless `npm run dev` and the compose stack agree on the URL.
+      - "${HOST_PORT:-3100}:3100"

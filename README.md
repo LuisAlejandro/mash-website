@@ -6,9 +6,8 @@ captures, plus a full Fumadocs user guide at [letsma.sh/docs/](https://letsma.sh
 Current version: 1.3.0
 
 ```bash
-npm install
-HOST_PORT=3100 make serve # http://localhost:3100 (default; HOST_PORT overrides)
-# Without Docker: npm run dev -- -p 3100
+make serve       # http://localhost:3100 (HOST_PORT overrides the host side)
+# Without Docker: npm run dev   # same port, no extra flags
 npm run lint
 npm run build   # .next, served by the Netlify Next.js runtime
 ```
