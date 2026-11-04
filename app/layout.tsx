@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import Analytics from "./components/analytics";
+import ConsentGate from "./components/consent";
+import { ErrorBoundary } from "./components/error-boundary";
 import { SOCIAL_OPEN_GRAPH, SOCIAL_TWITTER } from "@/lib/metadata";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -72,6 +75,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {`document.documentElement.classList.add("js")`}
         </Script>
         {children}
+        {/* Analytics is isolated behind its own boundary: a blocked or hostile
+            third-party script must not take the page down with it. It mounts
+            only after analytics consent. */}
+        <ErrorBoundary>
+          <ConsentGate>
+            <Analytics />
+          </ConsentGate>
+        </ErrorBoundary>
       </body>
     </html>
   );

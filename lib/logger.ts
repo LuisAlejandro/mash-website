@@ -1,13 +1,38 @@
 /**
- * Error logging for server code paths.
+ * Error logging for server and client code paths.
  *
- * The site ships no error-reporting service, so this writes to the platform
- * log and nothing else. It exists so route handlers and server actions report
- * failures in one shape rather than scattering bare console calls, and so a
- * reporter can later be added in exactly one place.
+ * Always writes to the console in one shape. When a Sentry DSN is configured it
+ * also reports the error, but only then: the SDK is imported dynamically, so a
+ * deployment without Sentry ships none of it in the initial bundle.
+ *
+ * `process.env.SENTRY_DSN` is a server variable and becomes `undefined` in a
+ * client build, which is why the public mirror is checked as well.
  */
 
 type ErrorContext = Record<string, unknown>;
+
+const DSN_CONFIGURED = Boolean(
+  process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN
+);
+
+function report(
+  context: string,
+  error: unknown,
+  metadata?: ErrorContext
+): void {
+  if (!DSN_CONFIGURED) return;
+
+  void import("@sentry/nextjs")
+    .then((Sentry) => {
+      Sentry.captureException(error, {
+        tags: { context },
+        extra: metadata,
+      });
+    })
+    .catch(() => {
+      // Reporting must never throw into the code path that failed.
+    });
+}
 
 export function logError(
   context: string,
@@ -21,4 +46,6 @@ export function logError(
     `[${context}] ${message}`,
     JSON.stringify({ stack, ...metadata })
   );
+
+  report(context, error, metadata);
 }
