@@ -1,7 +1,7 @@
 import { getLatestAppRelease } from "@/lib/app-release";
-import { getMarketingNarrative } from "@/lib/llms/marketing";
 import { buildFaq } from "@/lib/structured-data";
 import {
+  getMarketingNarrative,
   latestLine,
   substituteMarketingPlaceholders,
 } from "@/lib/markdown/marketing-copy";
@@ -64,7 +64,7 @@ ${faq.map((item) => `### ${item.question}\n\n${item.answer}`).join("\n\n")}`;
   const narrative = substituteMarketingPlaceholders(
     getMarketingNarrative(),
     availability,
-    captures,
+    captures
   );
 
   return `# Mash

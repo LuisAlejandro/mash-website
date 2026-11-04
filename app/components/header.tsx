@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { SidebarTrigger } from "fumadocs-ui/layouts/docs/slots/sidebar";
 import { SearchTrigger } from "fumadocs-ui/layouts/shared/slots/search-trigger";
+import { useScrolled } from "./use-scrolled";
 import VersionBadge from "./version-badge";
+// The client mirror, not FEATURE_BLOG: only NEXT_PUBLIC_* variables are inlined
+// into the client bundle, so the server flag reads as undefined here.
+import { PUBLIC_FEATURE_BLOG } from "@/lib/features";
 import { REPO_URL } from "@/lib/site";
 
 const SECTIONS = [
@@ -17,16 +21,21 @@ const SECTIONS = [
   ["#install", "Install"],
 ] as const;
 
-export default function Header({ mode = "home" }: { mode?: "home" | "docs" }) {
+export default function Header({
+  mode = "home",
+}: {
+  /**
+   * `status` is for the 404 and error pages: the same menu as `home`, but with
+   * its section links pointed at `/#...` so they work off the homepage.
+   */
+  mode?: "home" | "docs" | "status";
+}) {
   const isDocs = mode === "docs";
+  const isHome = mode === "home";
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const scrolled = useScrolled();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-
     const items = isDocs ? [] : document.querySelectorAll(".reveal");
     let observer: IntersectionObserver | undefined;
     if (!("IntersectionObserver" in window)) {
@@ -46,10 +55,7 @@ export default function Header({ mode = "home" }: { mode?: "home" | "docs" }) {
       items.forEach((el) => observer?.observe(el));
     }
 
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      observer?.disconnect();
-    };
+    return () => observer?.disconnect();
   }, [isDocs]);
 
   function closeMenu() {
@@ -61,9 +67,9 @@ export default function Header({ mode = "home" }: { mode?: "home" | "docs" }) {
       <nav id="nav" className={scrolled ? "scrolled" : undefined}>
         <div className="nav-container">
           <a
-            href={isDocs ? "/" : "#top"}
+            href={isHome ? "#top" : "/"}
             className="nav-logo"
-            aria-label={isDocs ? "Mash, home" : "Mash, back to top"}
+            aria-label={isHome ? "Mash, back to top" : "Mash, home"}
           >
             <img
               src="/assets/mash/logo-wordmark.png"
@@ -98,7 +104,7 @@ export default function Header({ mode = "home" }: { mode?: "home" | "docs" }) {
           )}
           <div className="nav-links">
             {SECTIONS.map(([href, label]) => (
-              <a key={href} href={isDocs ? `/${href}` : href}>
+              <a key={href} href={isHome ? href : `/${href}`}>
                 {label}
               </a>
             ))}
@@ -106,6 +112,7 @@ export default function Header({ mode = "home" }: { mode?: "home" | "docs" }) {
             <Link href="/docs/" aria-current={isDocs ? "page" : undefined}>
               Docs
             </Link>
+            {PUBLIC_FEATURE_BLOG && <Link href="/blog">Blog</Link>}
             <a
               href={REPO_URL}
               target="_blank"
@@ -132,6 +139,11 @@ export default function Header({ mode = "home" }: { mode?: "home" | "docs" }) {
           <Link href="/docs/" onClick={closeMenu}>
             Docs
           </Link>
+          {PUBLIC_FEATURE_BLOG && (
+            <Link href="/blog" onClick={closeMenu}>
+              Blog
+            </Link>
+          )}
           <a href={REPO_URL} target="_blank" rel="noreferrer">
             GitHub
           </a>

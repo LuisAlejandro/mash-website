@@ -30,20 +30,20 @@ type ToolResult = ReturnType<typeof textResult> | ReturnType<typeof toolError>;
 function registerTool(
   server: McpServer,
   name: McpToolName,
-  handler: (input: Record<string, string>) => Promise<ToolResult>,
+  handler: (input: Record<string, string>) => Promise<ToolResult>
 ) {
   const definition = MCP_TOOL_REGISTRY[name];
   const inputSchema = Object.fromEntries(
     Object.entries(definition.inputSchema.properties).map(([key, field]) => [
       key,
       z.string().trim().min(field.minLength).max(field.maxLength),
-    ]),
+    ])
   );
 
   server.registerTool(
     definition.name,
     { description: definition.description, inputSchema },
-    handler,
+    handler
   );
 }
 
@@ -81,14 +81,12 @@ function scoreDocs(query: string) {
           (title.includes(term) ? 3 : 0) +
           (description.includes(term) ? 2 : 0) +
           (url.includes(term) ? 1 : 0),
-        0,
+        0
       );
       return { page, index, score };
     })
     .filter((result) => result.score > 0)
-    .sort(
-      (left, right) => right.score - left.score || left.index - right.index,
-    )
+    .sort((left, right) => right.score - left.score || left.index - right.index)
     .slice(0, 10)
     .map(({ page, score }) => ({
       title: page.title,
@@ -105,11 +103,11 @@ export async function createMcpServer(): Promise<McpServer> {
   });
 
   registerTool(server, "get_site_discovery", async () =>
-    textResult(DISCOVERY_SURFACES),
+    textResult(DISCOVERY_SURFACES)
   );
 
   registerTool(server, "search_docs", async ({ query }) =>
-    textResult(scoreDocs(query)),
+    textResult(scoreDocs(query))
   );
 
   registerTool(server, "get_docs_page", async ({ path }) => {
@@ -119,7 +117,7 @@ export async function createMcpServer(): Promise<McpServer> {
       docsInventory().find(
         (page) =>
           page.slugs.length === slugs.length &&
-          page.slugs.every((slug, index) => slug === slugs[index]),
+          page.slugs.every((slug, index) => slug === slugs[index])
       );
     const page = entry && source.getPage(entry.slugs);
     if (!entry || !page) return toolError("Documentation page not found.");
@@ -143,9 +141,8 @@ export async function createMcpServer(): Promise<McpServer> {
   });
 
   if (FEATURE_BLOG) {
-    const { getLatestPublishedPosts, searchPublishedPosts } = await import(
-      "@/lib/blog"
-    );
+    const { getLatestPublishedPosts, searchPublishedPosts } =
+      await import("@/lib/blog");
 
     registerTool(server, "search_blog_posts", async ({ query }) => {
       try {

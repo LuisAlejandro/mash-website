@@ -13,7 +13,7 @@ export const source = loader({
  * `slugs` is the path below `/docs`, which is also the segment list the
  * Markdown twin route resolves against.
  */
-export type DocsEntry = {
+type DocsEntry = {
   url: string;
   title: string;
   description: string;

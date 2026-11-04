@@ -49,7 +49,19 @@ export async function GET(
   { params }: RouteContext<"/markdown-twin/[[...path]]">
 ) {
   const { path } = await params;
-  const twin = await resolveMarkdownTwin(path ?? []);
+
+  let twin: Awaited<ReturnType<typeof resolveMarkdownTwin>>;
+  try {
+    twin = await resolveMarkdownTwin(path ?? []);
+  } catch (error) {
+    // Blog twins read the database, and a route handler has no error boundary:
+    // without this a Neon outage becomes an anonymous 500 with no log.
+    logError("markdown-twin", error, { path });
+    return new Response("Markdown temporarily unavailable\n", {
+      status: 503,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
 
   if (!twin) {
     return new Response("Not found\n", {

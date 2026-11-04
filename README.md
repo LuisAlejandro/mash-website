@@ -53,11 +53,13 @@ or auth code is bundled, and the site builds and deploys exactly as it did
 before the blog existed.
 
 Turning it on needs a Neon project, a GitHub OAuth app, and a Netlify purge
-token. Copy `.env.example` to `.env` and fill in the marked sections, then:
-
-```bash
-npm run db:migrate   # needs DATABASE_URL_UNPOOLED
-```
+token. Copy `.env.example` to `.env` and fill in the marked sections. The schema
+is migrated for you: every Netlify build run with `FEATURE_BLOG=1` applies
+pending migrations before `next build`, so nothing has to be run by hand. That
+step needs `DATABASE_URL_UNPOOLED` (Neon's direct connection) in the build
+environment; without it the build stops with a message naming the variable.
+Deploy Previews skip migrations by default so a pull request cannot alter the
+production schema; set `MIGRATE_ON_PREVIEW=1` to opt in.
 
 Set both `FEATURE_BLOG=1` and `NEXT_PUBLIC_FEATURE_BLOG=1`; the first gates
 routes and server modules, the second drives client navigation, and setting
@@ -92,11 +94,10 @@ Astro site or Netlify proxy is needed.
 ## Discovery
 
 The site publishes a discovery layer for assistants, answer engines and agents:
-Markdown documents for every page that can have one, a linkset catalog, a
-read-only MCP endpoint, and a smoke check that asserts the contract against a
-deployed URL. `/llms.txt` is agent tooling — a curated entry point an agent
-reads first — not a search-ranking lever; ranking is the HTML, the sitemap and
-the structured data.
+Markdown documents for every page that can have one, a linkset catalog, and a
+read-only MCP endpoint. `/llms.txt` is agent tooling — a curated entry point an
+agent reads first — not a search-ranking lever; ranking is the HTML, the sitemap
+and the structured data.
 
 - `app/llms.txt/route.ts` — the curated site and docs index, advertised through
   the `Link: rel="describedby"` header.
@@ -141,13 +142,6 @@ from the array the FAQ section renders, a WebPage node on each docs page, and
 Blog and BlogPosting nodes on the blog surfaces. `lib/site.ts` holds the
 canonical URL, repository, capability list, captures and the `DOWNLOAD_URL` that
 gates the schema's download claim.
-
-`scripts/agent-readiness-smoke.sh` (`make smoke BASE_URL=…`) asserts the whole
-contract against a deployed URL: surface statuses and media types, the `Link`
-relations, cache tags, the negotiation cases, the no-store and `Vary`
-invariants, every docs twin, catalog and permission agreement, the skill
-digests, the MCP handshake, and the blog-off 404s. It is not part of
-`make test`, which never needs a running site.
 
 ## Release state
 

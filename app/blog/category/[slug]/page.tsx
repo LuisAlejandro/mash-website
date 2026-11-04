@@ -10,11 +10,17 @@ import { APP_NAME } from "@/lib/site";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
+/** One hour of ISR; a publish invalidates this path directly. */
+export const revalidate = 3600;
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const category = decodeURIComponent(slug);
+  // Nothing to decode: the router hands back an already-decoded param, and the
+  // category is free text, so decoding again turns a name containing "%" into
+  // an unhandled URIError.
+  const category = slug;
   return {
     title: `${category} | Blog | ${APP_NAME}`,
     description: `Published posts in ${category}.`,
@@ -28,7 +34,7 @@ export default async function BlogCategoryPage({ params }: PageProps) {
   }
 
   const { slug } = await params;
-  const category = decodeURIComponent(slug);
+  const category = slug;
 
   let posts: Awaited<ReturnType<typeof listPublishedPostsByCategory>>;
   try {

@@ -6,9 +6,15 @@ import { getAdminSession } from "@/lib/auth/session";
 import { getPostById } from "@/lib/blog/admin";
 import { logError } from "@/lib/logger";
 
-type PageProps = { params: Promise<{ id: string }> };
+type PageProps = {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ warning?: string }>;
+};
 
-export default async function EditPostPage({ params }: PageProps) {
+export default async function EditPostPage({
+  params,
+  searchParams,
+}: PageProps) {
   const session = await getAdminSession();
 
   if (session.status !== "admin") {
@@ -25,6 +31,7 @@ export default async function EditPostPage({ params }: PageProps) {
   }
 
   const { id } = await params;
+  const { warning } = await searchParams;
 
   let post: Awaited<ReturnType<typeof getPostById>>;
   try {
@@ -49,6 +56,12 @@ export default async function EditPostPage({ params }: PageProps) {
           {post.status}
         </p>
       </header>
+      {warning ? (
+        <p className="admin-note" role="status">
+          Saved, but clearing the CDN cache failed. The change may take up to an
+          hour to appear.
+        </p>
+      ) : null}
       <AdminPostForm
         mode="edit"
         post={{

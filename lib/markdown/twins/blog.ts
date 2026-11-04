@@ -14,9 +14,8 @@ export async function blogTwin(
 ): Promise<MarkdownTwin | null> {
   if (!FEATURE_BLOG) return null;
 
-  const { getPublishedPostBySlug, listPublishedPostsByCategory } = await import(
-    "@/lib/blog"
-  );
+  const { getPublishedPostBySlug, listPublishedPostsByCategory } =
+    await import("@/lib/blog");
   const [section, slug, ...rest] = segments;
   if (rest.length > 0 || !section || !slug) return null;
 
@@ -32,9 +31,9 @@ export async function blogTwin(
   }
 
   if (section === "category") {
-    const category = decodeSegment(slug);
-    if (!category) return null;
-
+    // The category page uses the routed param as it arrives, so the twin does
+    // the same and the two surfaces resolve one URL to one category.
+    const category = slug;
     const posts = await listPublishedPostsByCategory(category);
     if (posts.length === 0) return null;
 
@@ -58,13 +57,4 @@ ${list}
   }
 
   return null;
-}
-
-/** The category page decodes its segment, so the twin resolves the same way. */
-function decodeSegment(value: string): string | null {
-  try {
-    return decodeURIComponent(value);
-  } catch {
-    return null;
-  }
 }

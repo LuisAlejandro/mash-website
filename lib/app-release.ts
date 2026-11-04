@@ -14,7 +14,7 @@ import { REPO_URL } from "./site";
  * A failed lookup returns null and the copy falls back to the releases page
  * with no version claimed.
  */
-export type DownloadKey = "mac" | "linuxAmd64" | "linuxArm64";
+type DownloadKey = "mac" | "linuxAmd64" | "linuxArm64";
 
 export type Downloads = Partial<Record<DownloadKey, string>>;
 
