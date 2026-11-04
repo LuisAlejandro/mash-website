@@ -32,6 +32,7 @@ Prefer Docker through Make when the container setup is running (`Dockerfile`, `d
 | Type-check (CI `make test`) | `make test` |
 | Format | `make format` |
 | Full release preflight | `make release-preflight` |
+| Strip image metadata (host, manual) | `npm run optimize-images` |
 
 On the host, the same scripts exist in `package.json`: `npm run dev`, `npm run build`, `npm run lint`, `npm run type-check`, `npm run format`.
 
@@ -49,6 +50,12 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 - `app/api/mcp/`, `lib/mcp/`: the read-only MCP endpoint and its server, rate limit and tools.
 - `app/blog/`, `app/admin/`, `app/api/{auth,revalidate,search-posts,last-posts,trending-posts}/`: the optional blog module. Dormant unless `FEATURE_BLOG=1`.
 - `lib/features.ts`: the `FEATURE_BLOG` flag and its `NEXT_PUBLIC` mirror.
+- `app/not-found.tsx`, `app/error.tsx`, `app/global-error.tsx`: the 404 page and the two error boundaries. `error.tsx` replaces a page inside the root layout; `global-error.tsx` replaces the layout itself and therefore imports `globals.css` and renders its own `<html>`.
+- `app/components/error-boundary.tsx`: component-level boundary, used only to isolate the analytics subtree.
+- `app/components/consent.tsx`, `app/components/analytics.tsx`: the consent gate and the trackers it controls. Analytics mounts only after "Allow analytics".
+- `instrumentation.ts`, `instrumentation-client.ts`: Sentry init for the server, edge and browser, plus the `onRequestError` hook.
+- `lib/logger.ts`: `logError`, the single place errors are logged and reported.
+- `scripts/strip-image-metadata.mjs`: rewrites raster files under `public/assets` to drop EXIF/IPTC/XMP. Manual only, never part of `build`.
 - `lib/db/`, `lib/auth*`, `lib/blog/`, `drizzle/`: Neon/Drizzle schema, Better Auth, post queries and mutations, and SQL migrations. All blog-only.
 - `lib/site.ts`: shared constants (`SITE_URL`, `REPO_URL`, `RELEASES_URL`, `PLATFORMS`, `CAPABILITIES`, `CAPTURES`, `FILM`, `MASHED`, `DOWNLOAD_URL`).
 - `lib/source.ts`: the only docs accessor. `source` reads one page; `docsInventory()` returns the ordered list the twin route, the API catalog and the MCP tools render from. `source.config.ts` enables processed Markdown and Git-derived `lastModified`.
@@ -77,6 +84,9 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 - **Negotiated Markdown is never cached.** `proxy.ts` rewrites a Markdown-preferring request to the twin route, which serves `Cache-Control: private, no-store` on purpose: no cache may hand Markdown to a browser. Do not trade that for a public TTL.
 - **One docs accessor.** `lib/source.ts` is the only thing that reads `content/docs`; `docsInventory()` is the ordered list the twin route, the API catalog and the MCP tools render from. A second walk of the content tree is how the surfaces drift apart.
 - **Keep the `/llms.txt`, `/ai.txt` and `/index.md` paths.** `netlify.toml` and the discovery documents name them, so a rename has to update both.
+- **Consent gates analytics; analytics never loads beside it.** `consent.tsx` owns the stored choice and renders `analytics.tsx` only after an explicit accept. No GA or Meta Pixel mount may be placed outside that gate, and with both measurement IDs unset the banner is not shown at all.
+- **`withSentryConfig` is imported from `@sentry/nextjs/config`, not `@sentry/nextjs`.** The root export resolves to the server bundle, which does not export it; importing it from there fails `next typegen` and the build with `withSentryConfig is not a function`.
+- **`error.tsx` and `global-error.tsx` take `retry`, not `reset`.** Next 16 renamed the prop, so the older template shape renders a button that does nothing.
 
 ## Conventions
 
@@ -86,6 +96,7 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 - Path alias `@/*` maps to the repo root.
 - Do not add a dependency for something the standard library or the platform already provides. The marketing site and docs run on `next`, `react`, `react-dom`, and `fumadocs-*`; everything else at runtime (`@neondatabase/serverless`, `better-auth`, `drizzle-orm`, `feed`, the `unified`/`remark`/`rehype` chain, `ws`) exists only to serve the optional blog and must stay behind `FEATURE_BLOG`.
 - **The one knowing dependency exception is `@modelcontextprotocol/sdk`.** It exists solely for the read-only `/api/mcp` endpoint in `lib/mcp/`. That endpoint must not grow a write path, an admin surface or a second transport, and no further dependency may join it without the same justification.
+- **Two further knowing exceptions, both dormant when unconfigured.** `@sentry/nextjs` is error reporting, and `@next/third-parties` plus a hand-written Meta Pixel snippet are the consent-gated analytics. No DSN means the Sentry SDK is never imported; no measurement ID means no banner and no third-party script. Neither may become load-bearing for the page to render.
 
 ## Workflow
 

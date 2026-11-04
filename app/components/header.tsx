@@ -17,8 +17,17 @@ const SECTIONS = [
   ["#install", "Install"],
 ] as const;
 
-export default function Header({ mode = "home" }: { mode?: "home" | "docs" }) {
+export default function Header({
+  mode = "home",
+}: {
+  /**
+   * `status` is for the 404 and error pages: the same menu as `home`, but with
+   * its section links pointed at `/#...` so they work off the homepage.
+   */
+  mode?: "home" | "docs" | "status";
+}) {
   const isDocs = mode === "docs";
+  const isHome = mode === "home";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -61,9 +70,9 @@ export default function Header({ mode = "home" }: { mode?: "home" | "docs" }) {
       <nav id="nav" className={scrolled ? "scrolled" : undefined}>
         <div className="nav-container">
           <a
-            href={isDocs ? "/" : "#top"}
+            href={isHome ? "#top" : "/"}
             className="nav-logo"
-            aria-label={isDocs ? "Mash, home" : "Mash, back to top"}
+            aria-label={isHome ? "Mash, back to top" : "Mash, home"}
           >
             <img
               src="/assets/mash/logo-wordmark.png"
@@ -98,7 +107,7 @@ export default function Header({ mode = "home" }: { mode?: "home" | "docs" }) {
           )}
           <div className="nav-links">
             {SECTIONS.map(([href, label]) => (
-              <a key={href} href={isDocs ? `/${href}` : href}>
+              <a key={href} href={isHome ? href : `/${href}`}>
                 {label}
               </a>
             ))}

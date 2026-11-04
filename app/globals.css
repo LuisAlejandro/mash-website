@@ -1363,3 +1363,97 @@ footer {
     align-items: flex-start;
   }
 }
+
+/* Status pages: 404 and the two error boundaries. They render outside the
+   homepage wrapper, so they carry their own spacing. */
+.status-page {
+  max-width: 46rem;
+  padding: 200px 0 150px;
+}
+.status-title {
+  margin-top: 22px;
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.status-title em {
+  color: var(--accent);
+  font-style: italic;
+}
+.status-text {
+  margin-top: 20px;
+  max-width: 34rem;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--paper-2);
+}
+.status-ref {
+  margin-top: 18px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--faint);
+}
+.status-ref code {
+  color: var(--paper-2);
+}
+.status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+}
+/* These actions are buttons, not links, so they need the button defaults that
+   anchors never had. Each class still owns its own border. */
+.status-page button,
+.consent button {
+  font: inherit;
+  cursor: pointer;
+}
+button.btn-solid {
+  border: 0;
+}
+
+/* Analytics consent. It sits above the page and never blocks it. */
+.consent {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 90;
+  width: min(24rem, calc(100vw - 40px));
+  padding: 20px 22px;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  background: var(--ink-2);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+.consent-text {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--paper-2);
+}
+.consent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.consent-actions .btn-solid {
+  padding: 10px 20px;
+  font-size: 14px;
+}
+.consent-actions .btn-quiet {
+  padding: 10px 20px;
+  font-size: 14px;
+}
+@media (max-width: 720px) {
+  .status-page {
+    padding: 150px 0 110px;
+  }
+  .consent {
+    right: 12px;
+    bottom: 12px;
+    width: calc(100vw - 24px);
+  }
+}
