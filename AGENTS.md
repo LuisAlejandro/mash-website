@@ -31,7 +31,6 @@ Prefer Docker through Make when the container setup is running (`Dockerfile`, `d
 | Lint | `make lint` |
 | Type-check (CI `make test`) | `make test` |
 | Format | `make format` |
-| Agent readiness smoke check (needs a served URL) | `make smoke BASE_URL=https://letsma.sh` |
 | Full release preflight | `make release-preflight` |
 
 On the host, the same scripts exist in `package.json`: `npm run dev`, `npm run build`, `npm run lint`, `npm run type-check`, `npm run format`.
@@ -63,7 +62,7 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 - `lib/netlify/purge-by-tags.ts`, `lib/blog/revalidate-cache.ts`: the purge contract and the post-change invalidation.
 - `content/llms/`: the authored homepage narrative with `{{SITE_URL}}`, `{{DERIVED_AVAILABILITY}}` and `{{DERIVED_CAPTURES}}` placeholders, filled by `/index.md` from `lib/site.ts` and `lib/structured-data.ts`.
 - `public/`: static assets only (`assets/mash/`, `fonts/`, `github-icon.svg`, `agents.md`). The old `public/llms.txt` and `public/ai.txt` are now route handlers in `app/`.
-- `scripts/`: release tooling from maintainer-tools (`release.sh`, `lib.sh`, `rollback.sh`), `build-brand-assets.py` (macOS `sips`), `generate-agent-skills.mjs` (prebuild) and `agent-readiness-smoke.sh` (`make smoke`). Do not hand-edit `lib.sh`; it is managed upstream.
+- `scripts/`: release tooling from maintainer-tools (`release.sh`, `lib.sh`, `rollback.sh`), `build-brand-assets.py` (macOS `sips`), `generate-agent-skills.mjs` (prebuild). Do not hand-edit `lib.sh`; it is managed upstream.
 - `docs/media-capture.md`: the capture contract for hero film and stills.
 
 ## Rules that have bitten this repo
