@@ -1,4 +1,8 @@
 import type { NextConfig } from "next";
+// The build-time wrapper is a separate entry point from the runtime SDK: the
+// main `@sentry/nextjs` export resolves to the server bundle, which has no
+// `withSentryConfig`.
+import { withSentryConfig } from "@sentry/nextjs/config";
 import { createMDX } from "fumadocs-mdx/next";
 
 const nextConfig: NextConfig = {
@@ -74,4 +78,16 @@ const nextConfig: NextConfig = {
 
 const withMDX = createMDX();
 
-export default withMDX(nextConfig);
+// Source-map upload and release creation only run when a token is present;
+// without one the wrapper is a no-op and a local or offline build still works.
+// `/monitoring` is the tunnel route, and `proxy.ts` does not match it, so Sentry
+// events are not rewritten into a Markdown twin.
+export default withSentryConfig(withMDX(nextConfig), {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: !process.env.SENTRY_AUTH_TOKEN,
+  tunnelRoute: "/monitoring",
+  widenClientFileUpload: false,
+  suppressOnRouterTransitionStartWarning: true,
+});
