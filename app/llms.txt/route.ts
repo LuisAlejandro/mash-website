@@ -30,7 +30,7 @@ This file is the preferred starting point for assistants, answer engines, and cr
 - Agent orchestration. A coordinator agent splits a goal into independent tasks, starts worker agents, answers their questions, and gathers their results; you still review every change.
 - Pi Voice dictation. Speech becomes text in Pi's message box, where you can read or edit it before sending. It is an input method and does not start orchestration by itself.
 - The code stays editable by hand. The agent runs in a pane beside the file rather than behind a chat window.
-- Free and open source under GPL-3.0-or-later. No account, subscription, or in-app purchase.
+- Free and open source under GPL-3.0-or-later. No Mash account, subscription, or in-app purchase; Pi needs a model provider you choose, and that provider bills your model usage.
 - macOS 14 or later on Apple silicon, distributed as one signed and notarized DMG, and Ubuntu 24.04 with GNOME on Wayland or Xorg, distributed as a .deb for amd64 or arm64. No Intel Mac build, and no Windows build.
 - Mash keeps its own state under \`~/.mash\` and leaves existing user configuration files untouched.
 

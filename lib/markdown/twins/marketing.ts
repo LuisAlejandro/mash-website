@@ -43,8 +43,9 @@ ${CAPABILITIES.map((item) => `- ${item}`).join("\n")}
   amd64 or arm64, installing to /opt/letsmash with build attestation.
 - Keyboard: macOS uses Command chords, Linux uses Ctrl/Alt chords. The in-app
   keybinding sheet shows the keys for the machine you are on.
-- Price: free, open source under ${LICENSE}. No account, subscription, or in-app
-  purchase.
+- Price: free, open source under ${LICENSE}. No Mash account, subscription, or
+  in-app purchase; Pi needs a model provider you choose, and that provider bills
+  your model usage.
 - Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `${latestLine(release)} is published at ${RELEASES_URL} with release notes: a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. ${SITE_URL}/ offers the file for the visitor's platform. Every release publishes all platforms together.`}
 - Source: ${REPO_URL}`;
 

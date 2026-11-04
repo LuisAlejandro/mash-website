@@ -264,7 +264,7 @@ const FAQ_STATIC: FaqItem[] = [
   {
     question: "Is Mash free?",
     answer:
-      "Yes. Mash is free and open source under the GPL-3.0-or-later license, with no account, subscription, or in-app purchase. You download one file for your platform, install it, and the first launch sets up the rest.",
+      "Yes. Mash is free and open source under the GPL-3.0-or-later license, with no Mash account, subscription, or in-app purchase. Pi needs a model provider you choose (OpenAI, Anthropic, OpenRouter, or an OpenAI-compatible endpoint), and that provider bills your model usage. You download one file for your platform, install it, and the first launch sets up the rest.",
   },
   {
     question: "Which systems does Mash run on?",
