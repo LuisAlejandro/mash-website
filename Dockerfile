@@ -10,10 +10,9 @@ RUN getent group "${GID}" >/dev/null || groupadd -g "${GID}" hostgroup \
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Create the app dir and the paths that get anonymous volumes while still root,
-# so they are owned by the runtime user and seeded with that ownership.
-RUN mkdir -p /home/node/app/node_modules /home/node/app/.next \
-    && chown -R node:node /home/node/app
+# The bind mount supplies the working tree, dependencies included. Creating it
+# here keeps the image usable without the mount.
+RUN mkdir -p /home/node/app && chown -R node:node /home/node/app
 
 USER node
 
