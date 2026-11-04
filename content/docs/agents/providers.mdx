@@ -3,12 +3,22 @@ title: Models and providers
 description: Set up Pi, web search, and memory providers without sharing credentials.
 ---
 
-The first-launch wizard has separate provider sections for **Pi**, **web search**, and optional **Hindsight** memory. Choose a provider and, where needed, a model ID and API key. The web-search option can reuse Pi's credential for the same provider; a separate search key, if entered, is stored with Pi's own authentication. OAuth providers can be completed later with Pi's `/login` command.
+The first-launch wizard gives each provider its own page: **Model provider** for Pi's chat model, **Web search** for the search credential, and optional **Memory** for Hindsight. You can keep an existing configuration, choose to set one up later, or enter a credential now. Do not publish API keys in project files.
+
+## Model provider
+
+Pick a provider — **OpenAI**, **Anthropic**, **OpenRouter**, a **Custom provider** for an OpenAI-compatible endpoint, or **None (no LLM)** — and enter the API key in the masked field, plus the base URL for a custom endpoint. Mash sends one short request to test the connection and can then list the endpoint's models, so you can select one instead of typing its ID. An endpoint that answers but reports no chat model says so rather than leaving you with an empty picker.
+
+## Web search
+
+Search has its own credential so it need not be the chat one. The choices are **Keep existing search configuration**, **Use chat model**, **Google Gemini**, **OpenAI**, **Anthropic**, **OpenAI Codex**, **Azure OpenAI**, **GitHub Copilot**, **OpenCode Zen** and **OpenCode Go**. Picking the same provider as the model page can reuse that credential; anything else asks for its own key. A selected search provider is stored with Pi's authentication, not in a Mash-specific file.
+
+## Memory
+
+The **Memory** page configures Hindsight and appears with the Programming Skills choice. Point it at the chat provider's credentials, keep a saved memory key, enter a new one, or configure it later. Choosing it installs the memory environment under `~/.mash` and starts it once to fetch its models. Leaving it alone keeps local memory unused; the rest of Mash is unaffected.
 
 ## Change a provider after setup
 
-In a Pi pane, use `/login` to sign into a supported provider or manage its OAuth connection, and **Ctrl+P** in Mash mode to cycle configured models. Mash's Pi settings live at `~/.mash/pi/agent/settings.json`, its credentials at `~/.mash/pi/agent/auth.json`, and custom provider definitions at `~/.mash/pi/agent/models.json`. These are **not** your personal `~/.pi/agent` files. See [configuration](/docs/reference/configuration/) before editing.
-
-A first-launch choice of **Keep existing / use the chat model** for web search means there is no separate search credential. If a selected provider needs an API key, enter it in the masked wizard field or authenticate later inside Pi. Do not commit `auth.json` or API keys to a project repository.
+In a Pi pane, use `/login` to sign into a supported provider or manage its OAuth connection, and **Ctrl+P** in Mash mode to cycle configured models. Mash's Pi settings live at `~/.mash/pi/agent/settings.json`, its credentials at `~/.mash/pi/agent/auth.json`, and custom provider definitions at `~/.mash/pi/agent/models.json`. These are **not** your personal `~/.pi/agent` files. See [configuration](/docs/reference/configuration/) before editing, and never commit `auth.json`.
 
 Pi's model list and provider offerings can change with an app update; use Pi's built-in model picker for what is available in your installed Mash rather than a hardcoded list here. [Session controls](/docs/agents/sessions/) cover returning to previous chats.

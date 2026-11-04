@@ -5,7 +5,7 @@ description: Find a failed setup step, missing tool, wrong shortcut, or lost ses
 
 ## Setup does not finish
 
-If the wizard stops on an installation or identity step, do not edit the signed app bundle. Read `~/.mash/setup/setup.log` for the failed step and `~/.mash/setup/state.txt` for setup state; Mash records the error and offers setup again on launch. The macOS launcher also writes `~/.mash/local/state/mash-launch.log`. Select only the tool groups you need; if an optional host tool is missing, install it using your platform's normal tooling, then retry setup.
+If the wizard stops on an installation or identity step, do not edit the signed app bundle. Read `~/.mash/setup/setup.log` for the failed step and `~/.mash/setup/state.txt` for setup state; Mash records the error and offers setup again on launch, starting from the first page. The macOS launcher also writes `~/.mash/local/state/mash-launch.log`. Tick only the tools you need, and mind each row's label: rows marked `your computer` install through Homebrew, apt or Xcode tools and change the host outside Mash, while `Mash only` rows stay under `~/.mash`. If an optional host tool is missing, install it with your platform's normal tooling, then retry setup.
 
 ## Shortcut does nothing
 
@@ -21,4 +21,4 @@ The [session search popup](/docs/agents/sessions/) searches Pi transcripts under
 
 ## An update fails
 
-On Ubuntu, use the APT command in [Updates](/docs/updates/) and restart Mash. On macOS, an app on a read-only DMG cannot use the one-key replacement: download the latest DMG, copy Mash.app to Applications and relaunch. If a configured tool or plugin reports a missing binary, check the first-launch choices and the tool's own config rather than installing into the signed bundle.
+Run **Check for Updates** and read what it reports: on Ubuntu the APT metadata may simply be stale, so run `sudo apt update` and try again. On macOS, an app on a read-only DMG cannot use the one-key replacement: download the latest DMG, copy Mash.app to Applications and relaunch. An interrupted macOS update is reconciled at the next launch — the previous version stays in place and a failed attempt can be retried — and the decision trail is in `~/.mash/local/state/` (`update-notice.log`, `mash-update.log`). If a configured tool or plugin reports a missing binary, check the first-launch choices and the tool's own config rather than installing into the signed bundle. See [Updates](/docs/updates/) for the platform steps.
