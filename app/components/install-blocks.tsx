@@ -22,7 +22,7 @@ export default function InstallBlocks() {
         <div className="section-head reveal">
           <span className="eyebrow">Install</span>
           <h2>
-            One download. <em>Nothing to configure.</em>
+            One download. <em>Nothing to assemble.</em>
             <a
               className="anchor-link"
               href="#install"
