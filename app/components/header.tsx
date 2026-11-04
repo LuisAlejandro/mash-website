@@ -5,6 +5,9 @@ import Link from "next/link";
 import { SidebarTrigger } from "fumadocs-ui/layouts/docs/slots/sidebar";
 import { SearchTrigger } from "fumadocs-ui/layouts/shared/slots/search-trigger";
 import VersionBadge from "./version-badge";
+// The client mirror, not FEATURE_BLOG: only NEXT_PUBLIC_* variables are inlined
+// into the client bundle, so the server flag reads as undefined here.
+import { PUBLIC_FEATURE_BLOG } from "@/lib/features";
 import { REPO_URL } from "@/lib/site";
 
 const SECTIONS = [
@@ -115,6 +118,7 @@ export default function Header({
             <Link href="/docs/" aria-current={isDocs ? "page" : undefined}>
               Docs
             </Link>
+            {PUBLIC_FEATURE_BLOG && <Link href="/blog">Blog</Link>}
             <a
               href={REPO_URL}
               target="_blank"
@@ -141,6 +145,11 @@ export default function Header({
           <Link href="/docs/" onClick={closeMenu}>
             Docs
           </Link>
+          {PUBLIC_FEATURE_BLOG && (
+            <Link href="/blog" onClick={closeMenu}>
+              Blog
+            </Link>
+          )}
           <a href={REPO_URL} target="_blank" rel="noreferrer">
             GitHub
           </a>
