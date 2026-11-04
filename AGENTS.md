@@ -26,7 +26,7 @@ Prefer Docker through Make when the container setup is running (`Dockerfile`, `d
 | --- | --- |
 | Start the container | `make start` |
 | Install deps in container | `make dependencies` |
-| Dev server (0.0.0.0:3000) | `make serve` |
+| Dev server (0.0.0.0:3100) | `make serve` |
 | Production build | `make build` |
 | Lint | `make lint` |
 | Type-check (CI `make test`) | `make test` |
@@ -36,7 +36,7 @@ Prefer Docker through Make when the container setup is running (`Dockerfile`, `d
 
 On the host, the same scripts exist in `package.json`: `npm run dev`, `npm run build`, `npm run lint`, `npm run type-check`, `npm run format`.
 
-The host port defaults to 3000. Another local project often holds 3000; set `HOST_PORT=3100 make serve` to avoid it.
+The dev server listens on 3100 in the container and maps 3100 on the host, so `npm run dev` without Docker uses the same URL. `HOST_PORT` still overrides the host side when 3100 is taken.
 
 ## Layout
 

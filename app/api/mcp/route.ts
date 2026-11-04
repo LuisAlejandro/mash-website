@@ -12,8 +12,8 @@ export const dynamic = "force-dynamic";
 const ALLOWED_ORIGINS = new Set([
   new URL(SITE_URL).origin,
   "http://localhost",
-  "http://localhost:3000",
-  "http://127.0.0.1:3000",
+  "http://localhost:3100",
+  "http://127.0.0.1:3100",
 ]);
 
 function responseHeaders(origin: string | null): Headers {
