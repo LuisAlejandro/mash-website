@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { REPO_URL } from "@/lib/site";
+
+import { useScrolled } from "./use-scrolled";
 
 /**
  * Navigation for the blog and admin surfaces.
@@ -13,14 +14,7 @@ import { REPO_URL } from "@/lib/site";
  * here. This reuses the same nav styles with links that actually resolve.
  */
 export default function BlogHeader() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const scrolled = useScrolled();
 
   return (
     <nav id="nav" className={scrolled ? "scrolled" : undefined}>

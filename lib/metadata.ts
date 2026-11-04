@@ -7,9 +7,9 @@ type Twitter = NonNullable<Metadata["twitter"]>;
 type TwitterLargeImageCard = Extract<Twitter, { card: "summary_large_image" }>;
 
 /** The one place the social preview image path is written down. */
-export const SOCIAL_IMAGE_PATH = "/assets/mash/og.png";
+const SOCIAL_IMAGE_PATH = "/assets/mash/og.png";
 
-export const SOCIAL_IMAGE = {
+const SOCIAL_IMAGE = {
   url: SOCIAL_IMAGE_PATH,
   width: 1200,
   height: 630,

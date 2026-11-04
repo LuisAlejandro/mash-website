@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { searchPublishedPosts } from "@/lib/blog";
+import { clientIp } from "@/lib/client-ip";
 import { FEATURE_BLOG } from "@/lib/features";
 import { logError } from "@/lib/logger";
+import { checkRateLimit } from "@/lib/mcp/rate-limit";
 import { MAX_SEARCH_QUERY_LENGTH } from "@/lib/search-query";
 
 /**
@@ -14,6 +16,19 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   if (!FEATURE_BLOG) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  // The query scans every post body, and the MCP tool that reaches the same
+  // function is limited, so this path has to be limited too.
+  const limit = checkRateLimit(clientIp(request));
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { error: "Rate limit exceeded" },
+      {
+        status: 429,
+        headers: { "Retry-After": String(limit.retryAfterSeconds) },
+      }
+    );
   }
 
   try {

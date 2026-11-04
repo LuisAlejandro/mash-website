@@ -5,6 +5,17 @@ import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs/config";
 import { createMDX } from "fumadocs-mdx/next";
 
+// Relative, not the `@/` alias: this file is loaded before tsconfig paths apply.
+// The tags are shared with lib/netlify/purge-by-tags.ts so a response and the
+// purge that clears it cannot drift apart.
+import {
+  BLOG_INDEX_TAG,
+  BLOG_LISTINGS_TAG,
+  BLOG_POSTS_TAG,
+  LLMS_FULL_TAG,
+  SITEMAP_TAG,
+} from "./lib/netlify/cache-tags";
+
 /**
  * Both blog flags or neither.
  *
@@ -66,32 +77,42 @@ const nextConfig: NextConfig = {
       {
         source: "/blog",
         headers: [
-          { key: "Netlify-Cache-Tag", value: "blog-index, blog-listings" },
+          {
+            key: "Netlify-Cache-Tag",
+            value: `${BLOG_INDEX_TAG}, ${BLOG_LISTINGS_TAG}`,
+          },
         ],
       },
       {
         source: "/blog/posts/:path*",
         headers: [
           ...varyAccept,
-          { key: "Netlify-Cache-Tag", value: "blog-posts" },
+          { key: "Netlify-Cache-Tag", value: BLOG_POSTS_TAG },
         ],
       },
       {
         source: "/blog/category/:path*",
         headers: [
           ...varyAccept,
-          { key: "Netlify-Cache-Tag", value: "blog-listings" },
+          { key: "Netlify-Cache-Tag", value: BLOG_LISTINGS_TAG },
         ],
+      },
+      // A twin is a Markdown copy of a post body, so it needs the post tag too:
+      // `revalidatePath` only clears Next's own cache, and the CDN drops a cached
+      // `.md` when its tag is purged, not when the HTML beside it is.
+      {
+        source: "/markdown-twin/blog/:path*",
+        headers: [{ key: "Netlify-Cache-Tag", value: BLOG_POSTS_TAG }],
       },
       {
         source: "/sitemap.xml",
-        headers: [{ key: "Netlify-Cache-Tag", value: "sitemap" }],
+        headers: [{ key: "Netlify-Cache-Tag", value: SITEMAP_TAG }],
       },
       // The full documentation corpus carries every published post body, so it
       // takes a tag of its own rather than riding on a blog one.
       {
         source: "/llms-full.txt",
-        headers: [{ key: "Netlify-Cache-Tag", value: "llms-full" }],
+        headers: [{ key: "Netlify-Cache-Tag", value: LLMS_FULL_TAG }],
       },
     ];
   },

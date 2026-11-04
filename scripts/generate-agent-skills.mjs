@@ -5,14 +5,11 @@ import { basename, dirname, relative, resolve, sep } from "node:path";
 const root = process.cwd();
 const publicDirectory = resolve(root, "public");
 const skillsDirectory = resolve(publicDirectory, ".well-known/agent-skills");
-const declaredFiles = [
-  "site-discovery/SKILL.md",
-  "citation/SKILL.md",
-];
+const declaredFiles = ["site-discovery/SKILL.md", "citation/SKILL.md"];
 
 function readMetadata(markdown, file) {
   const frontmatter = markdown.match(
-    /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/,
+    /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/
   )?.[1];
   if (!frontmatter) throw new Error(`Missing skill frontmatter: ${file}`);
 
@@ -22,17 +19,17 @@ function readMetadata(markdown, file) {
       return colon < 0
         ? []
         : [[line.slice(0, colon).trim(), line.slice(colon + 1).trim()]];
-    }),
+    })
   );
   const { name, type, description } = fields;
   if (!name || !type || !description) {
     throw new Error(
-      `Skill metadata requires name, type, and description: ${file}`,
+      `Skill metadata requires name, type, and description: ${file}`
     );
   }
   if (!markdown.includes(`# ${name}\n\n${description}`)) {
     throw new Error(
-      `Skill heading and description must match metadata: ${file}`,
+      `Skill heading and description must match metadata: ${file}`
     );
   }
   return { name, type, description };

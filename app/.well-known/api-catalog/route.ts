@@ -17,6 +17,6 @@ export function GET() {
         },
       ],
     },
-    { headers: { "Content-Type": "application/linkset+json" } },
+    { headers: { "Content-Type": "application/linkset+json" } }
   );
 }

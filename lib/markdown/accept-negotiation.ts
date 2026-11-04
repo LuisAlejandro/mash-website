@@ -41,11 +41,11 @@ export function acceptPrefersMarkdown(accept: string | null): boolean {
         (range) =>
           range.type === mediaType ||
           range.type === "text/*" ||
-          range.type === "*/*",
+          range.type === "*/*"
       )
       .sort(
         (left, right) =>
-          right.specificity - left.specificity || left.order - right.order,
+          right.specificity - left.specificity || left.order - right.order
       )[0];
 
   const markdown = bestMatch("text/markdown");

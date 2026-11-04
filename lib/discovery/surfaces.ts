@@ -2,7 +2,7 @@ import { FEATURE_BLOG } from "@/lib/features";
 import { APP_NAME, SITE_URL } from "@/lib/site";
 import { docsInventory } from "@/lib/source";
 
-export type DiscoverySurface = {
+type DiscoverySurface = {
   href: string;
   title: string;
   type: string;

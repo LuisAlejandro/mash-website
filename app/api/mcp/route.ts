@@ -1,7 +1,8 @@
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 
+import { clientIp } from "@/lib/client-ip";
 import { createMcpServer } from "@/lib/mcp/create-server";
-import { checkMcpRateLimit } from "@/lib/mcp/rate-limit";
+import { checkRateLimit } from "@/lib/mcp/rate-limit";
 import { logError } from "@/lib/logger";
 import { SITE_URL } from "@/lib/site";
 
@@ -15,15 +16,6 @@ const ALLOWED_ORIGINS = new Set([
   "http://127.0.0.1:3000",
 ]);
 
-function clientIp(request: Request): string {
-  return (
-    request.headers.get("x-nf-client-connection-ip")?.trim() ||
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    request.headers.get("x-real-ip")?.trim() ||
-    "unknown"
-  );
-}
-
 function responseHeaders(origin: string | null): Headers {
   const headers = new Headers({ "Cache-Control": "no-store" });
   if (origin && ALLOWED_ORIGINS.has(origin)) {
@@ -31,11 +23,11 @@ function responseHeaders(origin: string | null): Headers {
     headers.set("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
     headers.set(
       "Access-Control-Allow-Headers",
-      "Accept, Content-Type, Last-Event-ID, MCP-Protocol-Version, MCP-Session-Id",
+      "Accept, Content-Type, Last-Event-ID, MCP-Protocol-Version, MCP-Session-Id"
     );
     headers.set(
       "Access-Control-Expose-Headers",
-      "MCP-Protocol-Version, MCP-Session-Id",
+      "MCP-Protocol-Version, MCP-Session-Id"
     );
     headers.append("Vary", "Origin");
   }
@@ -46,7 +38,7 @@ function errorResponse(
   status: number,
   error: string,
   origin: string | null,
-  retryAfter?: number,
+  retryAfter?: number
 ): Response {
   const headers = responseHeaders(origin);
   if (retryAfter) headers.set("Retry-After", String(retryAfter));
@@ -59,13 +51,13 @@ function checkRequest(request: Request): Response | null {
     return errorResponse(403, "Origin not allowed", null);
   }
 
-  const limit = checkMcpRateLimit(clientIp(request));
+  const limit = checkRateLimit(clientIp(request));
   if (!limit.allowed) {
     return errorResponse(
       429,
       "Rate limit exceeded",
       origin,
-      limit.retryAfterSeconds,
+      limit.retryAfterSeconds
     );
   }
 
@@ -74,7 +66,7 @@ function checkRequest(request: Request): Response | null {
 
 function withResponseHeaders(
   response: Response,
-  origin: string | null,
+  origin: string | null
 ): Response {
   const headers = new Headers(response.headers);
   headers.set("Cache-Control", "no-store");

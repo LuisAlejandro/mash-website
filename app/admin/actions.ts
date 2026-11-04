@@ -12,7 +12,10 @@ import {
   updatePost,
   type AdminPostInput,
 } from "@/lib/blog/admin";
-import { revalidateAfterPostChange } from "@/lib/blog/revalidate-cache";
+import {
+  revalidateAfterPostChange,
+  type RevalidateBlogCacheResult,
+} from "@/lib/blog/revalidate-cache";
 import { logError } from "@/lib/logger";
 
 /**
@@ -27,7 +30,25 @@ export type AdminActionState = {
   ok: boolean;
   error?: string;
   postId?: string;
+  /**
+   * The write committed but a cache did not clear. Kept apart from `error` so
+   * the operator does not retry a save that already succeeded.
+   */
+  warning?: string;
 };
+
+const PURGE_WARNING =
+  "Saved, but clearing the CDN cache failed. The change may take up to an hour to appear.";
+
+/** A failed purge is a warning: the database write has already committed. */
+function purgeWarning(result?: RevalidateBlogCacheResult): string | undefined {
+  return result && !result.purgeOk ? PURGE_WARNING : undefined;
+}
+
+/** Publish, unpublish and create redirect, so the warning rides the URL. */
+function warningQuery(warning?: string): string {
+  return warning ? "?warning=cdn" : "";
+}
 
 function formToInput(formData: FormData): AdminPostInput {
   const status = String(formData.get("status") ?? "draft");
@@ -51,6 +72,7 @@ export async function createPostAction(
   formData: FormData
 ): Promise<AdminActionState> {
   let postId: string;
+  let warning: string | undefined;
 
   try {
     await requireAdminSession();
@@ -58,7 +80,7 @@ export async function createPostAction(
     revalidatePath("/admin");
 
     if (post.status === "published") {
-      await revalidateAfterPostChange(post);
+      warning = purgeWarning(await revalidateAfterPostChange(post));
     }
 
     postId = post.id;
@@ -69,13 +91,15 @@ export async function createPostAction(
 
   // Outside the try: redirect works by throwing, and catching it here would
   // turn a successful save into a reported failure.
-  redirect(`/admin/posts/${postId}`);
+  redirect(`/admin/posts/${postId}${warningQuery(warning)}`);
 }
 
 export async function updatePostAction(
   _previous: AdminActionState,
   formData: FormData
 ): Promise<AdminActionState> {
+  let warning: string | undefined;
+
   try {
     await requireAdminSession();
 
@@ -98,20 +122,22 @@ export async function updatePostAction(
     const isPublic = post.status === "published";
 
     if (isPublic || wasPublic) {
-      await revalidateAfterPostChange(post);
+      warning = purgeWarning(await revalidateAfterPostChange(post));
 
       const movedSlug = existing.slug !== post.slug;
       const movedCategory = existing.category !== post.category;
 
       if (wasPublic && (movedSlug || movedCategory)) {
-        await revalidateAfterPostChange({
-          slug: existing.slug,
-          category: existing.category,
-        });
+        warning ??= purgeWarning(
+          await revalidateAfterPostChange({
+            slug: existing.slug,
+            category: existing.category,
+          })
+        );
       }
     }
 
-    return { ok: true, postId: post.id };
+    return { ok: true, postId: post.id, warning };
   } catch (error) {
     logError("admin-update-post", error);
     return { ok: false, error: message(error, "Failed to save post") };
@@ -125,16 +151,16 @@ export async function publishPostAction(formData: FormData): Promise<void> {
     "published"
   );
   revalidatePath("/admin");
-  await revalidateAfterPostChange(post);
-  redirect(`/admin/posts/${post.id}`);
+  const warning = purgeWarning(await revalidateAfterPostChange(post));
+  redirect(`/admin/posts/${post.id}${warningQuery(warning)}`);
 }
 
 export async function unpublishPostAction(formData: FormData): Promise<void> {
   await requireAdminSession();
   const post = await setPostStatus(String(formData.get("id") ?? ""), "draft");
   revalidatePath("/admin");
-  await revalidateAfterPostChange(post);
-  redirect(`/admin/posts/${post.id}`);
+  const warning = purgeWarning(await revalidateAfterPostChange(post));
+  redirect(`/admin/posts/${post.id}${warningQuery(warning)}`);
 }
 
 export async function deletePostAction(formData: FormData): Promise<void> {
@@ -145,9 +171,10 @@ export async function deletePostAction(formData: FormData): Promise<void> {
   const deleted = await deletePost(id);
   revalidatePath("/admin");
 
+  let warning: string | undefined;
   if (deleted && existing?.status === "published") {
-    await revalidateAfterPostChange(deleted);
+    warning = purgeWarning(await revalidateAfterPostChange(deleted));
   }
 
-  redirect("/admin");
+  redirect(`/admin${warningQuery(warning)}`);
 }
