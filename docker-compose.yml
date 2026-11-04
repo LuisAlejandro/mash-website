@@ -16,9 +16,11 @@ services:
       - path: .env
         required: false
     volumes:
+      # The repository, dependencies included: `make dependencies` installs into
+      # the container's filesystem view of this one directory, so the host tree
+      # is the installed tree rather than a second, unreachable copy.
       - .:/home/node/app
-      # Keep container-built dependencies and Next cache out of the host mount.
-      - /home/node/app/node_modules
-      - /home/node/app/.next
+      # The npm cache is machine-wide and belongs outside the checkout.
+      - ~/.npm:/home/node/.npm
     ports:
       - "${HOST_PORT:-3100}:3000"
