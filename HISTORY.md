@@ -1,6 +1,81 @@
 # Changelog
 
 
+## 1.3.0 (2026-11-04)
+
+### Added
+
+* Apply migrations automatically on deploy. [Luis Alejandro Martínez Faneyth]
+
+* Link the blog from the header nav. [Luis Alejandro Martínez Faneyth]
+
+* Error pages, consent-gated analytics and Sentry reporting. [Luis Alejandro Martínez Faneyth]
+
+* Publish the MCP server card with the release version. [Luis Alejandro Martínez Faneyth]
+
+* Verify the discovery contract against a deployed site. [Luis Alejandro Martínez Faneyth]
+
+* Serve a read-only MCP endpoint for docs and blog discovery. [Luis Alejandro Martínez Faneyth]
+
+* Publish agent skills with a verified digest index. [Luis Alejandro Martínez Faneyth]
+
+* Publish the machine-readable discovery catalog and policy. [Luis Alejandro Martínez Faneyth]
+
+* Describe docs and blog pages as structured data. [Luis Alejandro Martínez Faneyth]
+
+* Negotiate Markdown from the canonical URL via Accept. [Luis Alejandro Martínez Faneyth]
+
+* Serve every docs page as Markdown at a .md URL. [Luis Alejandro Martínez Faneyth]
+
+* Serve the full documentation as one Markdown corpus. [Luis Alejandro Martínez Faneyth]
+
+* Author the homepage narrative as reviewed Markdown. [Luis Alejandro Martínez Faneyth]
+
+* Derive one docs inventory for every discovery surface. [Luis Alejandro Martínez Faneyth]
+
+* Add an optional blog with a GitHub-authenticated admin. [Luis Alejandro Martínez Faneyth]
+
+
+### Changed
+
+* Deduplicate the blog surfaces and cache rendered posts. [Luis Alejandro Martínez Faneyth]
+
+* Break the twin type cycle with a types module. [Luis Alejandro Martínez Faneyth]
+
+
+### Fixed
+
+* Correctness and safety fixes across the blog and agent surfaces. [Luis Alejandro Martínez Faneyth]
+
+* Restore netlify.toml, overwritten with package.json. [Luis Alejandro Martínez Faneyth]
+
+* Refuse a build whose blog flags disagree. [Luis Alejandro Martínez Faneyth]
+
+* Route JSON-LD through JsonLdScript for Semgrep CI. [Cursor Agent]
+
+* Address the code review findings on discovery and MCP. [Luis Alejandro Martínez Faneyth]
+
+* Apply the three safe review findings. [Luis Alejandro Martínez Faneyth]
+
+* Deliver cache tags where the CDN can actually read them. [Luis Alejandro Martínez Faneyth]
+
+* Stop publishing fabricated sitemap dates. [Luis Alejandro Martínez Faneyth]
+
+* Restore the social preview image on docs and blog posts. [Luis Alejandro Martínez Faneyth]
+
+* Sanitize blog post HTML for Semgrep and XSS. [Cursor Agent]
+
+
+### Removed
+
+* Remove the agent readiness smoke script. [Luis Alejandro Martínez Faneyth]
+
+
+### Other
+
+* Fix(ci): override eslint-plugin-react for ESLint 10 compatibility. [Cursor Agent]
+
+
 ## 1.2.0 (2026-11-03)
 
 ### Added
