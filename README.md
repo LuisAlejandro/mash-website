@@ -53,11 +53,13 @@ or auth code is bundled, and the site builds and deploys exactly as it did
 before the blog existed.
 
 Turning it on needs a Neon project, a GitHub OAuth app, and a Netlify purge
-token. Copy `.env.example` to `.env` and fill in the marked sections, then:
-
-```bash
-npm run db:migrate   # needs DATABASE_URL_UNPOOLED
-```
+token. Copy `.env.example` to `.env` and fill in the marked sections. The schema
+is migrated for you: every Netlify build run with `FEATURE_BLOG=1` applies
+pending migrations before `next build`, so nothing has to be run by hand. That
+step needs `DATABASE_URL_UNPOOLED` (Neon's direct connection) in the build
+environment; without it the build stops with a message naming the variable.
+Deploy Previews skip migrations by default so a pull request cannot alter the
+production schema; set `MIGRATE_ON_PREVIEW=1` to opt in.
 
 Set both `FEATURE_BLOG=1` and `NEXT_PUBLIC_FEATURE_BLOG=1`; the first gates
 routes and server modules, the second drives client navigation, and setting
