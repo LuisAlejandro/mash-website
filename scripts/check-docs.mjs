@@ -39,9 +39,18 @@ for (const file of pages) {
   }
 }
 
-const coveragePath = new URL(".mash/docs-coverage.md", repoRoot);
-if (existsSync(coveragePath)) {
+const coveragePath = new URL("docs/docs-coverage.md", repoRoot);
+if (!existsSync(coveragePath)) {
+  errors.push("coverage: docs/docs-coverage.md is missing");
+} else {
   const coverage = readFileSync(coveragePath, "utf8");
+  // The app repo is a separate checkout. Row coverage is checked everywhere;
+  // citation ranges only where that checkout exists, and this says so out loud
+  // rather than passing silently.
+  const citationsVerifiable = existsSync(sourceRoot);
+  if (!citationsVerifiable) {
+    console.log("coverage citations not verified: no sibling ../mash checkout");
+  }
   const mapped = new Set();
   for (const line of coverage.split(/\r?\n/)) {
     if (!line.startsWith("| `")) continue;
@@ -61,8 +70,8 @@ if (existsSync(coveragePath)) {
     if (!citations.length)
       errors.push(`coverage ${slug}: missing source citation`);
     for (const [, source, start, end] of citations) {
+      if (!citationsVerifiable) continue;
       const file = join(sourceRoot, source);
-      if (!existsSync(sourceRoot)) continue; // The app can be built without a sibling mash checkout.
       if (!existsSync(file)) {
         errors.push(`coverage ${slug}: source file does not exist: ${source}`);
         continue;

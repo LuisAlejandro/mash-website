@@ -52,14 +52,14 @@ jobs:
       - name: Install dependencies in container
         run: make dependencies
 
-      - name: Build production artifacts
-        run: make build
-
       - name: Run lint
         run: make lint
 
       - name: Run tests
         run: make test
+
+      - name: Build production artifacts
+        run: make build
 
       - name: Tear down Docker
         if: always()

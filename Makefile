@@ -59,6 +59,7 @@ format: start
 	@$(exec_on_docker) npm run format
 
 test: start
+	@$(exec_on_docker) npm run format:check
 	@$(exec_on_docker) npm run type-check
 	@$(exec_on_docker) npm run docs:check
 	@$(exec_on_docker) npm run blog:check
