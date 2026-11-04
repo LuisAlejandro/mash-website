@@ -1,6 +1,15 @@
 # Changelog
 
 
+## 1.3.2 (2026-11-04)
+
+### Changed
+
+* Say what the first launch does, and who bills the model. [Luis Alejandro Martínez Faneyth]
+
+* Document setup, updates and keymaps as Mash 0.3.0 will ship them. [Luis Alejandro Martínez Faneyth]
+
+
 ## 1.3.1 (2026-11-04)
 
 ### Changed
