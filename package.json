@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "predev": "node scripts/generate-mcp-card.mjs",
     "prebuild": "node scripts/generate-agent-skills.mjs && node scripts/generate-mcp-card.mjs",
     "build": "next build",
     "start": "next start",

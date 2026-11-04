@@ -19,6 +19,10 @@
 # production
 /build
 
+# Generated at prebuild by scripts/generate-mcp-card.mjs: its tool list depends on
+# the deployment's own flags, so the copy in the tree is never the truth.
+/public/.well-known/mcp/server-card.json
+
 # misc
 .DS_Store
 *.pem
