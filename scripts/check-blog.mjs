@@ -26,10 +26,19 @@ function check(name, fn) {
 // --- Allowlist: fail-closed ------------------------------------------------
 
 check("an unset allowlist admits nobody", () => {
-  assert.equal(isAllowlistedAdminEmail("anyone@example.com", new Set()), false);
-  assert.equal(parseAdminEmailAllowlist(undefined).size, 0);
-  assert.equal(parseAdminEmailAllowlist("").size, 0);
-  assert.equal(parseAdminEmailAllowlist("   ").size, 0);
+  // The parser defaults to the ambient variable, so "unset" has to mean
+  // actually unset. Reading whatever the environment happens to hold made this
+  // check pass only on a machine with no allowlist configured.
+  const saved = process.env.ADMIN_EMAIL_ALLOWLIST;
+  delete process.env.ADMIN_EMAIL_ALLOWLIST;
+  try {
+    assert.equal(isAllowlistedAdminEmail("anyone@example.com", new Set()), false);
+    assert.equal(parseAdminEmailAllowlist().size, 0);
+    assert.equal(parseAdminEmailAllowlist("").size, 0);
+    assert.equal(parseAdminEmailAllowlist("   ").size, 0);
+  } finally {
+    if (saved !== undefined) process.env.ADMIN_EMAIL_ALLOWLIST = saved;
+  }
 });
 
 check("a listed address is admitted regardless of case or padding", () => {
