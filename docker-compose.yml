@@ -7,6 +7,14 @@ services:
       args:
         UID: ${HOST_UID:-1000}
         GID: ${HOST_GID:-1000}
+    # Local `.env` reaches the container. Without this, `docker compose exec`
+    # starts a bare environment, so a build or dev server intended to run with
+    # FEATURE_BLOG=1 silently ran with the flag unset and served a blog-off
+    # site. Netlify keeps its own environment; this file is gitignored and
+    # `required: false` keeps a clone with no `.env` working.
+    env_file:
+      - path: .env
+        required: false
     volumes:
       - .:/home/node/app
       # Keep container-built dependencies and Next cache out of the host mount.

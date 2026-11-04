@@ -133,7 +133,7 @@ The blog is off by default and the site is expected to keep building, deploying,
 - **The allowlist is fail-closed.** An empty `ADMIN_EMAIL_ALLOWLIST` denies everyone, including the first person to sign in.
 - **Publishing fails loudly when the CDN purge is not configured.** `revalidateAfterPostChange` throws rather than report a publish that leaves stale pages served.
 - **Cache tag names appear twice**: `lib/netlify/purge-by-tags.ts` and the `Netlify-Cache-Tag` headers in `next.config.ts` `headers()`. Changing one side silently stops purging.
-- Schema changes go through `npm run db:generate` and `npm run db:migrate`; migrations need `DATABASE_URL_UNPOOLED`.
+- Schema changes go through `npm run db:generate`, which writes a new file under `drizzle/`; commit it. `npm run db:migrate` applies it locally. On Netlify the build applies pending migrations automatically (`scripts/migrate-deploy.mjs`, serialized by an advisory lock), so never apply a migration by hand there. Both paths need `DATABASE_URL_UNPOOLED`.
 - `scripts/check-blog.mjs` (`make test`) covers the allowlist and excerpt logic directly, with no framework and no database. Extend it when you touch those pure functions.
 
 ## Known issues

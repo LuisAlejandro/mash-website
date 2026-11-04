@@ -1,38 +1,70 @@
-[build]
-  command = "npm run build"
-  # Netlify Next.js runtime manages publish output; kept for documentation.
-  publish = ".next"
-
-[build.environment]
-  NODE_VERSION = "24"
-  # Netlify sets NODE_ENV=production which skips devDependencies, and the
-  # runtime plugin below is a devDependency.
-  NPM_FLAGS = "--include=dev"
-
-# Next.js runtime adapter (OpenNext). Keep the repo-pinned version authoritative
-# by removing any UI-installed plugin in the Netlify site settings.
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-# Hashed build output can be cached forever; the media files never change name,
-# so they get a long but not immutable cache.
-[[headers]]
-  for = "/_next/static/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/assets/mash/*"
-  [headers.values]
-    Cache-Control = "public, max-age=604800"
-
-[[headers]]
-  for = "/fonts/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
+{
+  "name": "mash-website",
+  "version": "1.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "node scripts/generate-agent-skills.mjs && node scripts/generate-mcp-card.mjs",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "next typegen && tsc --noEmit",
+    "docs:check": "node scripts/check-docs.mjs",
+    "blog:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-blog.mjs",
+    "markdown:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-markdown.mjs",
+    "optimize-images": "node scripts/strip-image-metadata.mjs",
+    "browsers:update": "update-browserslist-db",
+    "typegen": "next typegen",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:migrate:deploy": "node scripts/migrate-deploy.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "@neondatabase/serverless": "^1.1.0",
+    "@next/third-parties": "^16.4.5",
+    "@sentry/nextjs": "^11.10.0",
+    "better-auth": "^1.6.23",
+    "drizzle-orm": "^0.45.2",
+    "feed": "^6.0.0",
+    "fumadocs-core": "^16.17.9",
+    "fumadocs-mdx": "^15.4.10",
+    "fumadocs-ui": "^16.17.9",
+    "isomorphic-dompurify": "^4.6.0",
+    "next": "16.4.1",
+    "react": "19.3.1",
+    "react-dom": "19.2.8",
+    "rehype-stringify": "^10.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "unified": "^11.0.5",
+    "ws": "^8.21.0"
+  },
+  "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.15.13",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/ws": "^8.18.1",
+    "drizzle-kit": "^0.31.10",
+    "eslint": "^10",
+    "eslint-config-next": "16.3.8",
+    "prettier": "^3.9.6",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "update-browserslist-db": "^1.3.4"
+  },
+  "overrides": {
+    "eslint-plugin-react": "github:jsx-eslint/eslint-plugin-react#b73f1108346bffb5566d17ae4cac8b13fe2b7834"
+  },
+  "browserslist": [
+    "last 2 versions and not dead",
+    "> 1%"
+  ]
+}
