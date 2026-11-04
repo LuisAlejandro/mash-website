@@ -19,7 +19,8 @@
     "browsers:update": "update-browserslist-db",
     "typegen": "next typegen",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "db:migrate:deploy": "node scripts/migrate-deploy.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",
