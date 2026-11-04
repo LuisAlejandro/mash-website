@@ -38,13 +38,15 @@ export const DOC_TWIN_PATHS = new Set([
 export function hasMarkdownTwin(segments: string[]): boolean {
   if (!segments.every(isSafePathSegment)) return false;
 
+  // A last segment carrying an extension is a file, not a page: the blog feeds
+  // (/blog/posts/feed.xml, atom.xml, feed.json) and every other dotted name
+  // have no twin, so rewriting them would turn a working feed into a 404.
+  if (segments[segments.length - 1]?.includes(".")) return false;
+
   const [surface, ...rest] = segments;
   if (!surface) return true;
   if (surface === "docs") return DOC_TWIN_PATHS.has(rest.join("/"));
   if (surface !== "blog" || !FEATURE_BLOG) return false;
 
-  return (
-    rest.length === 2 &&
-    (rest[0] === "posts" || rest[0] === "category")
-  );
+  return rest.length === 2 && (rest[0] === "posts" || rest[0] === "category");
 }

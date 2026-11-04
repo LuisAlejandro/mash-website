@@ -18,7 +18,7 @@ import { BLOG_PURGE_TAGS, purgeByTags } from "@/lib/netlify/purge-by-tags";
 
 const SLUG_PATTERN = /^[a-z0-9-]+$/;
 
-export type RevalidateBlogCacheInput = {
+type RevalidateBlogCacheInput = {
   posts?: Array<{ slug: string }>;
   categories?: Array<{ slug: string }>;
 };
@@ -116,9 +116,10 @@ export async function revalidateBlogCache(
 /**
  * Invalidate everything one post touches.
  *
- * This throws when the CDN purge fails, which fails the publish action in the
- * admin UI. That is deliberate: a publish that reports success while the CDN
- * still serves the old page is worse than one that visibly did not finish.
+ * This never throws for a failed purge, because every caller has already
+ * written the row: throwing here would report a failure for a change that
+ * committed, and a retry would collide with the unique slug. The caller reports
+ * `purgeOk: false` to the operator instead.
  */
 export async function revalidateAfterPostChange(post: {
   slug: string;
@@ -129,18 +130,5 @@ export async function revalidateAfterPostChange(post: {
     categories.push({ slug: post.category });
   }
 
-  const result = await revalidateBlogCache({
-    posts: [{ slug: post.slug }],
-    categories,
-  });
-
-  if (!result.purgeOk) {
-    throw new Error(
-      result.purgeError === "missing_env"
-        ? "CDN purge is not configured (NETLIFY_PURGE_TOKEN / NETLIFY_SITE_ID). Refusing to report a publish that may leave stale pages on the CDN."
-        : `CDN purge failed (${result.purgeError ?? "unknown"}). Refusing to report a publish that may leave stale pages on the CDN.`
-    );
-  }
-
-  return result;
+  return revalidateBlogCache({ posts: [{ slug: post.slug }], categories });
 }

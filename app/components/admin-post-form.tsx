@@ -94,7 +94,7 @@ export default function AdminPostForm({ mode, post }: AdminPostFormProps) {
 
       {state.ok ? (
         <p className="admin-message" role="status">
-          Saved.
+          {state.warning ?? "Saved."}
         </p>
       ) : null}
 

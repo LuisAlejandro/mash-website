@@ -14,7 +14,11 @@ import { spawn } from "node:child_process";
  * mutate the production schema. Set MIGRATE_ON_PREVIEW=1 to opt in.
  *
  * Migrations are serialized with a Postgres advisory lock. Netlify can run
- * builds concurrently, and two builds applying the same DDL would collide.
+ * builds concurrently, and two builds applying the same DDL would collide. The
+ * lock is only a mutex if one session holds it for the whole migration, so it
+ * is taken over a persistent WebSocket connection: the HTTP driver ends its
+ * session as soon as a query returns, which releases a session-level lock
+ * before the DDL even starts.
  */
 
 const LOCK_KEY = 4_912_027; // arbitrary but fixed; shared by every build
@@ -46,10 +50,17 @@ if (!url) {
   process.exit(1);
 }
 
-const { neon } = await import("@neondatabase/serverless");
-const sql = neon(url);
+const { Client, neonConfig } = await import("@neondatabase/serverless");
+const { default: WebSocketConstructor } = await import("ws");
+neonConfig.webSocketConstructor = WebSocketConstructor;
 
-await sql`SELECT pg_advisory_lock(${LOCK_KEY})`;
+const client = new Client({ connectionString: url });
+await client.connect();
+
+// A peer that died holding the lock must fail this build instead of hanging it
+// until Netlify's global build timeout.
+await client.query("SET lock_timeout = '120s'");
+await client.query("SELECT pg_advisory_lock($1)", [LOCK_KEY]);
 log("advisory lock held");
 
 let exitCode = 1;
@@ -71,7 +82,14 @@ try {
   else console.error(`[migrate] drizzle-kit exited with ${exitCode}`);
 } finally {
   // Releases even on failure; the connection also drops it if this process dies.
-  await sql`SELECT pg_advisory_unlock(${LOCK_KEY})`.catch(() => {});
+  await client
+    .query("SELECT pg_advisory_unlock($1)", [LOCK_KEY])
+    .catch((error) => {
+      console.error(
+        `[migrate] could not release the advisory lock: ${error.message}`
+      );
+    });
+  await client.end().catch(() => {});
 }
 
 process.exit(exitCode);
