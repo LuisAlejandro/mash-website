@@ -125,7 +125,7 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 
 The blog is off by default and the site is expected to keep building, deploying, and passing `make test` with no environment at all. Treat that as the invariant.
 
-- **Both flags or neither.** `FEATURE_BLOG` gates routes, APIs, and server module loading; `NEXT_PUBLIC_FEATURE_BLOG` is inlined into the client bundle and drives navigation. Setting one without the other produces a site that links to pages that 404.
+- **Both flags or neither.** `FEATURE_BLOG` gates routes, APIs, and server module loading; `NEXT_PUBLIC_FEATURE_BLOG` is inlined into the client bundle and drives navigation. Setting one without the other produces a site that links to pages that 404, so `next.config.ts` refuses to build: it throws when the two disagree, and when either carries a value other than `0` or `1`.
 - **Guard every data-fetching page, not just the layout.** A layout's `notFound()` does not stop a page component from running during prerender, so a page that queries the database and only relies on the layout guard fails the blog-off build. Each such page checks `FEATURE_BLOG` before its first query.
 - **`lib/db/index.ts` and `lib/auth.ts` compare `process.env.FEATURE_BLOG` directly** so the condition stays a build-time literal and the unused branch can be dropped. Importing `lib/features` there would OR in the public mirror and break that.
 - **Drafts are excluded in the query, never in the view** (`lib/blog/queries.ts`). A new page cannot leak one by forgetting to filter.

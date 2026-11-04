@@ -5,6 +5,40 @@ import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs/config";
 import { createMDX } from "fumadocs-mdx/next";
 
+/**
+ * Both blog flags or neither.
+ *
+ * `FEATURE_BLOG` gates routes and server module loading; `NEXT_PUBLIC_FEATURE_BLOG`
+ * is inlined into the client bundle and drives navigation. Setting one alone
+ * produces a site whose nav links to pages that 404, which is invisible in a
+ * green build. Next loads `.env` before this file, so these are the real values.
+ */
+function assertFeatureFlags(): void {
+  const names = ["FEATURE_BLOG", "NEXT_PUBLIC_FEATURE_BLOG"] as const;
+
+  for (const name of names) {
+    const raw = process.env[name];
+    if (raw !== undefined && raw !== "" && raw !== "0" && raw !== "1") {
+      throw new Error(
+        `${name} must be "0" or "1", but it is "${raw}". The flags are compared to "1", so any other value silently reads as off.`
+      );
+    }
+  }
+
+  const enabled = names.map((name) => process.env[name] === "1");
+  if (enabled[0] === enabled[1]) return;
+
+  throw new Error(
+    `FEATURE_BLOG and NEXT_PUBLIC_FEATURE_BLOG disagree ` +
+      `(${process.env.FEATURE_BLOG ?? "unset"} vs ${process.env.NEXT_PUBLIC_FEATURE_BLOG ?? "unset"}). ` +
+      "Set both to 1 to publish the blog, or both to 0 to leave it off: " +
+      "the server flag gates routes and module loading, the public mirror drives " +
+      "navigation, and one without the other links visitors to pages that 404."
+  );
+}
+
+assertFeatureFlags();
+
 const nextConfig: NextConfig = {
   // Netlify builds this through the Next.js runtime (@netlify/plugin-nextjs),
   // so `next build` output stays in `.next` and there is no static export.
