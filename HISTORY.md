@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 1.3.1 (2026-11-04)
+
+### Changed
+
+* Serve the dev site on 3100 inside the container too. [Luis Alejandro Martínez Faneyth]
+
+
 ## 1.3.0 (2026-11-04)
 
 ### Added
