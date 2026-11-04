@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { SidebarTrigger } from "fumadocs-ui/layouts/docs/slots/sidebar";
 import { SearchTrigger } from "fumadocs-ui/layouts/shared/slots/search-trigger";
+import { useScrolled } from "./use-scrolled";
 import VersionBadge from "./version-badge";
 // The client mirror, not FEATURE_BLOG: only NEXT_PUBLIC_* variables are inlined
 // into the client bundle, so the server flag reads as undefined here.
@@ -32,13 +33,9 @@ export default function Header({
   const isDocs = mode === "docs";
   const isHome = mode === "home";
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const scrolled = useScrolled();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-
     const items = isDocs ? [] : document.querySelectorAll(".reveal");
     let observer: IntersectionObserver | undefined;
     if (!("IntersectionObserver" in window)) {
@@ -58,10 +55,7 @@ export default function Header({
       items.forEach((el) => observer?.observe(el));
     }
 
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      observer?.disconnect();
-    };
+    return () => observer?.disconnect();
   }, [isDocs]);
 
   function closeMenu() {

@@ -1,4 +1,4 @@
-export type McpToolDefinition = {
+type McpToolDefinition = {
   name: string;
   title: string;
   description: string;

@@ -1,8 +1,6 @@
-import { NextResponse } from "next/server";
-
 import { getTrendingPublishedPosts } from "@/lib/blog";
-import { FEATURE_BLOG } from "@/lib/features";
-import { logError } from "@/lib/logger";
+
+import { blogListResponse } from "../blog-list";
 
 /**
  * Most recently updated posts. There are no engagement metrics to rank by, so
@@ -11,17 +9,5 @@ import { logError } from "@/lib/logger";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  if (!FEATURE_BLOG) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
-  }
-
-  try {
-    return NextResponse.json({ response: await getTrendingPublishedPosts() });
-  } catch (error) {
-    logError("trending-posts-api", error);
-    return NextResponse.json(
-      { error: "Blog posts temporarily unavailable" },
-      { status: 503 }
-    );
-  }
+  return blogListResponse("trending-posts-api", getTrendingPublishedPosts);
 }

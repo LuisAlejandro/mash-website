@@ -32,7 +32,10 @@ check("an unset allowlist admits nobody", () => {
   const saved = process.env.ADMIN_EMAIL_ALLOWLIST;
   delete process.env.ADMIN_EMAIL_ALLOWLIST;
   try {
-    assert.equal(isAllowlistedAdminEmail("anyone@example.com", new Set()), false);
+    assert.equal(
+      isAllowlistedAdminEmail("anyone@example.com", new Set()),
+      false
+    );
     assert.equal(parseAdminEmailAllowlist().size, 0);
     assert.equal(parseAdminEmailAllowlist("").size, 0);
     assert.equal(parseAdminEmailAllowlist("   ").size, 0);
