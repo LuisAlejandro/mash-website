@@ -1,4 +1,4 @@
-import DOMPurify from "isomorphic-dompurify";
+import rehypeSanitize from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
@@ -10,10 +10,11 @@ import { logError } from "@/lib/logger";
 /**
  * Render a post body to HTML.
  *
- * Raw HTML in a post is passed through remark/rehype, then sanitized with
- * DOMPurify before render. The trust boundary is still the admin allowlist:
- * only an allowlisted account can create a body. Loosen that allowlist before
- * relying on sanitization alone for untrusted authors.
+ * Raw HTML in a post is dropped, and the tree is sanitized with
+ * rehype-sanitize's GitHub schema (no scripts, no `javascript:` URLs) before it
+ * is stringified. This runs in the unified chain with no DOM, on purpose:
+ * DOMPurify needs jsdom on the server, and jsdom fails to load in the Netlify
+ * function (`ERR_REQUIRE_ESM`), which took down every post page.
  */
 export async function markdownToHtml(markdown: string): Promise<string> {
   if (!markdown) {
@@ -24,10 +25,11 @@ export async function markdownToHtml(markdown: string): Promise<string> {
     const result = await unified()
       .use(remarkParse)
       .use(remarkGfm)
-      .use(remarkRehype, { allowDangerousHtml: true })
-      .use(rehypeStringify, { allowDangerousHtml: true })
+      .use(remarkRehype)
+      .use(rehypeSanitize)
+      .use(rehypeStringify)
       .process(markdown);
-    return DOMPurify.sanitize(result.toString());
+    return result.toString();
   } catch (error) {
     logError("markdown-to-html", error, { length: markdown.length });
     return "";
