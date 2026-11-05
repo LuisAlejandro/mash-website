@@ -3,7 +3,7 @@
 The Mash website: a Next.js homepage that tells the product story with real
 captures, plus a full Fumadocs user guide at [letsma.sh/docs/](https://letsma.sh/docs/).
 
-Current version: 1.3.2
+Current version: 1.3.4
 
 ```bash
 make serve       # http://localhost:3100 (HOST_PORT overrides the host side)

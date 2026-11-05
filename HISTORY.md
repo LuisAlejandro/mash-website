@@ -1,6 +1,20 @@
 # Changelog
 
 
+## 1.3.4 (2026-11-05)
+
+### Fixed
+
+* Stop blog post pages failing with a server error. [Luis Alejandro Martínez Faneyth]
+
+
+## 1.3.3 (2026-11-05)
+
+### Fixed
+
+* Let Better Auth accept the trailing slash Next adds. [Luis Alejandro Martínez Faneyth]
+
+
 ## 1.3.2 (2026-11-04)
 
 ### Changed
