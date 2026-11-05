@@ -1,5 +1,7 @@
 [build]
-  command = "npm run build"
+  # Migrations run here, not on a human. A schema change merged to a deployed
+  # branch would otherwise ship before its tables exist and fail at runtime.
+  command = "node scripts/migrate-deploy.mjs && npm run build"
   # Netlify Next.js runtime manages publish output; kept for documentation.
   publish = ".next"
 

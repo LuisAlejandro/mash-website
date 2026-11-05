@@ -5,6 +5,18 @@ description: Update Mash while keeping your settings and sessions.
 
 Get new Mash releases from the [releases page](https://github.com/LuisAlejandro/mash/releases/latest). Updates preserve your edited files and installed resources under `~/.mash`.
 
+## Check for updates on demand
+
+**Check for Updates** asks for a newer release now instead of waiting for the automatic check. It runs on both platforms and reports one of four things: a version is available, Mash is up to date, the check could not be completed, or — on Ubuntu — the APT metadata holds no Mash information yet.
+
+| Where           | Keys                                              |
+| --------------- | ------------------------------------------------- |
+| macOS Mash mode | **⌘⇧U**, or the menu item                         |
+| Linux Mash mode | **Ctrl+Alt+Shift+U**                              |
+| Native mode     | **Ctrl+B**, release, then **Shift+Z** (both OSes) |
+
+Mash also checks on its own: Linux reads the APT metadata Ubuntu already refreshes, without touching the network; macOS asks the GitHub releases API at most once every 24 hours and records what it has already announced.
+
 ## Ubuntu
 
 The `.deb` registers Mash's signed APT repository. To refresh package lists and install available updates:
@@ -19,10 +31,16 @@ If Mash shows an update notice, it offers the focused command:
 sudo apt install --only-upgrade letsmash
 ```
 
-Restart Mash afterward. The notice closes when you press any key.
+Restart Mash afterward. On Ubuntu the notice is information only: APT installs the package, Mash never writes package state. A manual check with stale package lists reports that the repository holds nothing newer, which is why it suggests `sudo apt update` first.
 
 ## macOS
 
-If Mash detects a newer release, its update popup can offer **u** to update now; any other key dismisses it. The helper downloads and verifies the replacement, asks for confirmation, then quits and reopens Mash. If the running app cannot be replaced (for example, it is still mounted from a read-only DMG), the popup sends you to [the latest release](https://github.com/LuisAlejandro/mash/releases/latest) instead. Download its DMG, copy Mash.app to Applications, and launch the replacement there.
+Mash installs its own update. The notice popup offers **u** to update now, or any other key to dismiss it. Updating downloads the release and verifies it while Mash stays open, then asks you to type **y**: that confirmation is the point of no return, because installing closes Mash and reopens it on the new version.
+
+If the running app cannot be replaced — it is still mounted from a read-only DMG, for example — the popup sends you to [the latest release](https://github.com/LuisAlejandro/mash/releases/latest) instead. Download its DMG, copy Mash.app to Applications, and launch the replacement there.
+
+An interrupted update does not leave a half-installed app. The next launch reconciles the state it recorded: a failed attempt leaves the previous version in place and can be retried, and an attempt interrupted after the swap reports that Mash installed but its startup needs recovery. Progress and failures are written under `~/.mash/local/state/`.
+
+## Bundled tools
 
 Do not update bundled Pi, Herdr, or Fresh separately inside Mash. Mash carries its own pinned copies; update the application instead. User-installed Pi packages remain in `~/.mash/pi/agent` and are separate from the signed bundle.

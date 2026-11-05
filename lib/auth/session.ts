@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { auth, isAllowlistedAdminEmail } from "@/lib/auth";
 import { logError } from "@/lib/logger";
 
-export type AdminSessionResult =
+type AdminSessionResult =
   | { status: "unauthenticated" }
   | { status: "denied"; email: string | null; name: string | null }
   | { status: "admin"; email: string; name: string | null; userId: string };

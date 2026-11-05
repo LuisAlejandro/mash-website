@@ -3,12 +3,11 @@
 The Mash website: a Next.js homepage that tells the product story with real
 captures, plus a full Fumadocs user guide at [letsma.sh/docs/](https://letsma.sh/docs/).
 
-Current version: 1.2.0
+Current version: 1.3.3
 
 ```bash
-npm install
-HOST_PORT=3100 make serve # http://localhost:3100 (default; HOST_PORT overrides)
-# Without Docker: npm run dev -- -p 3100
+make serve       # http://localhost:3100 (HOST_PORT overrides the host side)
+# Without Docker: npm run dev   # same port, no extra flags
 npm run lint
 npm run build   # .next, served by the Netlify Next.js runtime
 ```
@@ -53,11 +52,13 @@ or auth code is bundled, and the site builds and deploys exactly as it did
 before the blog existed.
 
 Turning it on needs a Neon project, a GitHub OAuth app, and a Netlify purge
-token. Copy `.env.example` to `.env` and fill in the marked sections, then:
-
-```bash
-npm run db:migrate   # needs DATABASE_URL_UNPOOLED
-```
+token. Copy `.env.example` to `.env` and fill in the marked sections. The schema
+is migrated for you: every Netlify build run with `FEATURE_BLOG=1` applies
+pending migrations before `next build`, so nothing has to be run by hand. That
+step needs `DATABASE_URL_UNPOOLED` (Neon's direct connection) in the build
+environment; without it the build stops with a message naming the variable.
+Deploy Previews skip migrations by default so a pull request cannot alter the
+production schema; set `MIGRATE_ON_PREVIEW=1` to opt in.
 
 Set both `FEATURE_BLOG=1` and `NEXT_PUBLIC_FEATURE_BLOG=1`; the first gates
 routes and server modules, the second drives client navigation, and setting

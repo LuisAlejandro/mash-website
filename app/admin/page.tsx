@@ -14,8 +14,11 @@ function toIso(value: Date | string): string {
   return value instanceof Date ? value.toISOString() : String(value);
 }
 
-export default async function AdminPage() {
+type PageProps = { searchParams: Promise<{ warning?: string }> };
+
+export default async function AdminPage({ searchParams }: PageProps) {
   const session = await getAdminSession();
+  const { warning } = await searchParams;
 
   if (session.status === "unauthenticated") {
     return (
@@ -63,6 +66,13 @@ export default async function AdminPage() {
         <h1 className="blog-title">Posts</h1>
         <p className="blog-lede">Create, edit, publish, and unpublish.</p>
       </header>
+
+      {warning ? (
+        <p className="admin-note" role="status">
+          Saved, but clearing the CDN cache failed. The change may take up to an
+          hour to appear.
+        </p>
+      ) : null}
 
       {posts.length === 0 ? (
         <p className="blog-empty" role="status">

@@ -26,7 +26,7 @@ Prefer Docker through Make when the container setup is running (`Dockerfile`, `d
 | --- | --- |
 | Start the container | `make start` |
 | Install deps in container | `make dependencies` |
-| Dev server (0.0.0.0:3000) | `make serve` |
+| Dev server (0.0.0.0:3100) | `make serve` |
 | Production build | `make build` |
 | Lint | `make lint` |
 | Type-check (CI `make test`) | `make test` |
@@ -36,7 +36,7 @@ Prefer Docker through Make when the container setup is running (`Dockerfile`, `d
 
 On the host, the same scripts exist in `package.json`: `npm run dev`, `npm run build`, `npm run lint`, `npm run type-check`, `npm run format`.
 
-The host port defaults to 3000. Another local project often holds 3000; set `HOST_PORT=3100 make serve` to avoid it.
+The dev server listens on 3100 in the container and maps 3100 on the host, so `npm run dev` without Docker uses the same URL. `HOST_PORT` still overrides the host side when 3100 is taken.
 
 ## Layout
 
@@ -46,7 +46,7 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 - `app/index.md/`, `app/llms.txt/`, `app/llms-full.txt/`, `app/ai.txt/`, `app/robots.txt/`, `app/sitemap.ts`: text and XML endpoints, generated at build time.
 - `app/markdown-twin/[[...path]]/route.ts`: the one route behind every Markdown twin. `lib/markdown/resolve-twin.ts` maps a path to a document, `lib/markdown/twins/` holds one builder per surface, and `lib/markdown/twin-headers.ts` holds the shared response headers.
 - `proxy.ts`, `lib/markdown/accept-negotiation.ts`: `Accept` negotiation. A Markdown-preferring request is rewritten to the twin route for paths the resolver can answer; `/api`, `/.well-known`, `/admin`, `_next` and `.md` paths are skipped.
-- `app/.well-known/`, `public/.well-known/`, `public/agents.md`: the discovery documents. The API catalog and the permissions file are route handlers over `lib/discovery/surfaces.ts`. The agent-skills index is written at prebuild by `scripts/generate-agent-skills.mjs`, which hashes the two hand-written `SKILL.md` documents beside it.
+- `app/.well-known/`, `public/.well-known/`, `public/agents.md`: the discovery documents. The API catalog and the permissions file are route handlers over `lib/discovery/surfaces.ts`. The agent-skills index is written at prebuild by `scripts/generate-agent-skills.mjs`, which hashes the two hand-written `SKILL.md` documents beside it. The MCP server card is generated too (`scripts/generate-mcp-card.mjs`, at prebuild and before `next dev`) and is **not tracked**: its tool list depends on the deployment's `FEATURE_BLOG`, so a committed copy would only ever agree with one of the two.
 - `app/api/mcp/`, `lib/mcp/`: the read-only MCP endpoint and its server, rate limit and tools.
 - `app/blog/`, `app/admin/`, `app/api/{auth,revalidate,search-posts,last-posts,trending-posts}/`: the optional blog module. Dormant unless `FEATURE_BLOG=1`.
 - `lib/features.ts`: the `FEATURE_BLOG` flag and its `NEXT_PUBLIC` mirror.
@@ -125,7 +125,7 @@ The host port defaults to 3000. Another local project often holds 3000; set `HOS
 
 The blog is off by default and the site is expected to keep building, deploying, and passing `make test` with no environment at all. Treat that as the invariant.
 
-- **Both flags or neither.** `FEATURE_BLOG` gates routes, APIs, and server module loading; `NEXT_PUBLIC_FEATURE_BLOG` is inlined into the client bundle and drives navigation. Setting one without the other produces a site that links to pages that 404.
+- **Both flags or neither.** `FEATURE_BLOG` gates routes, APIs, and server module loading; `NEXT_PUBLIC_FEATURE_BLOG` is inlined into the client bundle and drives navigation. Setting one without the other produces a site that links to pages that 404, so `next.config.ts` refuses to build: it throws when the two disagree, and when either carries a value other than `0` or `1`.
 - **Guard every data-fetching page, not just the layout.** A layout's `notFound()` does not stop a page component from running during prerender, so a page that queries the database and only relies on the layout guard fails the blog-off build. Each such page checks `FEATURE_BLOG` before its first query.
 - **`lib/db/index.ts` and `lib/auth.ts` compare `process.env.FEATURE_BLOG` directly** so the condition stays a build-time literal and the unused branch can be dropped. Importing `lib/features` there would OR in the public mirror and break that.
 - **Drafts are excluded in the query, never in the view** (`lib/blog/queries.ts`). A new page cannot leak one by forgetting to filter.
@@ -133,7 +133,7 @@ The blog is off by default and the site is expected to keep building, deploying,
 - **The allowlist is fail-closed.** An empty `ADMIN_EMAIL_ALLOWLIST` denies everyone, including the first person to sign in.
 - **Publishing fails loudly when the CDN purge is not configured.** `revalidateAfterPostChange` throws rather than report a publish that leaves stale pages served.
 - **Cache tag names appear twice**: `lib/netlify/purge-by-tags.ts` and the `Netlify-Cache-Tag` headers in `next.config.ts` `headers()`. Changing one side silently stops purging.
-- Schema changes go through `npm run db:generate` and `npm run db:migrate`; migrations need `DATABASE_URL_UNPOOLED`.
+- Schema changes go through `npm run db:generate`, which writes a new file under `drizzle/`; commit it. `npm run db:migrate` applies it locally. On Netlify the build applies pending migrations automatically (`scripts/migrate-deploy.mjs`, serialized by an advisory lock), so never apply a migration by hand there. Both paths need `DATABASE_URL_UNPOOLED`.
 - `scripts/check-blog.mjs` (`make test`) covers the allowlist and excerpt logic directly, with no framework and no database. Extend it when you touch those pure functions.
 
 ## Known issues

@@ -2,16 +2,21 @@ const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 60;
 const MAX_TRACKED_IPS = 10_000;
 
-// Per-instance, not global; shared storage is needed across server instances.
+/**
+ * Per-instance, not global; shared storage is needed across server instances.
+ *
+ * Shared by every public read surface (`/api/mcp`, `/api/search-posts`), so one
+ * caller's traffic counts against the same budget on both.
+ */
 const requests = new Map<string, number[]>();
 
-export function checkMcpRateLimit(ip: string): {
+export function checkRateLimit(ip: string): {
   allowed: boolean;
   retryAfterSeconds: number;
 } {
   const now = Date.now();
   const recent = (requests.get(ip) ?? []).filter(
-    (timestamp) => now - timestamp < WINDOW_MS,
+    (timestamp) => now - timestamp < WINDOW_MS
   );
 
   if (recent.length === 0) requests.delete(ip);
@@ -21,7 +26,7 @@ export function checkMcpRateLimit(ip: string): {
       allowed: false,
       retryAfterSeconds: Math.max(
         1,
-        Math.ceil((recent[0] + WINDOW_MS - now) / 1000),
+        Math.ceil((recent[0] + WINDOW_MS - now) / 1000)
       ),
     };
   }

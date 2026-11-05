@@ -1,5 +1,16 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
 import type { LatestRelease } from "../app-release";
 import { SITE_URL } from "../site.ts";
+
+/** The authored homepage narrative, with its derived placeholders intact. */
+export function getMarketingNarrative(): string {
+  return readFileSync(
+    resolve(process.cwd(), "content/llms/home.md"),
+    "utf8"
+  ).trim();
+}
 
 export function latestLine(release: LatestRelease | null): string {
   if (!release || Object.keys(release.downloads).length === 0) {
@@ -12,7 +23,7 @@ export function latestLine(release: LatestRelease | null): string {
 export function substituteMarketingPlaceholders(
   narrative: string,
   availability: string,
-  captures: string,
+  captures: string
 ): string {
   if (!narrative.includes("{{DERIVED_AVAILABILITY}}")) {
     throw new Error("Marketing narrative is missing DERIVED_AVAILABILITY.");

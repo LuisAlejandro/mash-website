@@ -3,12 +3,12 @@ title: Skills and packages
 description: Extend Pi in Mash without changing your standalone Pi.
 ---
 
-The optional **Programming Skills** suite selected at first launch teaches Pi brainstorm, plan, work, QA and release workflows, and can start local Hindsight memory. You may skip the suite while retaining Mash's terminal, editor, and Pi. The choice is saved in `~/.mash/setup/skills-choice`.
+The optional **Programming Skills** suite teaches Pi brainstorm, plan, work, QA and release workflows, and can start local Hindsight memory. You choose it on the **Tools** page of first launch: the **Skills** section there carries the **Install Programming Skills** checkbox, on by default. You may skip the suite while retaining Mash's terminal, editor, and Pi. The choice is saved in `~/.mash/setup/skills-choice`, and the [Memory](/docs/first-launch/) page is offered only when it is ticked.
 
 ## Add a Pi package
 
 Run `pi install npm:<name>` **inside a Mash pane**. The package installs under `~/.mash/pi/agent/npm/node_modules` and is added to Mash's `settings.json`; restart Pi to load it. `pi remove npm:<name>` removes it. These commands do not install into `$HOME/.pi/agent` unless a third-party package incorrectly hardcodes that path; inspect packages before using them.
 
-Put individual skills in `~/.mash/pi/agent/skills/<name>/SKILL.md`, extensions in `~/.mash/pi/agent/extensions/`, prompt templates in `~/.mash/pi/agent/prompts/`, themes in `~/.mash/pi/agent/themes/`, and MCP server configuration in `~/.mash/pi/agent/mcp.json`. For a project, Mash's Pi reads **`.mash/`**, not `.pi/` (including `.mash/skills/` and `.mash/mcp.json`).
+Put individual skills in `~/.mash/pi/agent/skills/<name>/SKILL.md`, extensions in `~/.mash/pi/agent/extensions/`, prompt templates in `~/.mash/pi/agent/prompts/`, themes in `~/.mash/pi/agent/themes/`, and MCP server configuration in `~/.mash/pi/agent/mcp.json`. Once you sign in with GitHub inside Mash, Mash also registers a GitHub MCP server there and resolves the token from Mash's own `gh` credential at connection time, so no token is written into the file. For a project, Mash's Pi reads **`.mash/`**, not `.pi/` (including `.mash/skills/` and `.mash/mcp.json`).
 
 Extensions and project configuration can execute code with the agent's permissions. Review a third-party package or untrusted project before enabling it; keep secrets out of project files. See [data and configuration](/docs/reference/configuration/) for the complete path map. Do not edit the signed Mash.app bundle to install a runtime extension.

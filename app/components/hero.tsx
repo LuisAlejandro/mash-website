@@ -80,7 +80,7 @@ export default function Hero() {
               </a>
             </div>
             <p className="hero-note reveal">
-              Apple silicon Mac · Ubuntu 24.04 · nothing to configure
+              Apple silicon Mac · Ubuntu 24.04 · nothing to assemble
             </p>
           </div>
 

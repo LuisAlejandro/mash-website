@@ -7,10 +7,22 @@ services:
       args:
         UID: ${HOST_UID:-1000}
         GID: ${HOST_GID:-1000}
+    # Local `.env` reaches the container. Without this, `docker compose exec`
+    # starts a bare environment, so a build or dev server intended to run with
+    # FEATURE_BLOG=1 silently ran with the flag unset and served a blog-off
+    # site. Netlify keeps its own environment; this file is gitignored and
+    # `required: false` keeps a clone with no `.env` working.
+    env_file:
+      - path: .env
+        required: false
     volumes:
+      # The repository, dependencies included: `make dependencies` installs into
+      # the container's filesystem view of this one directory, so the host tree
+      # is the installed tree rather than a second, unreachable copy.
       - .:/home/node/app
-      # Keep container-built dependencies and Next cache out of the host mount.
-      - /home/node/app/node_modules
-      - /home/node/app/.next
+      # The npm cache is machine-wide and belongs outside the checkout.
+      - ~/.npm:/home/node/.npm
     ports:
-      - "${HOST_PORT:-3100}:3000"
+      # 3100 on both sides: the container serves the port the scripts name, so a
+      # dockerless `npm run dev` and the compose stack agree on the URL.
+      - "${HOST_PORT:-3100}:3100"

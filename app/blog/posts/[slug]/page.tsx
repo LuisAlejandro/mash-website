@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import DOMPurify from "isomorphic-dompurify";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 
 import FriendlyDate from "@/app/components/friendly-date";
 import { JsonLdScript } from "@/app/components/json-ld-script";
@@ -15,6 +15,19 @@ import { buildBlogPostSchema } from "@/lib/structured-data";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
+/**
+ * One hour of ISR. A published post has no per-visitor data, and the publish
+ * path already invalidates it by path, so the cache only exists to keep a Neon
+ * query and a Markdown render off every request.
+ */
+export const revalidate = 3600;
+
+/**
+ * `generateMetadata` and the page both need the post. React dedupes them within
+ * one render, so the database is asked once.
+ */
+const readPost = cache(getPublishedPostBySlug);
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
@@ -23,7 +36,7 @@ export async function generateMetadata({
   }
 
   const { slug } = await params;
-  const post = await getPublishedPostBySlug(slug).catch(() => null);
+  const post = await readPost(slug).catch(() => null);
 
   if (!post) {
     return { title: `Blog | ${APP_NAME}` };
@@ -64,7 +77,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   let post: Awaited<ReturnType<typeof getPublishedPostBySlug>>;
   try {
-    post = await getPublishedPostBySlug(slug);
+    post = await readPost(slug);
   } catch (error) {
     logError("blog-post", error, { slug });
     throw error;
@@ -74,8 +87,6 @@ export default async function BlogPostPage({ params }: PageProps) {
   if (!post) {
     notFound();
   }
-
-  const html = await markdownToHtml(post.body);
 
   return (
     <div className="blog-wrap">
@@ -101,7 +112,10 @@ export default async function BlogPostPage({ params }: PageProps) {
         </header>
         <div
           className="post-body"
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }}
+          // markdownToHtml sanitizes with rehype-sanitize before it returns;
+          // the rule only recognises DOMPurify, which cannot load on Netlify.
+          // nosemgrep: typescript.react.security.audit.react-dangerouslysetinnerhtml.react-dangerouslysetinnerhtml
+          dangerouslySetInnerHTML={{ __html: await markdownToHtml(post.body) }}
         />
       </article>
     </div>
