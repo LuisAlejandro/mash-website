@@ -1,0 +1,16 @@
+---
+title: Mash Terminal
+description: Un shell, espacios de trabajo de Herdr y herramientas, todo en una sola ventana de la aplicación.
+---
+
+Mash Terminal es el terminal integrado de la aplicación. Su comando de inicio abre un panel de Herdr en lugar de un shell sin más. Herdr gestiona los espacios de trabajo, las pestañas y las divisiones; el terminal los dibuja, pero no usa el sistema propio de pestañas y divisiones de Ghostty. Una nueva pestaña o panel **Shell** ejecuta el shell de Mash en el espacio de trabajo actual.
+
+## Shell y apariencia
+
+El asistente ofrece una fuente y un tamaño para el terminal, además de un tema claro u oscuro para todo Mash. El terminal incluido arranca con el tema Monokai Cursor y la fuente MesloLGS NF; tu elección se guarda en `~/.mash/config/ghostty/config`. El prompt de Starship de Mash se comparte entre los shells compatibles a través de `~/.mash/config/starship.toml`. Tus archivos de shell habituales y tu `~/.config` personal siguen separados.
+
+## Menús y teclas
+
+La barra de menús de macOS y el menú de la barra de título de Linux usan los comandos propios de Mash: Archivo, Editar, Ver, Ir y Herramientas. Envían el atajo mostrado al **terminal enfocado**. Ajustes abre los ajustes de Herdr; Recargar configuración recarga el terminal y Herdr, no un editor Fresh en ejecución. Si reasignas una tecla de Herdr en `~/.mash/config/herdr/config.toml`, un elemento del menú puede seguir enviando el atajo original; usa directamente la tecla actualizada o la paleta de comandos.
+
+Copiar y pegar siguen las convenciones de cada plataforma: **⌘C / ⌘V** en macOS, **Ctrl+Shift+C / Ctrl+Shift+V** en Linux, o seleccionar y copiar con el ratón. En macOS, `⌘C` copia la selección del terminal cuando hay una; en Fresh, la copia del editor tiene prioridad. Consulta [pestañas y paneles](/es/docs/workspaces/tabs-and-panes/) para la navegación y [configuración](/es/docs/reference/configuration/) para los ajustes modificables.

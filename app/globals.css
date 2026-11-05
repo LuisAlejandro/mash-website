@@ -336,6 +336,22 @@ nav.scrolled {
   filter: invert(0.85);
   opacity: 0.9;
 }
+/* The other language, named in the language it leads to. */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--mute);
+}
+.nav-links .lang-switch:hover {
+  border-color: var(--accent);
+  color: var(--paper);
+}
 
 .hamburger {
   display: none;

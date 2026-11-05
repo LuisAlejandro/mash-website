@@ -1,16 +1,27 @@
 import type { FaqItem } from "@/lib/structured-data";
+import type { Locale } from "@/lib/i18n/locale";
+import { MARKETING } from "@/lib/i18n/marketing";
 
-export default function Faq({ items }: { items: FaqItem[] }) {
+export default function Faq({
+  items,
+  locale,
+}: {
+  items: FaqItem[];
+  locale: Locale;
+}) {
+  const copy = MARKETING[locale].faq;
+
   return (
     <section className="section wrap" id="faq">
       <div className="section-head reveal">
-        <span className="eyebrow">Questions</span>
+        <span className="eyebrow">{copy.eyebrow}</span>
         <h2>
-          The short <em>answers.</em>
+          {copy.heading.text}
+          <em>{copy.heading.emphasis}</em>
           <a
             className="anchor-link"
             href="#faq"
-            aria-label="Permalink to Questions"
+            aria-label={`${MARKETING[locale].permalink}${copy.label}`}
           >
             #
           </a>

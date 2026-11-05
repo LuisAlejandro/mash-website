@@ -1,0 +1,18 @@
+---
+title: Más herramientas
+description: Fragmentos, contenedores, estado de la caché y visualización de la salida de los agentes.
+---
+
+Mash incluye pequeños ayudantes junto al flujo de trabajo principal de editor y agente:
+
+- **Fragmentos** abre el ejecutor de fragmentos Pet incluido. Usa un comando guardado en lugar de volver a escribirlo; revisa el comando antes de ejecutarlo en el proyecto enfocado.
+- **Estado de contenedores** abre lazydocker para el directorio de trabajo del panel activo. Docker debe estar en ejecución para mostrar los contenedores en vivo.
+- **Cache Hit** puede mostrar en la barra lateral de Herdr el estado de la caché de prompts de un agente, la cuenta atrás y los recuentos de tokens. Sus datos proceden de los registros de uso locales del agente; es una pista de estado, no una factura ni una garantía de aciertos futuros en la caché.
+- **Mostrar archivo** permite a Pi abrir un resultado de texto en el panel de Fresh que está al lado. Un resultado de imagen se abre en una división de Herdr con su resolución real. Esta herramienta no abre otros tipos de archivo en una aplicación externa.
+
+| Acción                 | Teclas Mash en macOS | Teclas Mash en Linux | Nativo                |
+| ---------------------- | -------------------- | -------------------- | --------------------- |
+| Fragmentos             | ⌘⌥P                  | Ctrl+Alt+Shift+P     | Ctrl+B, luego Shift+S |
+| Estado de contenedores | ⌘⇧O                  | Ctrl+Shift+O         | Ctrl+B, luego Shift+O |
+
+Estas herramientas dependen de tu entorno local. Si un selector indica que falta un binario, consulta [herramientas del primer inicio](/es/docs/first-launch/) y [solución de problemas](/es/docs/reference/troubleshooting/). Para los ajustes de los plugins de Herdr, usa el [gestor de plugins](/es/docs/tools/plugins/); para los paquetes instalados con Pi, usa [skills y paquetes](/es/docs/agents/skills-and-packages/).

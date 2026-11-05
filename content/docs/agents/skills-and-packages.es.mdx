@@ -1,0 +1,14 @@
+---
+title: Skills y paquetes
+description: Amplía Pi en Mash sin cambiar tu Pi independiente.
+---
+
+El conjunto opcional **Programming Skills** enseña a Pi los flujos de ideación, planificación, trabajo, QA y lanzamiento, y puede arrancar la memoria local de Hindsight. Lo eliges en la página **Herramientas** del primer arranque: la sección **Skills** incluye la casilla **Instalar Programming Skills**, activada por defecto. Puedes omitir el conjunto y conservar la terminal, el editor y Pi de Mash. La elección se guarda en `~/.mash/setup/skills-choice`, y la página [Memoria](/es/docs/first-launch/) solo se ofrece cuando está marcada.
+
+## Añadir un paquete de Pi
+
+Ejecuta `pi install npm:<name>` **dentro de un panel de Mash**. El paquete se instala en `~/.mash/pi/agent/npm/node_modules` y se añade al `settings.json` de Mash; reinicia Pi para cargarlo. `pi remove npm:<name>` lo elimina. Estos comandos no instalan en `$HOME/.pi/agent` salvo que un paquete de terceros deje esa ruta fija en el código de forma incorrecta; revisa los paquetes antes de usarlos.
+
+Coloca las skills individuales en `~/.mash/pi/agent/skills/<name>/SKILL.md`, las extensiones en `~/.mash/pi/agent/extensions/`, las plantillas de peticiones en `~/.mash/pi/agent/prompts/`, los temas en `~/.mash/pi/agent/themes/` y la configuración de servidores MCP en `~/.mash/pi/agent/mcp.json`. Cuando inicias sesión con GitHub dentro de Mash, Mash también registra ahí un servidor MCP de GitHub y resuelve el token desde la credencial `gh` propia de Mash en el momento de la conexión, así que no se escribe ningún token en el archivo. En un proyecto, el Pi de Mash lee **`.mash/`**, no `.pi/` (incluidos `.mash/skills/` y `.mash/mcp.json`).
+
+Las extensiones y la configuración del proyecto pueden ejecutar código con los permisos del agente. Revisa un paquete de terceros o un proyecto que no sea de confianza antes de activarlo; mantén los secretos fuera de los archivos del proyecto. Consulta [datos y configuración](/es/docs/reference/configuration/) para el mapa completo de rutas. No edites el bundle firmado Mash.app para instalar una extensión en tiempo de ejecución.

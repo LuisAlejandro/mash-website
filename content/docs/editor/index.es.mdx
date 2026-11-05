@@ -1,0 +1,14 @@
+---
+title: Edita con Fresh
+description: Lee y modifica código junto al agente en Mash.
+---
+
+Una pestaña **Desarrollo** abre Fresh a la izquierda y un agente de Pi asociado a la derecha. Puedes abrir un archivo en Fresh, editarlo tú y pedirle al agente que continúe desde el árbol de trabajo. Una [pestaña de revisión](/es/docs/editor/review/) es el lugar para inspeccionar un cambio antes de incorporarlo.
+
+## Abrir y guardar
+
+Fresh tiene un explorador de archivos que sigue el búfer activo y muestra archivos ocultos e ignorados por Git en la configuración de Mash incluida. Usa **Abrir archivo**, **Guardar** y **Buscar** en el editor. La referencia rápida al estilo Mash/Cursor enumera **⌘O**, **⌘S**, **⌘F** y **⌘⇧E** (explorador de archivos) en macOS. El modo nativo conserva las combinaciones propias de Fresh; [Teclas nativas](/es/docs/reference/keybindings-native/) enumera **Ctrl+O**, **Ctrl+S**, **Ctrl+F** y **Ctrl+E** para enfocar el explorador.
+
+Mash configura el formato al guardar para los modos de lenguaje compatibles, incluidos Markdown, TypeScript, JavaScript, CSS, Svelte, Bash y otros. Los formateadores como Prettier y shfmt se seleccionan en `~/.mash/config/fresh/config.json`. Los formateadores y servidores de lenguaje opcionales seleccionados en el primer inicio proporcionan autocompletado y diagnósticos; si falta una herramienta, puede que una integración del editor no funcione hasta que la instales. El tema de Fresh sigue la opción de Mash elegida en el asistente.
+
+Cuando necesites una terminal en el diseño de Desarrollo, usa la acción **Nuevo panel de terminal debajo de Fresh**. Coloca una terminal debajo de Fresh incluso si Pi tiene el foco; los comandos genéricos para dividir dividen el panel que tenga el foco. Consulta [pestañas y paneles](/es/docs/workspaces/tabs-and-panes/) o [buscar un archivo](/es/docs/editor/files-and-search/) a continuación.

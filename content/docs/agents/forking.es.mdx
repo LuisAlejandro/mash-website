@@ -1,0 +1,14 @@
+---
+title: Bifurcar una conversación
+description: Reinicia una sesión de Pi desde un mensaje anterior del usuario, en un lugar aparte.
+---
+
+Cuando la conversación actual ha tomado el camino equivocado, **Bifurcar agente desde un mensaje** te deja elegir un mensaje de usuario anterior y empezar una rama nueva de esa sesión de Pi. Conserva la conversación original; la bifurcación es un camino aparte para probar un enfoque alternativo.
+
+Enfoca primero el panel del agente de Pi, invoca **Bifurcar agente desde un mensaje** y selecciona un mensaje en el selector. La acción predeterminada crea una pestaña nueva con Fresh y el agente de Pi bifurcado. Para un destino distinto, elige la acción aparte **Bifurcar agente junto al panel actual** o **Bifurcar agente en un espacio de trabajo nuevo** desde la [paleta de comandos](/es/docs/tools/command-palette/). La acción identifica la sesión a partir del **panel enfocado**, así que, si el panel enfocado es el equivocado, no puede bifurcar la sesión que correspondía. El plugin incluido admite Pi en este flujo; no supongas que otra CLI de agente pueda reproducir la misma transcripción.
+
+| Acción                           | Teclas de Mash en macOS | Teclas de Mash en Linux | Nativo                |
+| -------------------------------- | ----------------------- | ----------------------- | --------------------- |
+| Bifurcar agente desde un mensaje | ⌘⌥Y                     | Ctrl+Alt+Shift+Y        | Ctrl+B, luego Shift+Y |
+
+Bifurcar una conversación es distinto de [crear un worktree de Git](/es/docs/workspaces/worktrees/): lo primero ramifica el historial del agente; lo segundo da al código una copia de trabajo aparte. Usa los dos cuando las ediciones independientes no deban chocar. Revisa los dos resultados antes de fusionarlos.

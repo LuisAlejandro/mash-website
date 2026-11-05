@@ -1,74 +1,58 @@
 import MashedWord from "./mashed-word";
 import { FilmBehavior } from "./media";
 import { ReleaseCta } from "./release";
+import { MARKETING } from "@/lib/i18n/marketing";
+import type { Locale } from "@/lib/i18n/locale";
+import { UI } from "@/lib/i18n/ui";
 import { RELEASES_URL, REPO_URL } from "@/lib/site";
 
-/** Verifiable release safeguards, each linked to where it can be checked. */
+/** Where each safeguard can be checked. The labels are localized copy. */
 const SAFEGUARDS = [
-  { label: "Signed & notarized on macOS", href: RELEASES_URL },
-  { label: "Build provenance on Linux", href: `${REPO_URL}/attestations` },
-  { label: "SHA-256 checksums", href: RELEASES_URL },
-  { label: "GPL-3.0 open source", href: `${REPO_URL}/blob/HEAD/LICENSE` },
+  RELEASES_URL,
+  `${REPO_URL}/attestations`,
+  RELEASES_URL,
+  `${REPO_URL}/blob/HEAD/LICENSE`,
 ];
 
-const CAPABILITIES = [
-  "Workspaces",
-  "Worktrees",
-  "Agent per workspace",
-  "Review tabs",
-  "Command palette",
-  "File finder",
-  "Session search",
-  "Session navigator",
-  "Source control",
-  "Annotations",
-  "Pane splits",
-  "Plugin manager",
-  "Fork from message",
-  "Editor and agent",
-  "Diff review",
-  "Markdown preview",
-  "Keyboard-first",
-];
-
-function TickerRow({ reverse = false }: { reverse?: boolean }) {
-  const items = reverse ? [...CAPABILITIES].reverse() : CAPABILITIES;
+function TickerRow({
+  items,
+  reverse = false,
+}: {
+  items: string[];
+  reverse?: boolean;
+}) {
+  const ordered = reverse ? [...items].reverse() : items;
   return (
     <div className="ticker-row" aria-hidden="true">
       {/* The list is repeated so a -50% drift wraps without a visible jump. */}
-      {[...items, ...items].map((item, index) => (
+      {[...ordered, ...ordered].map((item, index) => (
         <span key={`${item}-${index}`}>{item}</span>
       ))}
     </div>
   );
 }
 
-export default function Hero() {
+export default function Hero({ locale }: { locale: Locale }) {
+  const copy = MARKETING[locale];
+
   return (
     <>
       {/* Hero: the promise, the download, and the film that proves it. */}
       <header className="hero" id="top">
         <div className="wrap hero-grid">
           <div className="hero-copy">
-            <span className="eyebrow reveal">Mash · macOS and Linux</span>
+            <span className="eyebrow reveal">{copy.hero.eyebrow}</span>
             <h1 className="reveal hero-slogan">
-              Let&rsquo;s mash
+              {copy.hero.sloganLead}
               <br />
               <MashedWord />
               <br />
-              together.
+              {copy.hero.sloganTail}
             </h1>
-            <p className="lede reveal">
-              Mash arrives as one app with the stack already wired together:
-              Herdr for workspaces and agents, Ghostty for the terminal,
-              Starship for the prompt, Pi for the coding, and Fresh for the
-              editing, with the Mash skills that teach your workflow. Everything
-              runs from the keyboard, and the code stays visible and editable by
-              hand.
-            </p>
+            <p className="lede reveal">{copy.hero.lede}</p>
 
             <div className="hero-actions reveal">
-              <ReleaseCta />
+              <ReleaseCta locale={locale} />
               <a
                 className="btn-quiet"
                 href={REPO_URL}
@@ -79,15 +63,13 @@ export default function Hero() {
                 GitHub
               </a>
             </div>
-            <p className="hero-note reveal">
-              Apple silicon Mac · Ubuntu 24.04 · nothing to assemble
-            </p>
+            <p className="hero-note reveal">{copy.hero.note}</p>
           </div>
 
           {/* Full-window recording of the real app: editor and agent, command
               palette, workspace picker, file finder, and review. Muted autoplay
               loop; with reduced motion it waits on its poster until asked. */}
-          <FilmBehavior />
+          <FilmBehavior locale={locale} />
           <figure className="window hero-window reveal">
             <video
               id="film"
@@ -99,14 +81,23 @@ export default function Hero() {
               loop
               playsInline
               preload="metadata"
-              aria-label="A short tour of Mash: the command palette, the workspace picker, the file finder, and the review tab"
+              aria-label={copy.hero.filmAria}
             >
+              {/* The audio is English, so its captions are the default unless
+                  the reader chose Spanish: then the Spanish track leads. */}
               <track
                 kind="captions"
                 src="/assets/mash/hero-film.en.vtt"
                 srcLang="en"
-                label="English"
-                default
+                label={copy.tracks.en}
+                default={locale === "en"}
+              />
+              <track
+                kind="captions"
+                src="/assets/mash/hero-film.es.vtt"
+                srcLang="es"
+                label={copy.tracks.es}
+                default={locale === "es"}
               />
             </video>
             <button
@@ -115,7 +106,7 @@ export default function Hero() {
               id="film-control"
               aria-controls="film"
             >
-              Play film
+              {UI[locale].media.playFilm}
             </button>
           </figure>
         </div>
@@ -133,19 +124,18 @@ export default function Hero() {
             />
             <div className="maker-intro">
               <h2 className="maker-title" id="maker-title">
-                Who&rsquo;s behind Mash
+                {copy.hero.makerTitle}
               </h2>
               <p className="maker-text">
-                Built and maintained by Luis Alejandro, a software engineer
-                since 2009, author of{" "}
+                {copy.hero.makerLead}
                 <a
                   href="https://github.com/Dockershelf/dockershelf"
                   target="_blank"
                   rel="noreferrer"
                 >
                   Dockershelf
-                </a>{" "}
-                (294K+ downloads) and 60+ open source projects.
+                </a>
+                {copy.hero.makerTail}
               </p>
               <p className="maker-links">
                 <a
@@ -167,15 +157,15 @@ export default function Hero() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Report a vulnerability
+                  {copy.hero.vulnerability}
                 </a>
               </p>
             </div>
             <ul className="maker-safeguards">
-              {SAFEGUARDS.map(({ label, href }) => (
-                <li key={label}>
+              {SAFEGUARDS.map((href, index) => (
+                <li key={href}>
                   <a href={href} target="_blank" rel="noreferrer">
-                    {label}
+                    {copy.hero.safeguards[index]}
                   </a>
                 </li>
               ))}
@@ -184,8 +174,8 @@ export default function Hero() {
         </div>
 
         <div className="ticker" aria-hidden="true">
-          <TickerRow />
-          <TickerRow reverse />
+          <TickerRow items={copy.ticker} />
+          <TickerRow items={copy.ticker} reverse />
         </div>
       </header>
     </>

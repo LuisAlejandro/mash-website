@@ -1,0 +1,27 @@
+---
+title: Espacios de trabajo
+description: Mantén cada tarea en su propio espacio de trabajo de Mash.
+---
+
+Un espacio de trabajo de Mash es un lugar para un proyecto o una tarea: tiene su propio directorio, pestañas, paneles y agentes. Puedes dejar una tarea en marcha y cambiar a otra sin mezclar los historiales de terminal ni el estado del editor.
+
+## Crear un espacio de trabajo
+
+Abre **Nuevo espacio de trabajo (perfil de diseño)**, elige un directorio existente, ponle un nombre y selecciona una tarjeta de perfil. La tarjeta **Desarrollo** inicia un editor y un agente; **Agente** y **Terminal** crean diseños más sencillos. La ventana emergente acepta sugerencias de directorios con **Tab** y solo guarda cuando eliges **Guardar**. Consulta [perfiles de diseño](/es/docs/workspaces/layout-profiles/) para cambiar la disposición inicial.
+
+| Acción                                  | Teclas de Mash en macOS | Teclas de Mash en Linux             |
+| --------------------------------------- | ----------------------- | ----------------------------------- |
+| Nuevo espacio de trabajo                | ⌘⌃N                     | Ctrl+Alt+Shift+N                    |
+| Espacio de trabajo anterior / siguiente | ⌘⌃[ / ⌘⌃]               | Ctrl+Alt+Shift+[ / Ctrl+Alt+Shift+] |
+| Ir a la sesión                          | ⌘⌃G                     | Ctrl+Alt+Shift+G                    |
+| Selector de espacios de trabajo         | ⌘⌃O                     | Ctrl+Alt+Shift+O                    |
+
+Estas son combinaciones de teclas al estilo Mash/Cursor. Si elegiste **Nativo** en el primer inicio, usa **Ctrl+B, luego Shift+N** para crear un espacio de trabajo con perfil, o consulta [Atajos nativos](/es/docs/reference/keybindings-native/).
+
+## Encontrar un espacio de trabajo existente
+
+**Ir a la sesión** abre el navegador de sesiones de Herdr. El **Selector de espacios de trabajo** muestra los espacios de trabajo en ejecución, las entradas configuradas y las ubicaciones del historial de zoxide. Si un directorio nunca ha aparecido en zoxide y no está configurado como espacio de trabajo, el selector no puede crearlo a partir de una ruta escrita; usa **Nuevo espacio de trabajo** o registra el directorio con `zoxide add <path>`.
+
+## Cerrar o cambiar el nombre
+
+Puedes cambiar el nombre desde las acciones de espacio de trabajo de Herdr. Al cerrar un espacio de trabajo se cierran sus pestañas y paneles; no puedes deshacerlo para esos PTY. No se elimina un directorio de proyecto normal. Para un árbol de trabajo de Git vinculado, la [eliminación es una acción aparte](/es/docs/workspaces/worktrees/) y borra la copia de trabajo después de pedir confirmación. La [referencia de combinaciones de teclas](/es/docs/reference/keybindings-macos/) enumera todas las teclas de navegación y cierre.

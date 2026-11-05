@@ -1,0 +1,10 @@
+{
+  "title": "Referencia",
+  "pages": [
+    "keybindings-macos",
+    "keybindings-linux",
+    "keybindings-native",
+    "configuration",
+    "troubleshooting"
+  ]
+}

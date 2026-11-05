@@ -1,0 +1,47 @@
+---
+title: Atajos de Linux
+description: Atajos al estilo Mash / Cursor en escritorios Ubuntu compatibles.
+---
+
+Este es el **preajuste al estilo Mash / Cursor** en Ubuntu 24.04 GNOME, transcrito de la guía rápida de Linux incluida en la aplicación. Linux no se limita a sustituir Command por Control: GNOME intercepta algunas combinaciones, así que el enfoque de paneles usa **Ctrl+Super** y el renombrado de espacios de trabajo tiene su propio atajo. Si elegiste Nativo, usa en su lugar los [atajos nativos](/es/docs/reference/keybindings-native/).
+
+## Espacios de trabajo, pestañas y paneles
+
+| Acción                                                  | Teclas                                                               |
+| ------------------------------------------------------- | -------------------------------------------------------------------- |
+| Nuevo espacio de trabajo con perfil de disposición      | Ctrl+Alt+Shift+N                                                     |
+| Nuevo worktree con perfil de disposición                | Ctrl+Alt+Shift+E                                                     |
+| Espacio de trabajo anterior / siguiente                 | Ctrl+Alt+Shift+[ / Ctrl+Alt+Shift+]                                  |
+| Cambiar al espacio de trabajo 1–9                       | Ctrl+Alt+Shift+1–9                                                   |
+| Renombrar / cerrar espacio de trabajo                   | Ctrl+Alt+Shift+M / Ctrl+Alt+Shift+W                                  |
+| Eliminar worktree                                       | Ctrl+Alt+Shift+⌫                                                     |
+| Ir a la sesión / selector de espacios de trabajo        | Ctrl+Alt+Shift+G / Ctrl+Alt+Shift+O                                  |
+| Nueva pestaña Dev / de agente / de revisión / Shell     | Ctrl+Alt+T / Ctrl+Alt+Shift+T / Ctrl+Shift+R / Ctrl+Shift+T          |
+| Pestaña anterior / siguiente                            | Ctrl+Shift+Tab / Ctrl+Tab                                            |
+| Cambiar a la pestaña 1–9                                | Alt+1–9                                                              |
+| Renombrar / cerrar pestaña                              | Ctrl+Shift+M / Ctrl+Shift+W                                          |
+| Enfocar panel a la izquierda / abajo / arriba / derecha | Ctrl+Super+Left / Ctrl+Super+Down / Ctrl+Super+Up / Ctrl+Super+Right |
+| Recorrer paneles anterior / siguiente                   | Ctrl+Alt+[ / Ctrl+Alt+]                                              |
+| Dividir vertical / horizontal                           | Ctrl+Alt+\ / Ctrl+Alt+-                                              |
+| Cerrar / ampliar panel                                  | Ctrl+Alt+W / Ctrl+Alt+Z                                              |
+| Modo de cambio de tamaño                                | Ctrl+Alt+R                                                           |
+| Nuevo panel de shell bajo Fresh                         | Ctrl+Shift+Backtick                                                  |
+
+## Agentes y herramientas
+
+| Acción                                                  | Teclas                                                          |
+| ------------------------------------------------------- | --------------------------------------------------------------- |
+| Agente anterior / siguiente                             | Ctrl+Shift+Up / Ctrl+Shift+Down                                 |
+| Dictado de voz de Pi                                    | No aparece como atajo de Mash independiente; usa `/voice` en Pi |
+| Control de versiones / estado de contenedores           | Ctrl+Shift+G / Ctrl+Shift+O                                     |
+| Fragmentos / buscador de archivos / paleta de comandos  | Ctrl+Alt+Shift+P / Ctrl+Alt+P / Ctrl+Shift+P                    |
+| Búsqueda de sesiones                                    | Ctrl+Alt+Shift+L                                                |
+| Capturar / pegar anotaciones                            | Ctrl+Alt+K / Ctrl+Alt+L                                         |
+| Gestionar anotaciones / elegir enlace o ID              | Ctrl+Shift+L / Alt+G                                            |
+| Gestor de plugins / bifurcar desde un mensaje           | Ctrl+Shift+X / Ctrl+Alt+Shift+Y                                 |
+| Mostrar u ocultar la barra lateral / abrir notificación | Ctrl+Alt+B / Ctrl+Alt+Y                                         |
+| Ajustes / ayuda / recargar configuración                | Ctrl+, / Ctrl+Shift+I / Ctrl+Shift+,                            |
+| Desvincular                                             | Ctrl+Alt+U                                                      |
+| Buscar actualizaciones                                  | Ctrl+Alt+Shift+U                                                |
+
+Copiar y pegar en el terminal es **Ctrl+Shift+C / Ctrl+Shift+V**, o con el ratón. Las teclas Control sin combinar siguen funcionando dentro de un shell. Los atajos del editor de Fresh dependen del modo elegido en el primer inicio; ejecuta `fresh --cmd config paths` o revisa el mapa de teclas de Fresh de tu configuración instalada. Aquí no se indica ningún atajo de Pi Voice en Linux porque la guía rápida de Linux incluida no lo recoge; usa en su lugar la configuración inicial de `/voice` de Pi y sus controles dentro de la aplicación.

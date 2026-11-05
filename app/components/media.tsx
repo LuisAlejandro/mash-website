@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/locale";
+import { UI } from "@/lib/i18n/ui";
 
 const EASE = "cubic-bezier(0.22, 0.61, 0.36, 1)";
 
@@ -8,7 +10,8 @@ function flip(a: DOMRect, b: DOMRect) {
   return `translate(${b.left - a.left}px, ${b.top - a.top}px) scale(${b.width / a.width})`;
 }
 
-export function FilmBehavior() {
+export function FilmBehavior({ locale = DEFAULT_LOCALE }: { locale?: Locale }) {
+  const copy = UI[locale].media;
   useEffect(() => {
     const video = document.getElementById("film");
     const control = document.getElementById("film-control");
@@ -22,7 +25,7 @@ export function FilmBehavior() {
     let wanted = !calm;
 
     const label = () => {
-      control.textContent = video.paused ? "Play film" : "Pause film";
+      control.textContent = video.paused ? copy.playFilm : copy.pauseFilm;
     };
 
     const play = () => {
@@ -83,10 +86,7 @@ export function FilmBehavior() {
       const from = src.getBoundingClientRect();
       const overlay = document.createElement("div");
       overlay.className = "zoom";
-      overlay.setAttribute(
-        "aria-label",
-        "Enlarged video; click or press Escape to close"
-      );
+      overlay.setAttribute("aria-label", copy.videoZoomAria);
       overlay.tabIndex = -1;
       const win = document.createElement("div");
       win.className = "window";
@@ -164,12 +164,13 @@ export function FilmBehavior() {
         document.documentElement.style.overflow = "";
       }
     };
-  }, []);
+  }, [copy]);
 
   return null;
 }
 
-export function ChapterMedia() {
+export function ChapterMedia({ locale = DEFAULT_LOCALE }: { locale?: Locale }) {
+  const copy = UI[locale].media;
   useEffect(() => {
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const links = document.querySelectorAll(
@@ -228,10 +229,7 @@ export function ChapterMedia() {
       const from = src.getBoundingClientRect();
       const overlay = document.createElement("div");
       overlay.className = "zoom";
-      overlay.setAttribute(
-        "aria-label",
-        "Enlarged screenshot; click or press Escape to close"
-      );
+      overlay.setAttribute("aria-label", copy.imageZoomAria);
       overlay.tabIndex = -1;
       const win = src.cloneNode(true);
       if (!(win instanceof HTMLElement)) return;
@@ -278,7 +276,7 @@ export function ChapterMedia() {
         document.documentElement.style.overflow = "";
       }
     };
-  }, []);
+  }, [copy]);
 
   return null;
 }

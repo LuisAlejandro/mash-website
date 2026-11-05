@@ -2,22 +2,36 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import type { LatestRelease } from "../app-release";
+import { DEFAULT_LOCALE, type Locale } from "../i18n/locale.ts";
 import { SITE_URL } from "../site.ts";
 
-/** The authored homepage narrative, with its derived placeholders intact. */
-export function getMarketingNarrative(): string {
+/**
+ * The authored homepage narrative, with its derived placeholders intact.
+ *
+ * One file per language: `home.md` is the English original, `home.es.md` the
+ * Spanish translation. A missing file is a crash rather than a silent English
+ * page under a Spanish URL.
+ */
+export function getMarketingNarrative(locale: Locale = DEFAULT_LOCALE): string {
+  const file = locale === DEFAULT_LOCALE ? "home.md" : `home.${locale}.md`;
+
   return readFileSync(
-    resolve(process.cwd(), "content/llms/home.md"),
+    resolve(process.cwd(), "content/llms", file),
     "utf8"
   ).trim();
 }
 
-export function latestLine(release: LatestRelease | null): string {
+export function latestLine(
+  release: LatestRelease | null,
+  locale: Locale = DEFAULT_LOCALE
+): string {
   if (!release || Object.keys(release.downloads).length === 0) {
-    return "the latest release";
+    return locale === "es" ? "la última versión" : "the latest release";
   }
   const date = release.publishedAt ? ` (${release.publishedAt})` : "";
-  return `latest release ${release.version}${date}`;
+  return locale === "es"
+    ? `última versión ${release.version}${date}`
+    : `latest release ${release.version}${date}`;
 }
 
 export function substituteMarketingPlaceholders(

@@ -1,0 +1,39 @@
+---
+title: Atajos nativos
+description: Teclas predeterminadas de cada herramienta con el prefijo Ctrl+B de Herdr en macOS y Linux.
+---
+
+**Nativo** es el modo de atajos opcional elegido en el primer inicio. Herdr usa **Ctrl+B**: pulsa, suelta y luego la tecla de la tabla; Pi y Fresh usan sus propias teclas predeterminadas. Es un prefijo de dos pasos, no un acorde simultáneo. Este modo no se puede cambiar después de la configuración desde un menú; consulta [configuración](/es/docs/reference/configuration/) antes de modificar un mapa de teclas ya generado.
+
+## Acciones predeterminadas de Herdr (ambas plataformas)
+
+| Tras Ctrl+B       | Acción                                                  | Tras Ctrl+B         | Acción                                 |
+| ----------------- | ------------------------------------------------------- | ------------------- | -------------------------------------- |
+| n / p             | Pestaña siguiente / anterior                            | c                   | Nueva pestaña                          |
+| 1–9               | Cambiar a la pestaña N                                  | Shift+T / Shift+X   | Renombrar / cerrar pestaña             |
+| h / j / k / l     | Enfocar panel a la izquierda / abajo / arriba / derecha | Shift+H / J / K / L | Intercambiar panel en esa dirección    |
+| Tab / Shift+Tab   | Recorrer paneles siguiente / anterior                   | v / -               | Dividir vertical / horizontal          |
+| x / z / r         | Cerrar panel / ampliar / modo de cambio de tamaño       | [ / e               | Modo copia / editar el historial       |
+| Shift+P           | Renombrar panel                                         | w                   | Selector de espacios de trabajo nativo |
+| Shift+W / Shift+D | Renombrar / cerrar espacio de trabajo                   | g                   | Ir a la sesión                         |
+| b / o             | Mostrar u ocultar la barra lateral / abrir notificación | s / Shift+R         | Ajustes / recargar configuración       |
+| q / ?             | Desvincular / ayuda                                     | Shift+Z             | Buscar actualizaciones                 |
+
+## Acciones adicionales de Mash (ambas plataformas)
+
+| Tras Ctrl+B       | Acción                                       | Tras Ctrl+B       | Acción                                           |
+| ----------------- | -------------------------------------------- | ----------------- | ------------------------------------------------ |
+| t / a / Shift+C   | Nueva pestaña Dev / de agente / Shell simple | Shift+V           | Nueva pestaña de revisión                        |
+| Backtick          | Panel de shell bajo Fresh                    | f / y             | Buscador de archivos / control de versiones      |
+| Shift+O / Shift+S | Estado de contenedores / fragmentos          | i / Shift+I / m   | Anotar / pegar al agente / gestionar             |
+| u / Shift+U       | Elegir enlace o ID / gestor de plugins       | Shift+N           | Nuevo espacio de trabajo con perfil              |
+| Shift+G           | Nuevo worktree con perfil                    | Shift+F           | Selector de espacios de trabajo (sesiones)       |
+| ;                 | Paleta de comandos                           | Shift+Y / Shift+E | Bifurcar desde un mensaje / búsqueda de sesiones |
+
+## Fresh y Pi
+
+Las teclas predeterminadas de Fresh en ambas plataformas incluyen **Ctrl+S** (guardar), **Ctrl+O** (abrir), **Ctrl+P** (apertura rápida), **Ctrl+F** (buscar), **Alt+A** (reemplazar), **Ctrl+G** (ir a la línea), **Ctrl+D** (cursor en la siguiente coincidencia) y **Ctrl+E** (enfocar el explorador de archivos). Pi conserva su mapa de teclas predeterminado. **Ctrl+B** nunca llega a ninguna de las dos herramientas porque Herdr lo intercepta: usa **Ctrl+E** de Fresh en lugar de Ctrl+B para su explorador, y la **flecha izquierda** de Pi en lugar de Ctrl+B para mover el cursor a la izquierda.
+
+**Excepción de Linux en modo Nativo:** el terminal reclama **Ctrl+Shift+↑/↓** para su propio salto entre prompts, así que esas combinaciones no llegan a Pi en un panel de Pi. Las teclas **Ctrl+↑/↓** de Pi siguen saltando entre mensajes. En macOS, las combinaciones de salto entre prompts del terminal son otras. La guía rápida nativa no asigna un atajo especial de Mash para Pi Voice en ninguna plataforma; usa `/voice` dentro de Pi.
+
+Copiar y pegar en el terminal: **⌘C / ⌘V** en macOS; **Ctrl+Shift+C / Ctrl+Shift+V** en Linux. Si elegiste el otro modo de atajos, consulta [atajos de Mash en macOS](/es/docs/reference/keybindings-macos/) o [atajos de Mash en Linux](/es/docs/reference/keybindings-linux/).

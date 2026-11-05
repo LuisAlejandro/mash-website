@@ -1,0 +1,14 @@
+---
+title: Revisa los cambios
+description: Lee las diferencias del árbol de trabajo junto a un agente de Pi.
+---
+
+**Nueva pestaña de revisión (diferencias + agente)** abre una pestaña con reviewr a la izquierda y un agente de Pi asociado a la derecha, con proporciones generales similares a las de una pestaña de Desarrollo. Es una vista independiente de los cambios del proyecto actual: puedes inspeccionar qué cambió y preguntarle a Pi sobre un fragmento dudoso sin ocultar las diferencias detrás de una conversación.
+
+| Acción              | Teclas de Mash en macOS | Teclas de Mash en Linux | Nativo                |
+| ------------------- | ----------------------- | ----------------------- | --------------------- |
+| Pestaña de revisión | ⌘⇧R                     | Ctrl+Shift+R            | Ctrl+B, luego Shift+V |
+
+Una forma sensata de trabajar: termina una tarea en la [pestaña de Desarrollo](/es/docs/editor/), abre Revisión, lee las diferencias, ejecuta las comprobaciones del proyecto y decide qué conservar. El agente no decide qué se incorpora. También puedes abrir [Control de código fuente](/es/docs/editor/source-control/) para consultar el estado de Git del repositorio o usar [anotaciones](/es/docs/editor/annotations/) para enviar comentarios al agente.
+
+**Cerrar pestaña** termina los PTY de la pestaña y no hay una acción para volver a abrir una pestaña cerrada. Si quieres volver a una conversación de Pi después de cerrar su pestaña, usa la [búsqueda de sesiones](/es/docs/agents/sessions/) en lugar de confiar en deshacer.

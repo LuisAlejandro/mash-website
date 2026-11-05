@@ -3,6 +3,7 @@ import { listPublishedPosts } from "@/lib/blog";
 import { FEATURE_BLOG } from "@/lib/features";
 import { logError } from "@/lib/logger";
 import { CAPTURES, FILM, ORCHESTRATION_FILM, SITE_URL } from "@/lib/site";
+import { counterpartHref, languageAlternates } from "@/lib/i18n/locale";
 import { source } from "@/lib/source";
 
 export const dynamic = "force-static";
@@ -74,6 +75,38 @@ async function blogEntries(): Promise<MetadataRoute.Sitemap> {
  * so this sitemap declares nothing it does not also populate.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const homeAlternates = {
+    languages: languageAlternates({
+      en: `${SITE_URL}/`,
+      es: `${SITE_URL}/es/`,
+    }),
+  };
+  const videoEntries = [
+    {
+      title: "A tour of Mash",
+      thumbnail_loc: `${SITE_URL}${FILM.poster}`,
+      description:
+        "The Mash command palette, workspace picker, file finder, and review tab, recorded from the app.",
+      content_loc: `${SITE_URL}${FILM.path}`,
+      duration: 26,
+      publication_date: FILM.uploadDate,
+      family_friendly: "yes" as const,
+      live: "no" as const,
+      tag: "agentic coding, macOS, Linux, developer tools",
+    },
+    {
+      title: ORCHESTRATION_FILM.title,
+      thumbnail_loc: `${SITE_URL}${ORCHESTRATION_FILM.poster}`,
+      description: ORCHESTRATION_FILM.description,
+      content_loc: `${SITE_URL}${ORCHESTRATION_FILM.path}`,
+      duration: ORCHESTRATION_FILM.seconds,
+      publication_date: ORCHESTRATION_FILM.uploadDate,
+      family_friendly: "yes" as const,
+      live: "no" as const,
+      tag: "agent orchestration, agentic coding, developer tools",
+    },
+  ];
+
   return [
     // The marketing entries below carry no `lastModified`. None of them has a
     // content-derived modification time, and the build clock is not one: an
@@ -82,32 +115,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${SITE_URL}/`,
       changeFrequency: "weekly",
       priority: 1,
+      alternates: homeAlternates,
       images: CAPTURES.map((capture) => `${SITE_URL}${capture.path}`),
-      videos: [
-        {
-          title: "A tour of Mash",
-          thumbnail_loc: `${SITE_URL}${FILM.poster}`,
-          description:
-            "The Mash command palette, workspace picker, file finder, and review tab, recorded from the app.",
-          content_loc: `${SITE_URL}${FILM.path}`,
-          duration: 26,
-          publication_date: FILM.uploadDate,
-          family_friendly: "yes",
-          live: "no",
-          tag: "agentic coding, macOS, Linux, developer tools",
-        },
-        {
-          title: ORCHESTRATION_FILM.title,
-          thumbnail_loc: `${SITE_URL}${ORCHESTRATION_FILM.poster}`,
-          description: ORCHESTRATION_FILM.description,
-          content_loc: `${SITE_URL}${ORCHESTRATION_FILM.path}`,
-          duration: ORCHESTRATION_FILM.seconds,
-          publication_date: ORCHESTRATION_FILM.uploadDate,
-          family_friendly: "yes",
-          live: "no",
-          tag: "agent orchestration, agentic coding, developer tools",
-        },
-      ],
+      videos: videoEntries,
+    },
+    {
+      url: `${SITE_URL}/es/`,
+      changeFrequency: "weekly",
+      priority: 1,
+      alternates: homeAlternates,
     },
     {
       url: `${SITE_URL}/index.md`,
@@ -119,14 +135,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    {
+      url: `${SITE_URL}/es/llms.txt`,
+      changeFrequency: "monthly",
+      priority: 0.4,
+    },
     ...source.getPages().map((page) => {
       const lastModified = gitLastModified(page.data);
+      const locale = page.locale ?? "en";
+      const en = locale === "en" ? page.url : counterpartHref(page.url, "es");
+      const es = locale === "es" ? page.url : counterpartHref(page.url, "en");
 
       return {
         url: `${SITE_URL}${page.url}/`,
         ...(lastModified ? { lastModified } : {}),
         changeFrequency: "monthly" as const,
         priority: page.url === "/docs/" ? 0.9 : 0.7,
+        alternates: {
+          languages: languageAlternates({
+            en: `${SITE_URL}${en}/`,
+            es: `${SITE_URL}${es}/`,
+          }),
+        },
       };
     }),
     ...(await blogEntries()),

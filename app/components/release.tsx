@@ -8,6 +8,8 @@ import {
   type ReactNode,
 } from "react";
 import type { Downloads } from "@/lib/app-release";
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/locale";
+import { UI } from "@/lib/i18n/ui";
 import { RELEASES_URL, type PlatformId } from "@/lib/site";
 
 export type AssetKey = keyof Downloads;
@@ -113,11 +115,14 @@ export function usePlatform(): PlatformId {
  */
 export function ReleaseCta({
   className = "btn-solid",
+  locale = DEFAULT_LOCALE,
 }: {
   className?: string;
+  locale?: Locale;
 }) {
   const { state, version, downloads } = useRelease();
   const platform = usePlatform();
+  const copy = UI[locale].release;
 
   if (platform === "linux") {
     const amd64 = downloads.linuxAmd64;
@@ -127,12 +132,12 @@ export function ReleaseCta({
         <>
           {amd64 && (
             <a className={className} href={amd64} rel="noreferrer">
-              Download {version} · amd64
+              {copy.downloadLinux(version, "amd64")}
             </a>
           )}
           {arm64 && (
             <a className={className} href={arm64} rel="noreferrer">
-              Download {version} · arm64
+              {copy.downloadLinux(version, "arm64")}
             </a>
           )}
         </>
@@ -141,10 +146,10 @@ export function ReleaseCta({
     return (
       <>
         <a className={className} href={RELEASES_URL} rel="noreferrer">
-          Download · amd64
+          {copy.downloadLinuxLatest("amd64")}
         </a>
         <a className={className} href={RELEASES_URL} rel="noreferrer">
-          Download · arm64
+          {copy.downloadLinuxLatest("arm64")}
         </a>
       </>
     );
@@ -153,14 +158,14 @@ export function ReleaseCta({
   if (state === "ready" && downloads.mac) {
     return (
       <a className={className} href={downloads.mac} rel="noreferrer">
-        Download Mash {version} for macOS
+        {copy.downloadMac(version)}
       </a>
     );
   }
 
   return (
     <a className={className} href={RELEASES_URL} rel="noreferrer">
-      Download Mash for macOS
+      {copy.downloadMacLatest}
     </a>
   );
 }

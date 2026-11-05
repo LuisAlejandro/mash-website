@@ -1,37 +1,38 @@
+import { MARKETING } from "@/lib/i18n/marketing";
+import type { Locale } from "@/lib/i18n/locale";
+
+/** The voice walkthrough's screenshots; the labels live in the locale copy. */
 const VOICE_STEPS = [
-  {
-    image: "/assets/mash/voice-recording.png",
-    label: "Start dictation",
-    alt: "Pi in Mash showing the voice recording meter with the controls to transcribe or discard",
-  },
-  {
-    image: "/assets/mash/voice-transcript.png",
-    label: "Check the text",
-    alt: "Pi in Mash showing a spoken request transcribed into the message box before it is sent",
-  },
+  "/assets/mash/voice-recording.png",
+  "/assets/mash/voice-transcript.png",
 ];
 
-export default function FeatureSpotlights() {
+export default function FeatureSpotlights({ locale }: { locale: Locale }) {
+  const copy = MARKETING[locale];
+  const orchestration = copy.spotlights.orchestration;
+  const voice = copy.spotlights.voice;
+  const permalink = (name: string) => `${copy.permalink}${name}`;
+
   return (
-    <section className="section wrap spotlights" aria-label="New in Mash">
+    <section
+      className="section wrap spotlights"
+      aria-label={copy.spotlights.aria}
+    >
       <div className="orchestration-spotlight" id="orchestration">
         <div className="section-head reveal">
-          <span className="eyebrow">Agent orchestration</span>
+          <span className="eyebrow">{orchestration.eyebrow}</span>
           <h2>
-            Delegate in parallel. <em>Stay the decision-maker.</em>
+            {orchestration.heading.text}
+            <em>{orchestration.heading.emphasis}</em>
             <a
               className="anchor-link"
               href="#orchestration"
-              aria-label="Permalink to agent orchestration"
+              aria-label={permalink(orchestration.label)}
             >
               #
             </a>
           </h2>
-          <p>
-            A coordinator agent splits a goal into independent tasks, starts
-            worker agents beside you, answers their questions, and gathers what
-            they finished. You still inspect and review every change.
-          </p>
+          <p>{orchestration.body}</p>
         </div>
 
         <figure className="window spotlight-film reveal">
@@ -44,58 +45,63 @@ export default function FeatureSpotlights() {
             muted
             playsInline
             preload="none"
-            aria-label="Mash orchestration: two agents edit separate files, one asks the coordinator a question, and both report results for review"
+            aria-label={orchestration.videoAria}
           >
             <track
               kind="captions"
               src="/assets/mash/orchestration-film.en.vtt"
               srcLang="en"
-              label="English"
-              default
+              label={copy.tracks.en}
+              default={locale === "en"}
+            />
+            <track
+              kind="captions"
+              src="/assets/mash/orchestration-film.es.vtt"
+              srcLang="es"
+              label={copy.tracks.es}
+              default={locale === "es"}
             />
           </video>
         </figure>
 
         <ol className="spotlight-beats reveal">
-          <li>
-            <span>01</span>Split the work
-          </li>
-          <li>
-            <span>02</span>Answer worker questions
-          </li>
-          <li>
-            <span>03</span>Gather results, then review
-          </li>
+          {orchestration.beats.map((beat, index) => (
+            <li key={beat}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              {beat}
+            </li>
+          ))}
         </ol>
       </div>
 
       <div className="voice-spotlight" id="voice">
         <div className="voice-copy reveal">
-          <span className="eyebrow">Pi Voice dictation</span>
+          <span className="eyebrow">{voice.eyebrow}</span>
           <h3>
-            Talk through the task. <em>Edit before it is sent.</em>
+            {voice.heading.text}
+            <em>{voice.heading.emphasis}</em>
             <a
               className="anchor-link"
               href="#voice"
-              aria-label="Permalink to Pi Voice dictation"
+              aria-label={permalink(voice.label)}
             >
               #
             </a>
           </h3>
           <p>
-            Dictate to Pi when typing is slower than saying it. Speech becomes
-            text in the message box, so you can read or edit the request before
-            you send it. On macOS, <kbd>⌃⌥Z</kbd> starts and stops dictation.
+            {voice.bodyBefore}
+            <kbd>⌃⌥Z</kbd>
+            {voice.bodyAfter}
           </p>
         </div>
         <ol className="voice-steps reveal">
-          {VOICE_STEPS.map((step) => (
-            <li key={step.image}>
-              <a href={step.image} target="_blank" rel="noreferrer">
+          {VOICE_STEPS.map((image, index) => (
+            <li key={image}>
+              <a href={image} target="_blank" rel="noreferrer">
                 <div className="window">
                   <img
-                    src={step.image}
-                    alt={step.alt}
+                    src={image}
+                    alt={voice.steps[index].alt}
                     width={1600}
                     height={1000}
                     loading="lazy"
@@ -103,7 +109,7 @@ export default function FeatureSpotlights() {
                   />
                 </div>
               </a>
-              <p>{step.label}</p>
+              <p>{voice.steps[index].label}</p>
             </li>
           ))}
         </ol>

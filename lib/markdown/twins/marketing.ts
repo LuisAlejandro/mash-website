@@ -1,4 +1,6 @@
 import { getLatestAppRelease } from "@/lib/app-release";
+import { FACTS } from "@/lib/i18n/facts";
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/locale";
 import { buildFaq } from "@/lib/structured-data";
 import {
   getMarketingNarrative,
@@ -18,20 +20,23 @@ import {
 } from "@/lib/site";
 
 /**
- * Markdown twin of the homepage, generated at build time from the same arrays
- * the page renders. Answer engines and assistants get the claims as text, and
- * the capability and FAQ lists cannot drift from the HTML.
+ * The derived sections of the homepage twin, in one language.
  *
- * This is the only homepage Markdown renderer: `/index.md` and the `.md` twin
- * route both serve its output, so there is one document to keep truthful.
+ * The facts come from the same arrays the page renders — `CAPABILITIES`,
+ * `CAPTURES`, the films and the FAQ copy — so the Markdown cannot claim a
+ * capability the page does not list, in either language.
  */
-export async function marketingMarkdown(): Promise<string> {
-  const release = await getLatestAppRelease();
-  const faq = buildFaq(release);
+function derivedSections(
+  locale: Locale,
+  release: Awaited<ReturnType<typeof getLatestAppRelease>>
+) {
+  const platforms = FACTS[locale].platforms;
+  const platformLines = [platforms.mac, platforms.linux].map(
+    (platform) => `${platform.requirement}: ${platform.artifact}.`
+  );
 
-  // The authored corpus carries placeholders for the derived sections, so the
-  // prose stays editable without the layout living in two places.
-  const availability = `## Capabilities
+  if (locale === "en") {
+    const availability = `## Capabilities
 
 ${CAPABILITIES.map((item) => `- ${item}`).join("\n")}
 
@@ -49,7 +54,7 @@ ${CAPABILITIES.map((item) => `- ${item}`).join("\n")}
 - Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `${latestLine(release)} is published at ${RELEASES_URL} with release notes: a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. ${SITE_URL}/ offers the file for the visitor's platform. Every release publishes all platforms together.`}
 - Source: ${REPO_URL}`;
 
-  const captures = `## Captures
+    const captures = `## Captures
 
 Each image below is a real state from the application.
 
@@ -60,10 +65,62 @@ ${CAPTURES.map((c) => `- [${c.title}](${SITE_URL}${c.path}) — ${c.alt}`).join(
 
 ## Questions
 
-${faq.map((item) => `### ${item.question}\n\n${item.answer}`).join("\n\n")}`;
+${buildFaq(release, locale)
+  .map((item) => `### ${item.question}\n\n${item.answer}`)
+  .join("\n\n")}`;
 
+    return { availability, captures };
+  }
+
+  const availability = `## Capacidades
+
+${FACTS[locale].capabilities.map((item) => `- ${item}`).join("\n")}
+
+## Instalación y disponibilidad
+
+- Plataformas: ${platformLines.join(" ")} No hay compilación para Mac con Intel ni para Windows.
+- Distribución: ${platforms.mac.artifact} para macOS; ${platforms.linux.artifact} para Linux, que se instala en /opt/letsmash.
+- Teclado: macOS usa combinaciones con Command y Linux con Ctrl/Alt. La hoja de teclas de la aplicación muestra las de tu equipo.
+- Precio: gratuito y de código abierto bajo ${LICENSE}. Sin cuenta de Mash, suscripción ni compra dentro de la aplicación; Pi necesita un proveedor de modelos que tú eliges, y ese proveedor cobra tu uso de modelos.
+- Estado actual: ${DOWNLOAD_URL ? `descarga en ${DOWNLOAD_URL}` : `${latestLine(release, locale)} se publica en ${RELEASES_URL} con notas de la versión: un DMG firmado y notarizado para macOS en Apple silicon, y un .deb para Linux en amd64 y arm64. ${SITE_URL}/es/ ofrece el archivo para tu plataforma. Cada versión publica todas las plataformas a la vez.`}
+- Código fuente: ${REPO_URL}`;
+
+  const captures = `## Capturas
+
+Cada imagen es un estado real de la aplicación.
+
+${CAPTURES.map((c) => `- [${c.title}](${SITE_URL}${c.path}) — ${c.alt}`).join("\n")}
+- [${FACTS[locale].films.hero.name}](${SITE_URL}${FILM.path}) — ${FACTS[locale].films.hero.description} (${FILM.duration.slice(2).toLowerCase()}).
+- [${FACTS[locale].films.orchestration.title}](${SITE_URL}${ORCHESTRATION_FILM.path}) — ${FACTS[locale].films.orchestration.description} (${ORCHESTRATION_FILM.seconds}s).
+
+## Preguntas
+
+${buildFaq(release, locale)
+  .map((item) => `### ${item.question}\n\n${item.answer}`)
+  .join("\n\n")}`;
+
+  return { availability, captures };
+}
+
+/**
+ * Markdown twin of the homepage, generated at build time from the same arrays
+ * the page renders. Answer engines and assistants get the claims as text, and
+ * the capability and FAQ lists cannot drift from the HTML.
+ *
+ * This is the only homepage Markdown renderer in each language: `/index.md`,
+ * `/es/index.md` and the `.md` twin route all serve its output, so there is one
+ * document per language to keep truthful.
+ */
+export async function marketingMarkdown(
+  locale: Locale = DEFAULT_LOCALE
+): Promise<string> {
+  const release = await getLatestAppRelease();
+  const { availability, captures } = derivedSections(locale, release);
+
+  // The authored corpus carries placeholders for the derived sections, so the
+  // prose stays editable without the layout living in two places.
   const narrative = substituteMarketingPlaceholders(
-    getMarketingNarrative(),
+    getMarketingNarrative(locale),
     availability,
     captures
   );
@@ -74,6 +131,6 @@ ${narrative}
 
 ---
 
-Snapshot generated at: ${new Date().toISOString()}
+${locale === "es" ? "Instantánea generada el" : "Snapshot generated at"}: ${new Date().toISOString()}
 `;
 }
