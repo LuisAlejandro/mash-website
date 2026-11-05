@@ -28,6 +28,12 @@ const githubClientSecret = requireEnv("GITHUB_CLIENT_SECRET");
 export const auth = betterAuth({
   secret,
   baseURL,
+  // next.config.ts sets trailingSlash: true, so Next redirects
+  // /api/auth/sign-in/social to the slashed form before the catch-all route
+  // runs. Better Auth then answers an empty 404 for every endpoint, because its
+  // router rejects a path whose trailing slash does not match the route. This
+  // flag is honoured at runtime but still missing from the published types.
+  advanced: { skipTrailingSlashes: true },
   database: drizzleAdapter(authDb, {
     provider: "pg",
     schema: {
