@@ -1,0 +1,18 @@
+---
+title: Perfiles de diseño
+description: Elige las pestañas y los paneles iniciales de un espacio de trabajo o árbol de trabajo.
+---
+
+Las ventanas emergentes para crear espacios de trabajo y árboles de trabajo de Mash muestran tres tarjetas iniciales:
+
+- **Desarrollo (editor + agente):** Fresh a la izquierda y un agente de Pi asociado a la derecha. El editor ocupa una parte mayor; el foco empieza en Pi.
+- **Agente:** una pestaña que contiene un agente de Pi asociado.
+- **Terminal:** una pestaña de terminal sencilla.
+
+Las mismas disposiciones están disponibles al crear [pestañas](/es/docs/workspaces/tabs-and-panes/) en un espacio de trabajo existente. La tarjeta Desarrollo se selecciona primero de forma predeterminada, pero puedes cambiarla antes de guardar.
+
+## Editar los diseños
+
+Ejecuta `herdr plugin config-dir herdr-workspace` en una terminal de Mash para encontrar el directorio de configuración de este complemento. Su `config.yaml` contiene la lista `profiles`; edita ese archivo y vuelve a abrir la ventana emergente. Los perfiles pueden nombrar pestañas, organizar divisiones, asignar un comando de inicio a un panel o declarar un agente asociado. El complemento crea una configuración a partir de su ejemplo si no existe; no hace falta reconstruir la aplicación para aplicar un cambio.
+
+Un perfil elige una disposición inicial, no una restricción permanente. Después de crear el espacio de trabajo, puedes [dividir y enfocar paneles](/es/docs/workspaces/tabs-and-panes/) manualmente. Para cambios de configuración locales, consulta [configuración](/es/docs/reference/configuration/). Evita editar el paquete de la aplicación firmado; `~/.mash` es la copia que se puede modificar.

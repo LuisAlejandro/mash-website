@@ -7,6 +7,7 @@ import {
   TWIN_HEADERS,
 } from "@/lib/markdown/twin-headers";
 import { docsInventory } from "@/lib/source";
+import { DEFAULT_LOCALE, LOCALES } from "@/lib/i18n/locale";
 
 /**
  * The pages whose Markdown twin is known at build time: the homepage and every
@@ -15,9 +16,18 @@ import { docsInventory } from "@/lib/source";
  * request instead.
  */
 export async function generateStaticParams() {
+  const published = LOCALES.filter((locale) => locale !== DEFAULT_LOCALE);
   const paths: Array<{ path: string[] }> = [
     { path: [] },
-    ...docsInventory().map((entry) => ({ path: ["docs", ...entry.slugs] })),
+    ...published.map((locale) => ({ path: [locale] })),
+    ...docsInventory(DEFAULT_LOCALE).map((entry) => ({
+      path: ["docs", ...entry.slugs],
+    })),
+    ...published.flatMap((locale) =>
+      docsInventory(locale).map((entry) => ({
+        path: [locale, "docs", ...entry.slugs],
+      }))
+    ),
   ];
 
   if (FEATURE_BLOG) {

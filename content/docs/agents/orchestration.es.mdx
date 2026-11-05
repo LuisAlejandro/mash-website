@@ -1,0 +1,14 @@
+---
+title: Orquestación de agentes
+description: Deja que un coordinador supervise a los agentes trabajadores en paneles hermanos de Herdr.
+---
+
+Un agente coordinador de Pi puede dividir un trabajo pedido en tareas, arrancar agentes trabajadores en paneles hermanos, responder a las preguntas de esos trabajadores y reunir los resultados para que los revises. El plugin de orquestación de Herdr mantiene un bucle supervisado local: la tarea de un trabajador no se da por resuelta solo porque su panel haya salido; necesita un informe explícito de finalización.
+
+## Cómo usarla
+
+Abre una pestaña Dev o Agent en el espacio de trabajo del proyecto. Dile a Pi qué tareas independientes quieres coordinar, qué archivos puede cambiar cada trabajador y cómo quieres que se comprueben los resultados. Deja abierto el panel del coordinador mientras los trabajadores están en marcha. El agente puede informar del progreso y traerte la pregunta de un trabajador cuando hace falta una decisión. Revisa tú mismo los archivos y los diffs resultantes en una [pestaña de revisión](/es/docs/editor/review/) antes de confirmar.
+
+Cuando un trabajador despachado necesita una respuesta, llama a la herramienta incluida **ask_coordinator**. Esa herramienta solo funciona mientras su panel tiene un Dispatch abierto; un panel sin Dispatch tiene que preguntarte a ti. El trabajador espera la respuesta del coordinador como resultado de la herramienta, en lugar de aceptar texto escrito pegado en su terminal. Si una pregunta sigue pendiente, el trabajador la retoma por el ID de su mensaje, en lugar de abrir un duplicado.
+
+Para las tareas que solo necesitan un experimento aparte, sin supervisión, [bifurca una sesión](/es/docs/agents/forking/) o abre otro [espacio de trabajo](/es/docs/workspaces/) en su lugar.

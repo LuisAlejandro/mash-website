@@ -1,0 +1,11 @@
+{
+  "title": "Terminal y herramientas",
+  "pages": [
+    "terminal",
+    "command-palette",
+    "plugins",
+    "notifications",
+    "link-picker",
+    "extras"
+  ]
+}

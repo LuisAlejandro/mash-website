@@ -1,0 +1,45 @@
+---
+title: Primer arranque
+description: Configura tu identidad, tus herramientas, tus proveedores, tus atajos y el dictado.
+---
+
+En el primer arranque, pulsa **Enter** o selecciona **Iniciar el asistente de configuración**. El asistente tiene siete páginas —Identidad, Herramientas, Proveedor de modelo, Búsqueda web, Memoria, Apariencia y Dictado— y la cabecera las cuenta a medida que avanzas. Termínalo antes de abrir un espacio de trabajo; si dejas el asistente sin terminar, la configuración queda pendiente y el siguiente arranque vuelve a empezar el asistente desde la primera página.
+
+## 1. Identidad
+
+Tu nombre y tu correo de Git se guardan en `~/.mash/config/git/config`; el campo de la clave de firma es opcional y, si lo dejas vacío, se desactiva la firma de los commits. La misma página ofrece un inicio de sesión opcional en **GitHub** con el GitHub CLI incluido. Inicia sesión aquí, o sáltalo y hazlo más tarde desde un shell de Mash con `gh auth login`; la autenticación queda en `~/.mash/config/gh` y nunca en tu `~/.config/gh` personal.
+
+## 2. Herramientas
+
+Una sola lista con las herramientas que Mash puede instalar, cada fila etiquetada según cómo llega y dónde acaba:
+
+- **Solo Mash** — `ships in Mash`, `pinned npm`, `pinned download`, `pinned pip`. Estas van a `~/.mash` y nunca tocan el resto de tu sistema.
+- **Tu equipo** — `Homebrew`, `apt`, `Xcode tools`, `CUA installer`. Estas cambian el host fuera de Mash, así que lee la fila antes de marcarla.
+
+Las filas que llegan con la aplicación o con tu gestor de paquetes están bloqueadas: Mash las usa para sí mismo. Debajo de la lista, la sección **Habilidades** incluye la casilla **Instalar habilidades de programación** —activada por defecto—, que añade los flujos de trabajo de brainstorm, plan, work, QA y release para Pi. En cualquier caso, el terminal, el editor Fresh y Pi siguen funcionando. La elección queda registrada en `~/.mash/setup/skills-choice`.
+
+El asistente instala solo lo que falta y registra el resultado bajo `~/.mash`. No se escribe nada dentro del paquete firmado de la aplicación.
+
+## 3. Proveedor de modelo
+
+Elige el proveedor con el que habla Pi y el modelo que usa. La página ofrece **Mantener lo actual / configurar más tarde**, **Ninguno (sin LLM)**, **OpenAI**, **Anthropic**, **OpenRouter** y un **Proveedor personalizado** para un endpoint compatible con OpenAI, con un campo enmascarado para la clave de API y, en un endpoint personalizado, su URL base. Mash prueba la conexión con una petición corta y luego puede listar los modelos del endpoint para que elijas uno de la lista; también puedes escribir el ID del modelo tú mismo. Puedes omitir la clave aquí e iniciar sesión más tarde dentro de Pi con `/login`.
+
+## 4. Búsqueda web
+
+Una elección aparte, porque la credencial de búsqueda no tiene por qué ser la del chat: **Mantener la configuración de búsqueda actual**, **Usar el modelo del chat**, **Google Gemini**, **OpenAI**, **Anthropic**, **OpenAI Codex**, **Azure OpenAI**, **GitHub Copilot**, **OpenCode Zen** u **OpenCode Go**. Si eliges el mismo proveedor que en la página del modelo, puedes reutilizar esa credencial; cualquier otra opción necesita su propia clave, guardada con la autenticación de Pi en `~/.mash/pi/agent`.
+
+## 5. Memoria
+
+La página opcional de memoria de **Hindsight** aparece junto con la elección de habilidades de programación. Apúntala al proveedor del chat, conserva una clave de memoria guardada o introduce una nueva clave de API; también puedes dejarlo para más tarde. Si la eliges, se instala el entorno de memoria bajo `~/.mash` y se inicia una vez para descargar sus modelos. No pegues claves de producción en archivos de proyecto.
+
+## 6. Apariencia
+
+Elige una fuente y un tamaño para el terminal —MesloLGS NF viene con la aplicación— y el tema claro u oscuro para todo Mash. La misma página fija el modo de atajos: **Mash / estilo Cursor** es el predeterminado, **Nativo** deja cada herramienta con sus teclas originales y usa el prefijo **Ctrl+B** de Herdr. La elección es definitiva una vez terminada la configuración y se guarda en `~/.mash/setup/keybindings-mode`. Usa los [atajos de Mash](/es/docs/reference/keybindings-macos/), los [atajos de Linux](/es/docs/reference/keybindings-linux/) o los [atajos nativos](/es/docs/reference/keybindings-native/) según corresponda.
+
+## 7. Dictado
+
+Elige los idiomas que vas a hablar y, después, un modelo de transcripción **Mejor** o **Rápido** para ellos. **Descargar y continuar** obtiene el modelo antes de que Mash se abra; **Continuar sin dictado** deja Pi Voice sin configurar, y el flujo `/voice` de Pi Voice puede completarlo más tarde. [Usar el dictado](/es/docs/agents/voice/) explica el atajo dentro de la aplicación.
+
+## Cuando falla la configuración
+
+El asistente registra el estado y los errores bajo `~/.mash/setup/`, incluido `setup.log`. Corrige la herramienta o la credencial que falta y vuelve a abrir Mash: una ejecución fallida o abandonada empieza otra vez desde la primera página, y una configuración ya terminada no se repite. Consulta la [solución de problemas](/es/docs/reference/troubleshooting/).

@@ -64,6 +64,7 @@ test: start
 	@$(exec_on_docker) npm run docs:check
 	@$(exec_on_docker) npm run blog:check
 	@$(exec_on_docker) npm run markdown:check
+	@$(exec_on_docker) npm run i18n:check
 
 console: start
 	@$(exec_on_docker) bash

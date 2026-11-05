@@ -74,6 +74,10 @@ const nextConfig: NextConfig = {
       },
       { source: "/", headers: varyAccept },
       { source: "/docs/:path*", headers: varyAccept },
+      // A Spanish page is negotiated the same way: an `Accept: text/markdown`
+      // request gets its twin, and the CDN has to know the response varies on it.
+      { source: "/es", headers: varyAccept },
+      { source: "/es/:path*", headers: varyAccept },
       {
         source: "/blog",
         headers: [
@@ -112,6 +116,10 @@ const nextConfig: NextConfig = {
       // takes a tag of its own rather than riding on a blog one.
       {
         source: "/llms-full.txt",
+        headers: [{ key: "Netlify-Cache-Tag", value: LLMS_FULL_TAG }],
+      },
+      {
+        source: "/es/llms-full.txt",
         headers: [{ key: "Netlify-Cache-Tag", value: LLMS_FULL_TAG }],
       },
     ];

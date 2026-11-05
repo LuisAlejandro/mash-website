@@ -1,0 +1,15 @@
+---
+title: Paleta de comandos
+description: Busca acciones nativas y de plugins; cambia a la búsqueda de archivos o de contenido.
+---
+
+La paleta combina las acciones nativas de Herdr, las acciones de los plugins instalados y los saltos a espacios de trabajo. Empieza a escribir un comando como **Cerrar panel**, el nombre de un plugin o parte del nombre de un espacio de trabajo; la fila seleccionada muestra el comando y su atajo actual cuando tiene uno asignado.
+
+| Acción               | Teclas Mash en macOS | Teclas Mash en Linux | Nativo          |
+| -------------------- | -------------------- | -------------------- | --------------- |
+| Paleta de acciones   | ⌘⇧P                  | Ctrl+Shift+P         | Ctrl+B, luego ; |
+| Buscador de archivos | ⌘P                   | Ctrl+Alt+P           | Ctrl+B, luego f |
+
+**Importante:** el atajo asignado de **Paleta de comandos** abre _solo acciones_. El atajo independiente de **Buscador de archivos** sirve para nombres de archivo. La acción completa de Telescope sigue disponible desde la lista de acciones: en su ventana emergente escribe `@` para filtrar por nombres de archivo, o `/` para buscar en el contenido de los archivos con ripgrep. Pulsa Backspace con la búsqueda vacía para volver a las acciones. Esta es la diferencia entre la [apertura rápida de Fresh](/es/docs/editor/files-and-search/) (dentro del editor) y la ventana emergente de Herdr (que actúa sobre el directorio de trabajo del panel enfocado).
+
+Si falta una acción de un plugin, comprueba si su plugin está activado en el [gestor de plugins](/es/docs/tools/plugins/). La paleta detecta los atajos en tiempo de ejecución desde la configuración activa de Herdr; reasignar un atajo allí cambia lo que muestra la fila.

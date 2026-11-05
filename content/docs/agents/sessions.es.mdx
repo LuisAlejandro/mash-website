@@ -1,0 +1,21 @@
+---
+title: Encontrar y retomar sesiones
+description: Muévete entre agentes en ejecución y reabre conversaciones anteriores de Pi.
+---
+
+Mash ofrece tres formas distintas de volver al trabajo:
+
+- **Ir a la sesión** es el navegador de Herdr para espacios de trabajo, pestañas y sesiones de agente activos.
+- **Selector de espacios de trabajo** incluye los espacios en ejecución, las entradas configuradas y los directorios de zoxide conocidos; sirve cuando recuerdas el proyecto, no la conversación.
+- **Búsqueda de sesiones** busca en las transcripciones JSONL guardadas de Pi, incluido el texto de los mensajes. Cada fila muestra si está abierta o cerrada, la etiqueta del espacio de trabajo cuando se conoce, una fecha y un título a partir del primer mensaje del usuario. **Enter** enfoca una sesión abierta. Una cerrada se reabre en una pestaña nueva de Pi de un solo panel con esa transcripción.
+
+Las sesiones están en `~/.mash/pi/agent/sessions`; Mash no examina la instalación independiente de Pi en `~/.pi`. Si el espacio de trabajo de una sesión ya no está en ejecución, su transcripción todavía se puede encontrar; la búsqueda usa el espacio de trabajo que la invoca cuando no puede identificar de forma unívoca un espacio de trabajo abierto con un directorio coincidente.
+
+| Acción                          | Teclas de Mash en macOS | Teclas de Mash en Linux |
+| ------------------------------- | ----------------------- | ----------------------- |
+| Ir a la sesión                  | ⌘⌃G                     | Ctrl+Alt+Shift+G        |
+| Selector de espacios de trabajo | ⌘⌃O                     | Ctrl+Alt+Shift+O        |
+| Buscar sesiones                 | ⌘⌥L                     | Ctrl+Alt+Shift+L        |
+| Separar                         | ⌘U                      | Ctrl+Alt+U              |
+
+**Separar** deja disponible la sesión de Herdr. El modo nativo usa **Ctrl+B** y luego **g** para Ir a la sesión, **Shift+F** para el selector, **Shift+E** para la búsqueda de sesiones y **q** para separar. También puedes buscar dentro de la transcripción de Pi que tiene el foco, con la búsqueda propia de Pi; consulta la [referencia rápida](/es/docs/reference/keybindings-macos/).

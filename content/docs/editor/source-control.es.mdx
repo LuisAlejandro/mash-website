@@ -1,0 +1,14 @@
+---
+title: Control de código fuente
+description: Inspecciona el estado de Git del proyecto activo sin salir de Mash.
+---
+
+**Control de código fuente** abre lazygit, que viene incluido, en una ventana emergente desde el directorio de trabajo actual del panel enfocado. Es un lugar práctico para inspeccionar el árbol de trabajo, las ramas y las confirmaciones mientras el editor y el agente siguen en su pestaña. La ventana emergente pertenece al proyecto activo: enfoca un panel del proyecto antes de abrirla.
+
+| Acción                   | Teclas en macOS | Teclas en Linux | Nativo         |
+| ------------------------ | --------------- | --------------- | -------------- |
+| Control de código fuente | ⌃⇧G             | Ctrl+Shift+G    | Ctrl+B, then y |
+
+La identidad de Git de Mash, configurada en el primer inicio, se encuentra en `~/.mash/config/git/config`. El inicio de sesión opcional de GitHub CLI usa su propia configuración en `~/.mash/config/gh`; no reutiliza silenciosamente un token heredado. El complemento PR Watch puede actualizar las insignias de PR y los recuentos de confirmaciones por delante y por detrás mientras Mash se ejecuta y al enfocar la ventana, así que la lista de espacios de trabajo puede mostrar el estado actualizado del repositorio cuando vuelvas.
+
+Usa una [pestaña de revisión](/es/docs/editor/review/) para leer las diferencias junto a un agente antes de confirmar los cambios. Un árbol de trabajo de Git es una copia de trabajo independiente para una tarea separada, no otra pestaña del mismo árbol de trabajo; consulta [árboles de trabajo](/es/docs/workspaces/worktrees/).

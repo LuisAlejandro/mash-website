@@ -7,6 +7,7 @@ import { FEATURE_BLOG } from "@/lib/features";
 import { logError } from "@/lib/logger";
 import { isSafePathSegment } from "@/lib/markdown/path-safety";
 import { MCP_TOOL_REGISTRY, type McpToolName } from "@/lib/mcp/tool-registry";
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/locale";
 import { docsInventory, source } from "@/lib/source";
 import { APP_NAME, SITE_URL } from "@/lib/site";
 
@@ -30,14 +31,18 @@ type ToolResult = ReturnType<typeof textResult> | ReturnType<typeof toolError>;
 function registerTool(
   server: McpServer,
   name: McpToolName,
-  handler: (input: Record<string, string>) => Promise<ToolResult>
+  handler: (input: Record<string, string | undefined>) => Promise<ToolResult>
 ) {
   const definition = MCP_TOOL_REGISTRY[name];
+  const required = new Set<string>(definition.inputSchema.required);
+  // A property the registry does not mark required is optional here too: the
+  // locale argument, for instance, defaults to English rather than being
+  // mandatory for every existing caller.
   const inputSchema = Object.fromEntries(
-    Object.entries(definition.inputSchema.properties).map(([key, field]) => [
-      key,
-      z.string().trim().min(field.minLength).max(field.maxLength),
-    ])
+    Object.entries(definition.inputSchema.properties).map(([key, field]) => {
+      const base = z.string().trim().min(field.minLength).max(field.maxLength);
+      return [key, required.has(key) ? base : base.optional()];
+    })
   );
 
   server.registerTool(
@@ -68,9 +73,20 @@ function docsSlugs(value: string): string[] | null {
   return segments;
 }
 
-function scoreDocs(query: string) {
+/**
+ * The locale a tool argument names, defaulting to English.
+ *
+ * The registry accepts any string, so an unpublished locale is answered with
+ * English rather than with a mixture: every surface below then stays in one
+ * language, which is the property that matters for a caller.
+ */
+function localeOf(value: string | undefined): Locale {
+  return value === "es" ? "es" : DEFAULT_LOCALE;
+}
+
+function scoreDocs(query: string, locale: Locale) {
   const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
-  return docsInventory()
+  return docsInventory(locale)
     .map((page, index) => {
       const title = page.title.toLowerCase();
       const description = page.description.toLowerCase();
@@ -106,20 +122,21 @@ export async function createMcpServer(): Promise<McpServer> {
     textResult(DISCOVERY_SURFACES)
   );
 
-  registerTool(server, "search_docs", async ({ query }) =>
-    textResult(scoreDocs(query))
+  registerTool(server, "search_docs", async ({ query, locale }) =>
+    textResult(scoreDocs(query ?? "", localeOf(locale)))
   );
 
-  registerTool(server, "get_docs_page", async ({ path }) => {
-    const slugs = docsSlugs(path);
+  registerTool(server, "get_docs_page", async ({ path, locale }) => {
+    const slugs = docsSlugs(path ?? "");
+    const language = localeOf(locale);
     const entry =
       slugs &&
-      docsInventory().find(
+      docsInventory(language).find(
         (page) =>
           page.slugs.length === slugs.length &&
           page.slugs.every((slug, index) => slug === slugs[index])
       );
-    const page = entry && source.getPage(entry.slugs);
+    const page = entry && source.getPage(entry.slugs, language);
     if (!entry || !page) return toolError("Documentation page not found.");
 
     let markdown: string | null | undefined;
@@ -146,7 +163,7 @@ export async function createMcpServer(): Promise<McpServer> {
 
     registerTool(server, "search_blog_posts", async ({ query }) => {
       try {
-        return textResult(await searchPublishedPosts(query));
+        return textResult(await searchPublishedPosts(query ?? ""));
       } catch (error) {
         logError("mcp-search-blog-posts", error);
         return toolError("Blog search is temporarily unavailable.");

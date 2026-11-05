@@ -1,0 +1,24 @@
+---
+title: Modelos y proveedores
+description: Configura los proveedores de Pi, de la búsqueda web y de la memoria sin compartir credenciales.
+---
+
+El asistente del primer arranque dedica una página a cada proveedor: **Proveedor de modelos** para el modelo de chat de Pi, **Búsqueda web** para la credencial de búsqueda y **Memoria**, opcional, para Hindsight. Puedes conservar una configuración existente, dejarla para más tarde o introducir una credencial ahora. No publiques claves de API en archivos del proyecto.
+
+## Proveedor de modelos
+
+Elige un proveedor — **OpenAI**, **Anthropic**, **OpenRouter**, un **Proveedor personalizado** para un endpoint compatible con OpenAI, o **Ninguno (sin LLM)** — e introduce la clave de API en el campo enmascarado, más la URL base de un endpoint personalizado. Mash envía una petición breve para probar la conexión y después puede listar los modelos del endpoint, así que puedes elegir uno en lugar de escribir su ID. Un endpoint que responde pero no informa de ningún modelo de chat lo indica, en lugar de dejarte con un selector vacío.
+
+## Búsqueda web
+
+La búsqueda tiene su propia credencial, así que no tiene por qué ser la del chat. Las opciones son **Conservar la configuración de búsqueda existente**, **Usar el modelo de chat**, **Google Gemini**, **OpenAI**, **Anthropic**, **OpenAI Codex**, **Azure OpenAI**, **GitHub Copilot**, **OpenCode Zen** y **OpenCode Go**. Si eliges el mismo proveedor que en la página del modelo, puedes reutilizar esa credencial; cualquier otro pide su propia clave. El proveedor de búsqueda elegido se guarda con la autenticación de Pi, no en un archivo específico de Mash.
+
+## Memoria
+
+La página **Memoria** configura Hindsight y aparece con la opción Programming Skills. Apúntala a las credenciales del proveedor de chat, conserva una clave de memoria guardada, introduce una nueva o configúrala más tarde. Elegirla instala el entorno de memoria en `~/.mash` y lo arranca una vez para obtener sus modelos. Si la dejas como está, la memoria local sigue sin uso; el resto de Mash no se ve afectado.
+
+## Cambiar un proveedor después de la configuración
+
+En un panel de Pi, usa `/login` para conectarte a un proveedor compatible o gestionar su conexión OAuth, y **Ctrl+P** en modo Mash para alternar los modelos configurados. La configuración de Pi en Mash está en `~/.mash/pi/agent/settings.json`, sus credenciales en `~/.mash/pi/agent/auth.json` y las definiciones de proveedores personalizados en `~/.mash/pi/agent/models.json`. Estos **no** son tus archivos personales de `~/.pi/agent`. Consulta la [configuración](/es/docs/reference/configuration/) antes de editar, y no confirmes nunca `auth.json`.
+
+La lista de modelos de Pi y la oferta de proveedores pueden cambiar con una actualización de la aplicación; usa el selector de modelos integrado de Pi para ver lo disponible en tu Mash instalado, en lugar de una lista fija aquí. Los [controles de sesión](/es/docs/agents/sessions/) explican cómo volver a conversaciones anteriores.

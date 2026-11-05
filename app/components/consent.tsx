@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useSyncExternalStore, type ReactNode } from "react";
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/locale";
+import { UI } from "@/lib/i18n/ui";
 
 const STORAGE_KEY = "mash.consent";
 
@@ -53,8 +55,15 @@ function notify(): void {
 
 const serverChoice = () => null;
 
-export default function ConsentGate({ children }: { children: ReactNode }) {
+export default function ConsentGate({
+  children,
+  locale = DEFAULT_LOCALE,
+}: {
+  children: ReactNode;
+  locale?: Locale;
+}) {
   const choice = useSyncExternalStore(subscribe, readChoice, serverChoice);
+  const copy = UI[locale].consent;
 
   const decide = useCallback((next: "granted" | "denied") => {
     try {
@@ -71,27 +80,24 @@ export default function ConsentGate({ children }: { children: ReactNode }) {
       {ANALYTICS_CONFIGURED && choice === null ? (
         <aside
           className="consent"
-          aria-label="Analytics cookies"
+          aria-label={copy.ariaLabel}
           aria-live="polite"
         >
-          <p className="consent-text">
-            Mash uses analytics cookies to see which pages and docs actually
-            help. No accounts, no ads, nothing sold.
-          </p>
+          <p className="consent-text">{copy.text}</p>
           <div className="consent-actions">
             <button
               type="button"
               className="btn-solid"
               onClick={() => decide("granted")}
             >
-              Allow analytics
+              {copy.allow}
             </button>
             <button
               type="button"
               className="btn-quiet"
               onClick={() => decide("denied")}
             >
-              No thanks
+              {copy.deny}
             </button>
           </div>
         </aside>

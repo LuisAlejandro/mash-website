@@ -1,0 +1,15 @@
+---
+title: Archivos y búsqueda
+description: Encuentra un archivo por nombre, busca en su contenido o usa Apertura rápida de Fresh.
+---
+
+Mash tiene dos selectores distintos. **Buscador de archivos** es una ventana emergente de Herdr cuyo directorio raíz es el directorio de trabajo del panel enfocado. Busca nombres de archivo y abre el archivo elegido en el editor, en un panel o pestaña nuevos. **Apertura rápida de Fresh** se ejecuta _dentro del editor_ y puede encontrar archivos, comandos (`>`), búferes (`#`) o un número de línea (`:`).
+
+| Acción                        | Teclas de Mash en macOS | Teclas de Mash en Linux | Nativo            |
+| ----------------------------- | ----------------------- | ----------------------- | ----------------- |
+| Buscador de archivos de Herdr | ⌘P                      | Ctrl+Alt+P              | Ctrl+B, luego f   |
+| Apertura rápida de Fresh      | Ctrl+P (en Fresh)       | Ctrl+P (en Fresh)       | Ctrl+P (en Fresh) |
+
+La [paleta de comandos](/es/docs/tools/command-palette/) independiente abre **solo acciones** con su atajo principal; no reemplaza al buscador de archivos. En la acción Telescope completa, escribe `@` para cambiar a nombres de archivo o `/` para buscar en el _contenido_ de los archivos con ripgrep. Pulsa Backspace con una consulta vacía para volver a las acciones. Los resultados de archivos provienen de `fd` cuando está disponible; si no, de la lista de archivos de Git y, por último, de una búsqueda `find` limitada. Selecciona **Nuevo panel** o **Nueva ventana** para abrir el archivo seleccionado.
+
+Si faltan archivos, comprueba primero el directorio de trabajo del panel enfocado. El explorador propio de Fresh puede mostrar archivos ocultos e ignorados por Git, mientras que un selector que tiene en cuenta Git aplica filtros distintos. Para rutas que haya impreso una terminal o un agente, [Seleccionar enlace o ID](/es/docs/tools/link-picker/) es más rápido que volver a escribirlas.

@@ -1,0 +1,14 @@
+---
+title: Anotaciones
+description: Captura texto y envíaselo al agente de la pestaña actual.
+---
+
+Las anotaciones te permiten recopilar comentarios mientras lees una respuesta y enviarlos a Pi en un lote. **Anotar texto** captura el texto seleccionado; **Gestionar anotaciones** te permite inspeccionar lo que recopilaste; **Pegar anotaciones en el agente de esta pestaña y archivarlas** envía el lote al _agente real_ junto al editor. Esto es importante en una pestaña de Desarrollo: Herdr también registra Fresh para restaurarlo, así que la acción de Mash apunta deliberadamente a Pi en lugar de pegar el texto en el búfer del editor.
+
+| Acción                        | Teclas de Mash en macOS | Teclas de Mash en Linux | Nativo                |
+| ----------------------------- | ----------------------- | ----------------------- | --------------------- |
+| Anotar texto                  | ⌘K                      | Ctrl+Alt+K              | Ctrl+B, luego i       |
+| Pegar en el agente y archivar | ⌘L                      | Ctrl+Alt+L              | Ctrl+B, luego Shift+I |
+| Gestionar anotaciones         | ⌘⇧L                     | Ctrl+Shift+L            | Ctrl+B, luego m       |
+
+Enfoca la pestaña con el agente al que quieres dar instrucciones antes de enviar. Después de pegar, inspecciona el mensaje en Pi y continúa la conversación; trata las anotaciones como comentarios, no como aprobación automática para confirmar cambios. Para una tarea distinta, crea un [espacio de trabajo](/es/docs/workspaces/) en lugar de enviar las mismas anotaciones a dos agentes.

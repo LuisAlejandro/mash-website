@@ -1,0 +1,35 @@
+---
+title: Configuración y datos
+description: Encuentra los ajustes modificables de Mash, las sesiones y la configuración de proyecto.
+---
+
+Mash es una aplicación aislada con un paquete firmado de solo lectura y un directorio de datos modificable en `~/.mash`. **HOME no cambia**: tus `~/.config`, `~/.pi` y `~/.hindsight` normales siguen siendo tus archivos personales. Mash, en cambio, define rutas XDG y de herramientas específicas de la aplicación para sus propios paneles.
+
+## Rutas modificables
+
+| Ruta                                                           | Qué contiene                                                                                              |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `~/.mash/pi/agent/`                                            | Ajustes de Pi, autenticación, servidores MCP, paquetes, extensiones, skills, temas y sesiones             |
+| `~/.mash/config/herdr/`                                        | Ajustes de Herdr y registro de plugins; `config.toml` es el mapa de teclas activo                         |
+| `~/.mash/config/ghostty/`                                      | Configuración y temas de Mash Terminal                                                                    |
+| `~/.mash/config/fresh/`                                        | Configuración del editor Fresh, `init.ts`, temas y plugins                                                |
+| `~/.mash/config/git/config`                                    | Identidad de Git y opciones de Git en Mash                                                                |
+| `~/.mash/config/gh/`                                           | Autenticación de la CLI de GitHub de Mash                                                                 |
+| `~/.mash/config/starship.toml`                                 | Prompt de shell compartido                                                                                |
+| `~/.mash/config/{zsh,bash,fish,pet,atuin,lazygit,lazydocker}/` | Configuraciones de shell y de herramientas auxiliares                                                     |
+| `~/.mash/config/mash/`                                         | Referencias de Mash Programming Skills, la versión fijada de Hindsight y sus entornos virtuales de Python |
+| `~/.mash/setup/`                                               | Estado del primer inicio, elecciones y registros de configuración                                         |
+| `~/.mash/local/state/` y `~/.mash/local/share/`                | Estado propio de la aplicación, incluidos los registros de actualización, y datos de Fresh y zoxide       |
+| `~/.mash/cache/`                                               | Cachés, incluidas las descargas de modelos y de navegadores                                               |
+| `~/.mash/run/` y `~/.mash/bin`                                 | Sockets de Herdr y herramientas instaladas bajo Mash                                                      |
+| `~/.mash/.hindsight/`, `~/.mash/.pg0/` y `~/.mash/.local/bin`  | Bases de datos de memoria y binarios auxiliares, con punto inicial por esas herramientas                  |
+
+El lanzador de Mash apunta el entorno de cada panel a ese directorio: `XDG_CONFIG_HOME`, `XDG_STATE_HOME`, `XDG_DATA_HOME` y `XDG_CACHE_HOME` pasan a ser rutas de `~/.mash`, y lo mismo ocurre con `PI_CODING_AGENT_DIR`, `PI_HOME`, `HERDR_CONFIG_PATH`, `HERDR_SOCKET_PATH`, `GIT_CONFIG_GLOBAL`, `GH_CONFIG_DIR`, `ZDOTDIR` y las variables de configuración de Fresh. Por eso `pi install`, `gh auth login` y `git config --global` dentro de Mash escriben bajo `~/.mash` en lugar de en tu directorio personal. Crea los archivos que falten y conserva tus ediciones al actualizar. Si borras un archivo de configuración generado por Mash, el siguiente inicio puede volver a crear la versión para el modo de atajos que elegiste; haz una copia de seguridad de tus ediciones antes de volver a generarlo a propósito. Desinstalar Mash no elimina este directorio de datos.
+
+## Personalización de Pi
+
+Cambia los ajustes de Pi en `~/.mash/pi/agent/settings.json`, añade servidores MCP en `~/.mash/pi/agent/mcp.json`, instala paquetes con `pi install npm:<name>` y añade una skill en `~/.mash/pi/agent/skills/<name>/SKILL.md`. Una configuración de Pi **local al proyecto** en Mash va en el directorio `.mash/` del proyecto, no en `.pi/`. Los ajustes del proyecto pueden ejecutar código una vez que los marques como de confianza; revisa los repositorios que no conozcas antes de activarlos. El paquete firmado de la aplicación no sirve para instalar extensiones ni para cambiar ajustes de ejecución.
+
+## Recargar los cambios
+
+En Herdr, usa **Recargar configuración** o ejecuta `herdr server reload-config`. El menú recarga Ghostty y Herdr; no recarga el editor Fresh en ejecución, así que vuelve a abrir Fresh después de editar su configuración. Una tecla de Herdr reasignada localmente no actualiza la etiqueta ni el atajo fijos que muestra el menú de Mash Terminal. La elección de atajos del primer inicio se guarda en `~/.mash/setup/keybindings-mode`; usa las [referencias de atajos](/es/docs/reference/keybindings-macos/) que correspondan a esa elección.

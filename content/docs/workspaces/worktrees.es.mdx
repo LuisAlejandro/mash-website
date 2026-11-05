@@ -1,0 +1,26 @@
+---
+title: Árboles de trabajo de Git
+description: Asigna a las tareas paralelas su propia copia de trabajo vinculada y espacio de trabajo.
+---
+
+Un árbol de trabajo es una copia de trabajo de Git vinculada que tiene su propia rama. Mash lo crea a partir de un espacio de trabajo de Git que ya tienes abierto; elige una rama y una referencia base, y después un perfil de diseño. El nuevo espacio de trabajo lleva el nombre de la rama. Así, un agente puede editar una tarea sin compartir el árbol de trabajo de la copia original.
+
+## Crear uno
+
+1. Abre el espacio de trabajo del proyecto en Mash.
+2. Abre **Nuevo árbol de trabajo (perfil de diseño)**: **⌘⌃⇧N** en macOS o **Ctrl+Alt+Shift+E** en Linux (mapa de teclas de Mash). En modo nativo: **Ctrl+B**, suelta las teclas y luego **Shift+G**.
+3. Escribe el nombre de una rama nueva. Busca ramas locales, ramas remotas o etiquetas para la **referencia base**; **Tab** acepta una sugerencia.
+4. Elige **Desarrollo**, **Agente** o **Terminal**, y luego selecciona **Guardar**. Mash crea el árbol de trabajo vinculado, aplica el perfil y actualiza la copia de trabajo a partir de la base elegida.
+
+Si el origen no es un espacio de trabajo de Git, este flujo no puede crear un árbol de trabajo vinculado. Usa [Nuevo espacio de trabajo](/es/docs/workspaces/) para un directorio sin árboles de trabajo de Git.
+
+## Eliminar uno
+
+**Eliminar árbol de trabajo** actúa sobre el árbol de trabajo activo. La aplicación pide confirmación porque elimina esa copia de trabajo y no se puede deshacer. Antes de confirmar, asegúrate de haber confirmado o guardado de otra forma los cambios que quieras conservar. No confundas **Cerrar espacio de trabajo**, que cierra sus paneles, con **Eliminar árbol de trabajo**, que elimina los archivos de la copia de trabajo vinculada.
+
+| Acción                    | Teclas de Mash en macOS | Teclas de Mash en Linux |
+| ------------------------- | ----------------------- | ----------------------- |
+| Nuevo árbol de trabajo    | ⌘⌃⇧N                    | Ctrl+Alt+Shift+E        |
+| Eliminar árbol de trabajo | ⌘⌃⌫                     | Ctrl+Alt+Shift+⌫        |
+
+Usa [perfiles de diseño](/es/docs/workspaces/layout-profiles/) si quieres distintas pestañas o comandos de inicio para la nueva tarea.

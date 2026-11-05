@@ -1,0 +1,19 @@
+---
+title: Pestañas y paneles
+description: Coloca un editor, un agente y una terminal donde los necesites.
+---
+
+Un espacio de trabajo puede tener varias pestañas, y cada pestaña puede tener varios paneles. La pestaña **Desarrollo** predeterminada tiene Fresh y un agente de Pi asociado, uno al lado del otro. Las pestañas nuevas creadas con el botón **+** también adoptan ese diseño de editor y agente. Usa una pestaña de **Agente** solo para Pi, una pestaña de **Terminal** para una terminal o una pestaña de [Revisión](/es/docs/editor/review/) para ver las diferencias junto al agente.
+
+| Acción                         | Teclas de Mash en macOS | Teclas de Mash en Linux         |
+| ------------------------------ | ----------------------- | ------------------------------- |
+| Pestaña de Desarrollo          | ⌘T (o ⌘⇧N)              | Ctrl+Alt+T (o Ctrl+Shift+N)     |
+| Pestaña de Agente              | ⌘⌥T (o ⌘⌥N)             | Ctrl+Alt+Shift+T (o Ctrl+Alt+N) |
+| Pestaña de terminal sencilla   | ⌘⇧T                     | Ctrl+Shift+T                    |
+| Pestaña de revisión            | ⌘⇧R                     | Ctrl+Shift+R                    |
+| División vertical / horizontal | ⌘⌥\ / ⌘⌥-               | Ctrl+Alt+\ / Ctrl+Alt+-         |
+| Ampliar panel enfocado         | ⌘⌥Z                     | Ctrl+Alt+Z                      |
+
+Estas combinaciones se aplican al modo Mash; el modo nativo conserva el prefijo **Ctrl+B** de Herdr ([mapa de teclas nativo](/es/docs/reference/keybindings-native/)). El comando general para dividir divide el panel **enfocado**. En una pestaña de Desarrollo, la acción específica **Nuevo panel de terminal debajo de Fresh** se dirige a Fresh incluso cuando Pi tiene el foco; no hace nada en otros tipos de pestaña. Úsala cuando quieras colocar una terminal debajo del editor sin afectar al agente.
+
+Cambia de pestaña, enfoca o recorre los paneles y activa el modo de cambio de tamaño desde las [tablas de atajos de la plataforma](/es/docs/reference/keybindings-macos/). Al cerrar una pestaña, sus PTY terminan y no se puede deshacer. **Desconectar** deja disponible la sesión de Herdr en lugar de eliminar un espacio de trabajo: **⌘U** (Mash en macOS), **Ctrl+Alt+U** (Mash en Linux) o **Ctrl+B**, luego **q** (nativo).

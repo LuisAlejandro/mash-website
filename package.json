@@ -16,6 +16,7 @@
     "docs:check": "node scripts/check-docs.mjs",
     "blog:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-blog.mjs",
     "markdown:check": "FEATURE_BLOG=1 node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-markdown.mjs",
+    "i18n:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-i18n.mjs",
     "optimize-images": "node scripts/strip-image-metadata.mjs",
     "browsers:update": "update-browserslist-db",
     "typegen": "next typegen",

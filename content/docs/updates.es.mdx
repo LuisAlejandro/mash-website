@@ -1,0 +1,46 @@
+---
+title: Actualizaciones
+description: Actualiza Mash conservando tus ajustes y tus sesiones.
+---
+
+Consigue las nuevas versiones de Mash en la [página de versiones](https://github.com/LuisAlejandro/mash/releases/latest). Las actualizaciones conservan tus archivos editados y los recursos instalados bajo `~/.mash`.
+
+## Comprobar actualizaciones cuando quieras
+
+**Buscar actualizaciones** pide ahora una versión más reciente en lugar de esperar a la comprobación automática. Funciona en ambas plataformas e informa de una de cuatro cosas: hay una versión disponible, Mash está al día, la comprobación no se pudo completar o —en Ubuntu— los metadatos de APT todavía no contienen información de Mash.
+
+| Dónde            | Teclas                                                     |
+| ---------------- | ---------------------------------------------------------- |
+| macOS, modo Mash | **⌘⇧U**, o el elemento de menú                             |
+| Linux, modo Mash | **Ctrl+Alt+Shift+U**                                       |
+| Modo nativo      | **Ctrl+B**, suelta y luego **Shift+Z** (en ambos sistemas) |
+
+Mash también comprueba por su cuenta: en Linux lee los metadatos de APT que Ubuntu ya actualiza, sin tocar la red; en macOS consulta la API de versiones de GitHub como máximo una vez cada 24 horas y registra lo que ya ha anunciado.
+
+## Ubuntu
+
+El `.deb` registra el repositorio APT firmado de Mash. Para refrescar las listas de paquetes e instalar las actualizaciones disponibles:
+
+```sh
+sudo apt update && sudo apt upgrade
+```
+
+Si Mash muestra un aviso de actualización, ofrece el comando concreto:
+
+```sh
+sudo apt install --only-upgrade letsmash
+```
+
+Reinicia Mash después. En Ubuntu el aviso es solo informativo: APT instala el paquete y Mash nunca escribe el estado de los paquetes. Una comprobación manual con listas de paquetes desactualizadas informa de que el repositorio no tiene nada más reciente, y por eso sugiere ejecutar `sudo apt update` primero.
+
+## macOS
+
+Mash instala su propia actualización. El aviso emergente ofrece **u** para actualizar ahora, o cualquier otra tecla para descartarlo. Al actualizar se descarga la versión y se verifica mientras Mash sigue abierto, y después se te pide escribir **y**: esa confirmación es el punto de no retorno, porque la instalación cierra Mash y lo vuelve a abrir con la nueva versión.
+
+Si la aplicación en ejecución no se puede reemplazar —por ejemplo, porque sigue montada desde un DMG de solo lectura—, el aviso te remite a [la última versión](https://github.com/LuisAlejandro/mash/releases/latest). Descarga su DMG, copia Mash.app a Applications y abre allí la copia nueva.
+
+Una actualización interrumpida no deja una aplicación a medio instalar. El siguiente arranque concilia el estado que registró: un intento fallido deja la versión anterior en su sitio y se puede reintentar, y un intento interrumpido después del cambio informa de que Mash se instaló pero su arranque necesita recuperación. El progreso y los fallos se escriben bajo `~/.mash/local/state/`.
+
+## Herramientas incluidas
+
+No actualices por separado dentro de Mash el Pi, el Herdr o el Fresh incluidos. Mash lleva sus propias copias fijadas; actualiza la aplicación en su lugar. Los paquetes de Pi que instala el usuario permanecen en `~/.mash/pi/agent` y están separados del paquete firmado.

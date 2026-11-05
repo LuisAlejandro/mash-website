@@ -1,0 +1,14 @@
+---
+title: Plugins
+description: Abre el gestor de plugins de Mash y descubre las acciones que añade.
+---
+
+Mash incluye plugins de Herdr para perfiles de disposición, búsqueda de comandos y de archivos, selección de sesiones, revisión, anotaciones, selección de enlaces, notificaciones y más. Cada plugin añade acciones que pueden aparecer en la paleta de comandos. Usa el **Gestor de plugins** para inspeccionar o administrar los plugins de Herdr disponibles; usa la [paleta de comandos](/es/docs/tools/command-palette/) para ejecutar sus acciones por nombre.
+
+| Acción            | Teclas Mash en macOS | Teclas Mash en Linux | Nativo                |
+| ----------------- | -------------------- | -------------------- | --------------------- |
+| Gestor de plugins | ⌘⇧X                  | Ctrl+Shift+X         | Ctrl+B, luego Shift+U |
+
+Los ajustes de los plugins se pueden editar en `~/.mash/config/herdr/`, separados del paquete firmado. Ejecuta `herdr plugin config-dir herdr-workspace` para ver el directorio del plugin de perfiles de disposición. Las acciones de un plugin instalado son visibles en la lista de acciones de Herdr; las instrucciones propias de cada plugin definen sus demás ajustes y permisos. Para paquetes, extensiones y skills personales de Pi, consulta en su lugar [skills y paquetes de Pi](/es/docs/agents/skills-and-packages/): usan `~/.mash/pi/agent/`, no el registro de Herdr.
+
+Activa solo los plugins en los que confíes: sus acciones pueden ejecutar comandos en tu espacio de trabajo. Consulta [configuración](/es/docs/reference/configuration/) para saber dónde guarda Mash esos ajustes y por qué editar el paquete firmado de la aplicación no es una vía de configuración.

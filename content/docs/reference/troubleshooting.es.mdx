@@ -1,0 +1,24 @@
+---
+title: Solución de problemas
+description: Encuentra un paso de configuración fallido, una herramienta que falta, un atajo incorrecto o una sesión perdida.
+---
+
+## La configuración no termina
+
+Si el asistente se detiene en un paso de instalación o de identidad, no edites el paquete firmado de la aplicación. Lee `~/.mash/setup/setup.log` para ver el paso fallido y `~/.mash/setup/state.txt` para el estado de la configuración; Mash registra el error y vuelve a ofrecer la configuración al iniciar, empezando por la primera página. El lanzador de macOS también escribe `~/.mash/local/state/mash-launch.log`. Marca solo las herramientas que necesites y fíjate en la etiqueta de cada fila: las marcadas como `your computer` se instalan con Homebrew, apt o las herramientas de Xcode y modifican el equipo fuera de Mash, mientras que las filas `Mash only` se quedan bajo `~/.mash`. Si falta una herramienta opcional del sistema, instálala con las herramientas habituales de tu plataforma y vuelve a intentar la configuración.
+
+## Un atajo no hace nada
+
+Comprueba qué modo se eligió en el primer inicio: `~/.mash/setup/keybindings-mode`. **Estilo Mash / Cursor** y **Nativo** usan teclas distintas; el modo Nativo requiere **Ctrl+B**, soltar y luego la siguiente tecla. En Linux, GNOME captura algunas combinaciones antes de que Mash las reciba, así que usa el [mapa de Linux](/es/docs/reference/keybindings-linux/), no una traducción imaginada del de macOS. En el modo Nativo de Linux, usa **Ctrl+↑/↓** de Pi en lugar de **Ctrl+Shift+↑/↓** para saltar entre mensajes. Si cambiaste tú el mapa de teclas de Herdr, su menú sigue enviando el atajo original. Usa la acción desde la [paleta de comandos](/es/docs/tools/command-palette/) o restaura el atajo previsto.
+
+## Un cambio de configuración no aparece
+
+El `config.toml` de Herdr se lee al arrancar; ejecuta `herdr server reload-config` o usa **Recargar configuración**. Vuelve a abrir el editor Fresh después de editar su configuración; el menú de la aplicación no recarga Fresh. Los ajustes están en `~/.mash/config/` o `~/.mash/pi/agent/`, no en un directorio independiente de Pi ni en un directorio personal de Ghostty. El lanzador conserva un archivo generado que hayas editado al actualizar; si lo borras a propósito, Mash genera uno nuevo con valores predeterminados en el siguiente inicio.
+
+## Parece que se ha perdido una sesión
+
+La [ventana de búsqueda de sesiones](/es/docs/agents/sessions/) busca en las transcripciones de Pi bajo `~/.mash/pi/agent/sessions`. Un resultado abierto enfoca su panel; un resultado cerrado abre una pestaña nueva con esa transcripción. Si un directorio no aparece en el selector de espacios de trabajo independiente, puede que todavía no esté en el historial de zoxide; crea un espacio de trabajo desde ese directorio o ejecuta `zoxide add <path>` dentro de un shell de Mash.
+
+## Una actualización falla
+
+Ejecuta **Buscar actualizaciones** y lee lo que indique: en Ubuntu, los metadatos de APT pueden estar simplemente desactualizados, así que ejecuta `sudo apt update` y vuelve a intentarlo. En macOS, una aplicación en un DMG de solo lectura no puede usar el reemplazo de una sola tecla: descarga el DMG más reciente, copia Mash.app en Aplicaciones y vuelve a abrirla. Una actualización de macOS interrumpida se resuelve en el siguiente inicio: la versión anterior se mantiene en su sitio y un intento fallido se puede reintentar; el registro de decisiones está en `~/.mash/local/state/` (`update-notice.log`, `mash-update.log`). Si una herramienta o un plugin configurado indica que falta un binario, revisa las elecciones del primer inicio y la configuración propia de la herramienta en lugar de instalar nada en el paquete firmado. Consulta [Actualizaciones](/es/docs/updates/) para los pasos de cada plataforma.

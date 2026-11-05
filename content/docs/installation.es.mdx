@@ -1,0 +1,32 @@
+---
+title: Instala Mash
+description: Instala Mash en un Mac con Apple silicon compatible o en un escritorio Ubuntu.
+---
+
+Descarga el instalador más reciente y su suma de comprobación SHA-256 desde [las versiones de Mash](https://github.com/LuisAlejandro/mash/releases/latest). Usa el archivo que corresponda a tu equipo; no se distribuye ningún paquete para Intel Mac, Windows ni otras distribuciones de Linux.
+
+| Plataforma | Equipo compatible                               | Archivo de la versión                |
+| ---------- | ----------------------------------------------- | ------------------------------------ |
+| macOS      | Apple silicon, macOS 14 o posterior             | `Mash-<version>-mac-arm64.dmg`       |
+| Linux      | Ubuntu 24.04 con GNOME en Wayland o Xorg; amd64 | `letsmash-<version>-linux-amd64.deb` |
+| Linux      | Ubuntu 24.04 con GNOME en Wayland o Xorg; arm64 | `letsmash-<version>-linux-arm64.deb` |
+
+## macOS
+
+1. Descarga el DMG firmado y notarizado desde [la última versión](https://github.com/LuisAlejandro/mash/releases/latest).
+2. Abre el DMG y copia **Mash.app** a **Applications**.
+3. Abre Mash desde Applications y [completa el primer arranque](/es/docs/first-launch/).
+
+## Ubuntu
+
+Descarga el `.deb` de tu arquitectura desde [la última versión](https://github.com/LuisAlejandro/mash/releases/latest). En un shell, instala el archivo que has descargado:
+
+```sh
+sudo apt install ./letsmash-<version>-linux-amd64.deb
+```
+
+Sustituye el nombre por el archivo real de la versión. Para arm64, usa el paquete `linux-arm64` en su lugar. El paquete configura el repositorio APT firmado de Mash para que las versiones posteriores lleguen con las actualizaciones normales del sistema. Abre Mash y [completa el primer arranque](/es/docs/first-launch/).
+
+## Tus datos sobreviven a las actualizaciones
+
+Mash guarda sus propios ajustes, sesiones y recursos instalados en `~/.mash`; no reemplaza tu `~/.config` ni tu `~/.pi` habituales. Actualizar conserva los archivos que has editado y los recursos que has instalado. Eliminar la aplicación o el paquete **no** borra `~/.mash`. Consulta [configuración y datos](/es/docs/reference/configuration/) antes de cambiar o eliminar cualquiera de esos archivos.

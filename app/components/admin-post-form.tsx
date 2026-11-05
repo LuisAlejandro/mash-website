@@ -6,7 +6,7 @@ import {
   createPostAction,
   updatePostAction,
   type AdminActionState,
-} from "@/app/admin/actions";
+} from "@/app/(english)/admin/actions";
 
 type AdminPostFormProps = {
   mode: "create" | "edit";

@@ -29,11 +29,13 @@ export const MCP_TOOL_REGISTRY = {
   search_docs: {
     name: "search_docs",
     title: "Search docs",
-    description: "Search documentation titles and descriptions locally.",
+    description:
+      'Search documentation titles and descriptions locally. Pass locale "es" for the Spanish docs; the default is English.',
     inputSchema: {
       type: "object",
       properties: {
         query: { type: "string", minLength: 1, maxLength: 200 },
+        locale: { type: "string", minLength: 2, maxLength: 5 },
       },
       required: ["query"],
       additionalProperties: false,
@@ -43,11 +45,12 @@ export const MCP_TOOL_REGISTRY = {
     name: "get_docs_page",
     title: "Get docs page",
     description:
-      "Return a documentation page as Markdown; pass a slug or /docs/ path.",
+      'Return a documentation page as Markdown; pass a slug or /docs/ path. Pass locale "es" for the Spanish docs; the default is English.',
     inputSchema: {
       type: "object",
       properties: {
         path: { type: "string", minLength: 1, maxLength: 500 },
+        locale: { type: "string", minLength: 2, maxLength: 5 },
       },
       required: ["path"],
       additionalProperties: false,

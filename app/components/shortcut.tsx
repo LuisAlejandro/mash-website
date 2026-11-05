@@ -1,6 +1,8 @@
 "use client";
 
 import { usePlatform } from "./release";
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/locale";
+import { UI } from "@/lib/i18n/ui";
 
 type Keys = { mac: string; linux: string | null };
 
@@ -16,17 +18,21 @@ type Keys = { mac: string; linux: string | null };
  * than one action today, so printing it would teach the wrong key. Those rows
  * show the macOS chord and say where the real one lives.
  */
-export function Shortcut({ keys }: { keys: Keys }) {
+export function Shortcut({
+  keys,
+  locale = DEFAULT_LOCALE,
+}: {
+  keys: Keys;
+  locale?: Locale;
+}) {
   const platform = usePlatform();
   const linuxUnknown = keys.linux === null;
+  const copy = UI[locale].shortcut;
 
   if (platform === "linux" && linuxUnknown) {
     return (
-      <kbd
-        className="shortcut-unknown"
-        title="See the in-app keybinding sheet (Ctrl ⇧ I)"
-      >
-        in-app sheet
+      <kbd className="shortcut-unknown" title={copy.unknownTitle}>
+        {copy.unknownLabel}
       </kbd>
     );
   }
@@ -56,18 +62,20 @@ export function Shortcut({ keys }: { keys: Keys }) {
  * the platform rather than asking, so it has to say which one it picked; the
  * buttons let a visitor read the other set.
  */
-export function ShortcutLegend() {
+export function ShortcutLegend({
+  locale = DEFAULT_LOCALE,
+}: {
+  locale?: Locale;
+}) {
   const platform = usePlatform();
+  const copy = UI[locale].shortcut;
   const other = platform === "mac" ? "Linux" : "macOS";
   const current = platform === "mac" ? "macOS" : "Linux";
 
   return (
     <p className="shortcut-legend wrap" data-platform={platform}>
-      Shortcuts below are the {current} keys.{" "}
-      <span className="shortcut-legend-note">
-        Mash ships a {other} keymap too, and the in-app keybinding sheet always
-        shows the keys for the machine you are on.
-      </span>
+      {copy.current(current)}{" "}
+      <span className="shortcut-legend-note">{copy.note(other)}</span>
     </p>
   );
 }

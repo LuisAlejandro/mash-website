@@ -1,4 +1,5 @@
 import { FEATURE_BLOG } from "../features.ts";
+import { DEFAULT_LOCALE, LOCALES } from "../i18n/locale.ts";
 import { isSafePathSegment } from "./path-safety.ts";
 
 export const DOC_TWIN_PATHS = new Set([
@@ -43,10 +44,22 @@ export function hasMarkdownTwin(segments: string[]): boolean {
   // have no twin, so rewriting them would turn a working feed into a 404.
   if (segments[segments.length - 1]?.includes(".")) return false;
 
-  const [surface, ...rest] = segments;
+  // A non-default locale mirrors the same surfaces below its own prefix; the
+  // blog stays English-only, so `/es/blog` has no twin.
+  const [first, ...rest] = segments;
+  const localized = LOCALES.some(
+    (locale) => locale !== DEFAULT_LOCALE && locale === first
+  );
+  if (localized) {
+    if (rest.length === 0) return true;
+    if (rest[0] === "docs") return DOC_TWIN_PATHS.has(rest.slice(1).join("/"));
+    return false;
+  }
+
+  const [surface, ...tail] = segments;
   if (!surface) return true;
-  if (surface === "docs") return DOC_TWIN_PATHS.has(rest.join("/"));
+  if (surface === "docs") return DOC_TWIN_PATHS.has(tail.join("/"));
   if (surface !== "blog" || !FEATURE_BLOG) return false;
 
-  return rest.length === 2 && (rest[0] === "posts" || rest[0] === "category");
+  return tail.length === 2 && (tail[0] === "posts" || tail[0] === "category");
 }

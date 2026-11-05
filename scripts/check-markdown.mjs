@@ -5,7 +5,7 @@
  * Run by `make test`, beside the docs and blog checks.
  */
 import assert from "node:assert/strict";
-import { readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
 import { FEATURE_BLOG } from "../lib/features.ts";
@@ -85,6 +85,16 @@ check("proxy negotiates only mapped, safe twin paths", () => {
   assert.equal(hasMarkdownTwin(["docs", ".."]), false);
 });
 
+check("a translated locale negotiates its own twins", () => {
+  assert.equal(hasMarkdownTwin(["es"]), true);
+  assert.equal(hasMarkdownTwin(["es", "docs", "installation"]), true);
+  assert.equal(hasMarkdownTwin(["es", "docs", "not-a-page"]), false);
+  assert.equal(hasMarkdownTwin(["es", "docs", ".."]), false);
+  // The blog publishes in English only, and an unknown prefix is not a locale.
+  assert.equal(hasMarkdownTwin(["es", "blog", "posts", "a-post"]), false);
+  assert.equal(hasMarkdownTwin(["fr", "docs", "installation"]), false);
+});
+
 // The blog branch of hasMarkdownTwin is only reachable with the flag on, and
 // package.json sets it for this script. Asserted so the check below cannot pass
 // by being unreachable.
@@ -102,21 +112,38 @@ check("blog files with an extension have no Markdown twin", () => {
 check("proxy docs mapping matches the Markdown files", () => {
   const docsRoot = resolve("content/docs");
   const paths = [];
+  const translations = [];
   const visit = (directory) => {
     for (const entry of readdirSync(directory, { withFileTypes: true })) {
       const path = join(directory, entry.name);
       if (entry.isDirectory()) {
         visit(path);
       } else if (entry.name.endsWith(".mdx")) {
-        let slug = relative(docsRoot, path).replace(/\.mdx$/, "");
+        const translated = entry.name.endsWith(".es.mdx");
+        let slug = relative(docsRoot, path).replace(/\.(?:es\.)?mdx$/, "");
         if (slug === "index") slug = "";
         else if (slug.endsWith("/index")) slug = slug.slice(0, -6);
-        paths.push(slug);
+        if (translated) translations.push(slug);
+        else paths.push(slug);
       }
     }
   };
   visit(docsRoot);
   assert.deepEqual([...DOC_TWIN_PATHS].sort(), paths.sort());
+  // One twin list serves both languages, so a Spanish page without a published
+  // slug would resolve to no twin at all.
+  assert.deepEqual(translations.sort(), paths.sort());
+});
+
+check("the twin resolver keeps English paths unprefixed", () => {
+  const resolver = readFileSync(
+    new URL("../lib/markdown/resolve-twin.ts", import.meta.url),
+    "utf8"
+  );
+  // A locale segment only counts when it is a published non-default locale;
+  // otherwise `/docs/...` would resolve as an unknown first segment and 404.
+  assert.match(resolver, /locale !== DEFAULT_LOCALE && locale === segment/);
+  assert.doesNotMatch(resolver, /if \(!locale\) return null;/);
 });
 
 check("MCP rate-limit map clears when its size ceiling is reached", () => {
@@ -129,6 +156,22 @@ check("MCP rate-limit map clears when its size ceiling is reached", () => {
     assert.equal(checkRateLimit(`flood-${ip}`).allowed, true);
   }
   assert.equal(checkRateLimit("limited-ip").allowed, true);
+});
+
+check("each language has a homepage narrative with its placeholders", () => {
+  for (const locale of ["en", "es"]) {
+    const narrative = getMarketingNarrative(locale);
+    assert.ok(narrative.length > 200, `${locale}: narrative is too short`);
+    assert.ok(
+      narrative.includes("{{DERIVED_AVAILABILITY}}") &&
+        narrative.includes("{{DERIVED_CAPTURES}}"),
+      `${locale}: narrative lost a placeholder`
+    );
+    assert.ok(
+      !substituteMarketingPlaceholders(narrative, "a", "b").includes("{{"),
+      `${locale}: placeholder left unresolved`
+    );
+  }
 });
 
 check(
