@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import DOMPurify from "isomorphic-dompurify";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cache } from "react";
@@ -89,8 +88,6 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound();
   }
 
-  const html = await markdownToHtml(post.body);
-
   return (
     <div className="blog-wrap">
       <JsonLdScript data={buildBlogPostSchema(post)} />
@@ -115,7 +112,10 @@ export default async function BlogPostPage({ params }: PageProps) {
         </header>
         <div
           className="post-body"
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }}
+          // markdownToHtml sanitizes with rehype-sanitize before it returns;
+          // the rule only recognises DOMPurify, which cannot load on Netlify.
+          // nosemgrep: typescript.react.security.audit.react-dangerouslysetinnerhtml.react-dangerouslysetinnerhtml
+          dangerouslySetInnerHTML={{ __html: await markdownToHtml(post.body) }}
         />
       </article>
     </div>

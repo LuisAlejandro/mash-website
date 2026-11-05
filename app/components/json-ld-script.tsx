@@ -1,5 +1,3 @@
-import DOMPurify from "isomorphic-dompurify";
-
 import { toJsonLdScript } from "@/lib/structured-data";
 
 export function JsonLdScript({ data }: { data: unknown }) {
@@ -7,7 +5,7 @@ export function JsonLdScript({ data }: { data: unknown }) {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: DOMPurify.sanitize(toJsonLdScript(data)),
+        __html: toJsonLdScript(data),
       }}
     />
   );
