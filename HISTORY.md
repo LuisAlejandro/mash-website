@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 1.4.0 (2026-11-06)
+
+### Added
+
+* English and Spanish site localization. [Luis Alejandro Martínez Faneyth]
+
+
 ## 1.3.4 (2026-11-05)
 
 ### Fixed
