@@ -23,7 +23,7 @@ export default function LanguageSwitch({
       href={href}
       hrefLang={target}
       lang={target}
-      className="lang-switch"
+      className="btn-quiet lang-switch"
       aria-label={copy.ariaLabel}
     >
       {copy.label}
