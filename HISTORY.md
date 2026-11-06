@@ -1,6 +1,15 @@
 # Changelog
 
 
+## 1.4.1 (2026-11-06)
+
+### Changed
+
+* Refine Spanish homepage hero copy. [Luis Alejandro Martínez Faneyth]
+
+* Refine bilingual homepage navigation. [Luis Alejandro Martínez Faneyth]
+
+
 ## 1.4.0 (2026-11-06)
 
 ### Added
