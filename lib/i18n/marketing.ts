@@ -322,8 +322,8 @@ const ES: MarketingCopy = {
   permalink: "Enlace permanente a ",
   hero: {
     eyebrow: "Mash · macOS y Linux",
-    sloganLead: "Mezclemos",
-    sloganTail: "y el resto.",
+    sloganLead: "Fusionemos",
+    sloganTail: "en una app.",
     lede: "Mash llega como una sola aplicación con todo el stack ya conectado: Herdr para espacios de trabajo y agentes, Ghostty para la terminal, Starship para el indicador, Pi para programar y Fresh para editar, junto con las skills de Mash que enseñan tu flujo de trabajo. Todo se maneja con el teclado, y el código sigue visible y editable a mano.",
     note: "Mac con Apple silicon · Ubuntu 24.04 · nada que montar",
     filmAria:
