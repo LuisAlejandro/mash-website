@@ -146,7 +146,7 @@ const EN: MarketingCopy = {
   ],
   chapters: {
     setup: {
-      eyebrow: "01 · Ready to work",
+      eyebrow: "03 · Ready to work",
       heading: { text: "Nothing to ", emphasis: "assemble." },
       body: "Most agentic setups are a weekend of wiring: an agent, a workspace manager, a set of skills, a keybinding file. Mash ships them already fitted together and opens on a workspace you can type in.",
       points: [
@@ -158,7 +158,7 @@ const EN: MarketingCopy = {
       alt: "A Mash workspace: the agent sessions panel on the left, the file explorer and editor in the middle, and the agent's session notes beside them",
     },
     workspaces: {
-      eyebrow: "02 · Parallel work",
+      eyebrow: "04 · Parallel work",
       heading: { text: "One task, one ", emphasis: "workspace." },
       body: "Each task gets its own workspace with its own tabs, terminals, and agent, so separate projects never pile into one window. Move between workspaces and agents from the keyboard while the rest keep running.",
       points: [
@@ -171,7 +171,7 @@ const EN: MarketingCopy = {
       alt: "Mash's workspace picker listing four workspaces, each a separate project with its own path, tabs, and agents",
     },
     code: {
-      eyebrow: "03 · Human control",
+      eyebrow: "05 · Human control",
       heading: { text: "The code stays ", emphasis: "yours." },
       body: "The agent works in a pane beside the file, not behind a chat window. Open the buffer, make the change yourself, and the agent picks up from what is on disk.",
       points: [
@@ -184,7 +184,7 @@ const EN: MarketingCopy = {
       alt: "Mash's file finder open over the editor, listing the repository's files and previewing the selected one's source",
     },
     review: {
-      eyebrow: "04 · Review",
+      eyebrow: "06 · Review",
       heading: { text: "Speed still ends in a ", emphasis: "human review." },
       body: "Agents propose and you decide what lands. Open a review tab for the branch, read the diff, and act on it hunk by hunk before anything is committed.",
       points: [
@@ -196,7 +196,7 @@ const EN: MarketingCopy = {
       alt: "Mash's review tab: uncommitted changes, the working diff, local branches with their ahead counts, and recent commits",
     },
     keyboard: {
-      eyebrow: "05 · Keyboard first",
+      eyebrow: "07 · Keyboard first",
       heading: { text: "Everything is ", emphasis: "a keystroke away." },
       body: "Workspaces, tabs, panes, agents, search, and review all have keys, and the command palette holds the rest. Learn a handful and the app shows you the others as you go. The mouse works too.",
       points: [
@@ -211,7 +211,7 @@ const EN: MarketingCopy = {
   },
   chaptersAria: "How Mash works",
   workflow: {
-    eyebrow: "06 · The whole loop",
+    eyebrow: "08 · The whole loop",
     label: "The whole loop",
     heading: {
       text: "Intent in, ",
@@ -241,7 +241,7 @@ const EN: MarketingCopy = {
   spotlights: {
     aria: "New in Mash",
     orchestration: {
-      eyebrow: "Agent orchestration",
+      eyebrow: "01 · Agent orchestration",
       label: "agent orchestration",
       heading: {
         text: "Delegate in parallel. ",
@@ -257,7 +257,7 @@ const EN: MarketingCopy = {
       ],
     },
     voice: {
-      eyebrow: "Pi Voice dictation",
+      eyebrow: "02 · Pi Voice dictation",
       label: "Pi Voice dictation",
       heading: {
         text: "Talk through the task. ",
@@ -362,7 +362,7 @@ const ES: MarketingCopy = {
   ],
   chapters: {
     setup: {
-      eyebrow: "01 · Listo para trabajar",
+      eyebrow: "03 · Listo para trabajar",
       heading: { text: "Nada que ", emphasis: "montar." },
       body: "Casi todas las configuraciones con agentes son un fin de semana de cableado: un agente, un gestor de espacios de trabajo, un conjunto de skills, un archivo de atajos. Mash los trae ya encajados y abre en un espacio de trabajo donde puedes escribir.",
       points: [
@@ -374,7 +374,7 @@ const ES: MarketingCopy = {
       alt: "Un espacio de trabajo de Mash: el panel de sesiones de agentes a la izquierda, el explorador de archivos y el editor en el centro, y las notas de sesión del agente al lado",
     },
     workspaces: {
-      eyebrow: "02 · Trabajo en paralelo",
+      eyebrow: "04 · Trabajo en paralelo",
       heading: { text: "Una tarea, un ", emphasis: "espacio de trabajo." },
       body: "Cada tarea tiene su propio espacio de trabajo, con sus pestañas, sus terminales y su agente, así que los proyectos distintos nunca se amontonan en una sola ventana. Cambia de espacio y de agente con el teclado mientras el resto sigue funcionando.",
       points: [
@@ -387,7 +387,7 @@ const ES: MarketingCopy = {
       alt: "El selector de espacios de trabajo de Mash, con cuatro espacios, cada uno un proyecto distinto con su ruta, sus pestañas y sus agentes",
     },
     code: {
-      eyebrow: "03 · Control humano",
+      eyebrow: "05 · Control humano",
       heading: { text: "El código sigue siendo ", emphasis: "tuyo." },
       body: "El agente trabaja en un panel junto al archivo, no detrás de una ventana de chat. Abre el búfer, haz el cambio tú mismo y el agente continúa desde lo que hay en el disco.",
       points: [
@@ -400,7 +400,7 @@ const ES: MarketingCopy = {
       alt: "El buscador de archivos de Mash abierto sobre el editor, con los archivos del repositorio y una vista previa del código del archivo elegido",
     },
     review: {
-      eyebrow: "04 · Revisión",
+      eyebrow: "06 · Revisión",
       heading: {
         text: "La velocidad termina en una ",
         emphasis: "revisión humana.",
@@ -415,7 +415,7 @@ const ES: MarketingCopy = {
       alt: "La pestaña de revisión de Mash: cambios sin confirmar, el diff de trabajo, ramas locales con sus confirmaciones por delante y confirmaciones recientes",
     },
     keyboard: {
-      eyebrow: "05 · Primero el teclado",
+      eyebrow: "07 · Primero el teclado",
       heading: { text: "Todo está ", emphasis: "a una tecla." },
       body: "Los espacios de trabajo, las pestañas, los paneles, los agentes, la búsqueda y la revisión tienen teclas, y la paleta de comandos guarda el resto. Aprende unas pocas y la aplicación te enseña las demás sobre la marcha. El ratón también funciona.",
       points: [
@@ -430,7 +430,7 @@ const ES: MarketingCopy = {
   },
   chaptersAria: "Cómo funciona Mash",
   workflow: {
-    eyebrow: "06 · El ciclo completo",
+    eyebrow: "08 · El ciclo completo",
     label: "el ciclo completo",
     heading: {
       text: "Entra la intención, ",
@@ -460,7 +460,7 @@ const ES: MarketingCopy = {
   spotlights: {
     aria: "Novedades en Mash",
     orchestration: {
-      eyebrow: "Orquestación de agentes",
+      eyebrow: "01 · Orquestación de agentes",
       label: "la orquestación de agentes",
       heading: {
         text: "Delega en paralelo. ",
@@ -476,7 +476,7 @@ const ES: MarketingCopy = {
       ],
     },
     voice: {
-      eyebrow: "Dictado con Pi Voice",
+      eyebrow: "02 · Dictado con Pi Voice",
       label: "el dictado con Pi Voice",
       heading: {
         text: "Habla del problema. ",

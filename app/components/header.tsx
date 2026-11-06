@@ -23,9 +23,7 @@ import { REPO_URL } from "@/lib/site";
 /** Homepage anchors, in page order; the labels live in the locale copy. */
 const SECTIONS = [
   "#orchestration",
-  "#setup",
-  "#workspaces",
-  "#code",
+  "#voice",
   "#review",
   "#keyboard",
   "#install",
@@ -116,6 +114,9 @@ export default function Header({
           </a>
           {isDocs ? (
             <div className="docs-mobile-actions">
+              {switchHref && (
+                <LanguageSwitch locale={locale} href={switchHref} />
+              )}
               <SearchTrigger className="docs-search-trigger" />
               <SidebarTrigger className="hamburger docs-sidebar-trigger">
                 <span></span>
@@ -147,16 +148,20 @@ export default function Header({
               {copy.docs}
             </Link>
             {PUBLIC_FEATURE_BLOG && <Link href="/blog">Blog</Link>}
-            {switchHref && <LanguageSwitch locale={locale} href={switchHref} />}
-            <a
-              href={REPO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="btn-quiet"
-            >
-              <img src="/github-icon.svg" alt="" width="15" height="15" />
-              GitHub
-            </a>
+            <div className="nav-actions">
+              {switchHref && (
+                <LanguageSwitch locale={locale} href={switchHref} />
+              )}
+              <a
+                href={REPO_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-quiet"
+              >
+                <img src="/github-icon.svg" alt="" width="15" height="15" />
+                GitHub
+              </a>
+            </div>
           </div>
         </div>
       </nav>
@@ -183,10 +188,18 @@ export default function Header({
               Blog
             </Link>
           )}
-          {switchHref && <LanguageSwitch locale={locale} href={switchHref} />}
-          <a href={REPO_URL} target="_blank" rel="noreferrer">
-            GitHub
-          </a>
+          <div className="nav-actions">
+            {switchHref && <LanguageSwitch locale={locale} href={switchHref} />}
+            <a
+              href={REPO_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-quiet"
+            >
+              <img src="/github-icon.svg" alt="" width="15" height="15" />
+              GitHub
+            </a>
+          </div>
         </div>
       </div>
     </>

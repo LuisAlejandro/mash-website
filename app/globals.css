@@ -312,6 +312,7 @@ nav.scrolled {
 .nav-links a {
   color: var(--mute);
   font-size: 14.5px;
+  white-space: nowrap;
 }
 .nav-links a:hover {
   color: var(--paper);
@@ -336,21 +337,16 @@ nav.scrolled {
   filter: invert(0.85);
   opacity: 0.9;
 }
-/* The other language, named in the language it leads to. */
-.lang-switch {
-  display: inline-flex;
+/* The language and GitHub controls share the same pill size and baseline. */
+.nav-actions {
+  display: flex;
   align-items: center;
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  padding: 4px 11px;
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  color: var(--mute);
+  gap: 12px;
 }
-.nav-links .lang-switch:hover {
-  border-color: var(--accent);
-  color: var(--paper);
+.nav-actions .btn-quiet {
+  min-width: 108px;
+  justify-content: center;
+  font-size: 14.5px;
 }
 
 .hamburger {
@@ -403,11 +399,14 @@ nav.scrolled {
   display: flex;
   flex-direction: column;
 }
-.mobile-menu-content a {
+.mobile-menu-content a:not(.btn-quiet) {
   padding: 13px 0;
   border-bottom: 1px solid var(--line);
   color: var(--paper-2);
   font-size: 16px;
+}
+.mobile-menu-content .nav-actions {
+  padding-top: 12px;
 }
 
 /* ---------- Hero ---------- */
@@ -1252,15 +1251,9 @@ footer {
 }
 
 /* ---------- Responsive ---------- */
-/* The full nav row needs ~980px to fit. Below that it overruns the
-           viewport, and because body sets overflow-x: hidden the trailing
-           buttons are clipped silently rather than scrolled to. Collapse to
-           the hamburger menu instead. */
-@media (max-width: 980px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 44px;
-  }
+/* Leave room for the longer Spanish labels and both action buttons. Keep
+   this breakpoint in sync with the docs header controls in docs.css. */
+@media (max-width: 1120px) {
   .nav-links {
     display: none;
   }
@@ -1269,6 +1262,12 @@ footer {
   }
   .mobile-menu {
     display: block;
+  }
+}
+@media (max-width: 980px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
   }
   .chapter,
   .chapter.flip {

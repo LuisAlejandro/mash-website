@@ -25,7 +25,7 @@ import {
   localePrefix,
   otherLocale,
 } from "../lib/i18n/locale.ts";
-import { MARKETING } from "../lib/i18n/marketing.ts";
+import { CHAPTER_IDS, MARKETING } from "../lib/i18n/marketing.ts";
 import { UI } from "../lib/i18n/ui.ts";
 
 const checks = [];
@@ -179,6 +179,61 @@ check("Spanish copy has every row English has, in the same order", () => {
 check("page copy is translated, not copied", () => {
   const found = untranslated(COPY_TREES);
   assert.deepEqual(found.slice(0, 10), []);
+});
+
+check("homepage features are numbered consecutively in both languages", () => {
+  for (const locale of LOCALES) {
+    const copy = MARKETING[locale];
+    const eyebrows = [
+      copy.spotlights.orchestration.eyebrow,
+      copy.spotlights.voice.eyebrow,
+      ...CHAPTER_IDS.map((id) => copy.chapters[id].eyebrow),
+      copy.workflow.eyebrow,
+    ];
+    assert.deepEqual(
+      eyebrows.map((label) => label.match(/^(\d{2}) · /)?.[1]),
+      ["01", "02", "03", "04", "05", "06", "07", "08"],
+      locale
+    );
+  }
+});
+
+check(
+  "both header menus include Pi Voice without setup, workspaces or code",
+  () => {
+    const header = source("components/header.tsx");
+    const sections = header.match(
+      /const SECTIONS = \[([\s\S]*?)\] as const;/
+    )?.[1];
+    assert.ok(sections, "header section list missing");
+    const anchors = [...sections.matchAll(/"(#[^"]+)"/g)].map(
+      (match) => match[1]
+    );
+    assert.deepEqual(anchors, [
+      "#orchestration",
+      "#voice",
+      "#review",
+      "#keyboard",
+      "#install",
+    ]);
+    assert.equal((header.match(/SECTIONS\.map\(/g) ?? []).length, 2);
+    assert.match(
+      header,
+      /className="docs-mobile-actions">[\s\S]*switchHref && \([\s\S]*<LanguageSwitch/,
+      "docs mobile header hides the language control"
+    );
+    for (const locale of LOCALES) {
+      assert.equal(UI[locale].header.sections.length, anchors.length, locale);
+      assert.equal(UI[locale].header.sections[1], "Pi Voice", locale);
+    }
+  }
+);
+
+check("the language control shares the GitHub button styling", () => {
+  const language = source("components/language-switch.tsx");
+  const classes = language.match(/className="([^"]+)"/)?.[1].split(/\s+/) ?? [];
+  assert.ok(classes.includes("btn-quiet"));
+  assert.ok(classes.includes("lang-switch"));
 });
 
 // --- Routes ----------------------------------------------------------------

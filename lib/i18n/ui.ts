@@ -90,15 +90,7 @@ const EN: UiCopy = {
     menu: "Menu",
     topAria: "Mash, back to top",
     homeAria: "Mash, home",
-    sections: [
-      "Orchestration",
-      "Setup",
-      "Workspaces",
-      "Code",
-      "Review",
-      "Keyboard",
-      "Install",
-    ],
+    sections: ["Orchestration", "Pi Voice", "Review", "Keyboard", "Install"],
     docs: "Docs",
   },
   languageSwitch: {
@@ -181,9 +173,7 @@ const ES: UiCopy = {
     homeAria: "Mash, inicio",
     sections: [
       "Orquestación",
-      "Preparación",
-      "Espacios de trabajo",
-      "Código",
+      "Pi Voice",
       "Revisión",
       "Teclado",
       "Instalación",
