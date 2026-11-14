@@ -9,7 +9,7 @@ function currentRelease(release: LatestRelease | null): string {
     return `La última versión está en la página de versiones de Mash: ${REPO_URL}/releases, con sus notas. Todos los botones de descarga de esta página llevan allí, así que ningún enlace queda muerto.`;
   }
   const date = release.publishedAt ? ` (${release.publishedAt})` : "";
-  return `La última versión es la ${release.version}${date}, publicada en ${REPO_URL}/releases con notas de la versión. Incluye un DMG firmado y notarizado para macOS en Apple silicon, y un .deb para Linux en amd64 y arm64. Esta página ofrece el archivo para la plataforma de quien la visita y nunca presenta un enlace muerto. Cada versión publica todas las plataformas a la vez.`;
+  return `La última versión es la ${release.version}${date}, publicada en ${REPO_URL}/releases con notas de la versión. Incluye DMG firmados y notarizados para macOS en Apple silicon y en Intel, y un .deb para Linux en amd64 y arm64. Esta página ofrece el archivo para la plataforma de quien la visita y nunca presenta un enlace muerto. Cada versión publica todas las plataformas a la vez.`;
 }
 
 /**
@@ -34,7 +34,7 @@ Este archivo es el punto de partida preferido para asistentes, motores de respue
 - Dictado con Pi Voice. El habla se convierte en texto en el cuadro de mensaje de Pi, donde puedes leerlo o editarlo antes de enviarlo. Es un método de entrada y no inicia la orquestación por sí solo.
 - El código sigue siendo editable a mano. El agente se ejecuta en un panel junto al archivo, no detrás de una ventana de chat.
 - Gratuito y de código abierto bajo GPL-3.0-or-later. Sin cuenta de Mash, suscripción ni compra dentro de la aplicación; Pi necesita un proveedor de modelos que tú eliges, y ese proveedor cobra tu uso de modelos.
-- macOS 14 o posterior en Apple silicon, distribuido como un DMG firmado y notarizado, y Ubuntu 24.04 con GNOME en Wayland o Xorg, distribuido como un .deb para amd64 o arm64. No hay compilación para Mac con Intel ni para Windows.
+- macOS 14 o posterior en Apple silicon o Intel, distribuido como un DMG firmado y notarizado por arquitectura, y Ubuntu 24.04 con GNOME en Wayland o Xorg, distribuido como un .deb para amd64 o arm64. No hay compilación para Windows.
 - Mash guarda su propio estado en \`~/.mash\` y deja intactos los archivos de configuración que ya tengas.
 
 ## Estado de la versión actual

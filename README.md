@@ -146,8 +146,9 @@ gates the schema's download claim.
 
 The download call to action reads the latest release of
 `LuisAlejandro/mash` on the server and offers the file for the visitor's
-platform: the `Mash-<version>-mac-arm64.dmg` on macOS, or the
-`letsmash-<version>-linux-{amd64,arm64}.deb` on Linux. If the request fails or
+platform: the `Mash-<version>-mac-{arm64,amd64}.dmg` on macOS (a dropdown
+offers both architectures), or the `letsmash-<version>-linux-{amd64,arm64}.deb`
+on Linux. If the request fails or
 a release lacks those assets, every download button falls back to the releases
 page, so no CTA is ever dead.
 

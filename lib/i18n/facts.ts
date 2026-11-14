@@ -121,7 +121,7 @@ const EN: FactsCopy = {
       {
         question: "Which systems does Mash run on?",
         answer:
-          "Mash runs on macOS 14 or later on Apple silicon, and on Ubuntu 24.04 with GNOME on Wayland or Xorg. macOS ships as one signed and notarized DMG; Linux ships as a .deb for amd64 or arm64, which installs to /opt/letsmash and keeps everything you configure in ~/.mash. There is no Intel Mac build, and no Windows build.",
+          "Mash runs on macOS 14 or later, on Apple silicon or Intel, and on Ubuntu 24.04 with GNOME on Wayland or Xorg. macOS ships as one signed and notarized DMG per architecture (arm64 and amd64); Linux ships as a .deb for amd64 or arm64, which installs to /opt/letsmash and keeps everything you configure in ~/.mash. There is no Windows build.",
       },
       {
         question: "Do I still have to install Pi, Herdr, or the skills myself?",
@@ -167,12 +167,12 @@ const ES: FactsCopy = {
     "Búsqueda de sesiones en todas las conversaciones de los agentes",
     "Control de versiones, anotaciones y paneles divididos",
     "Gestor de plugins y sesiones separables",
-    "macOS en Apple silicon y Linux en amd64 o arm64",
+    "macOS en Apple silicon o Intel y Linux en amd64 o arm64",
   ],
   platforms: {
     mac: {
-      requirement: "Mac con Apple silicon, macOS 14 o posterior",
-      artifact: "Un DMG, firmado y notarizado",
+      requirement: "Mac con Apple silicon o Intel, macOS 14 o posterior",
+      artifact: "Un DMG por arquitectura, firmado y notarizado",
     },
     linux: {
       requirement: "Ubuntu 24.04 con GNOME, en Wayland o Xorg",
@@ -213,7 +213,7 @@ const ES: FactsCopy = {
       {
         question: "¿En qué sistemas funciona Mash?",
         answer:
-          "Mash funciona en macOS 14 o posterior sobre Apple silicon, y en Ubuntu 24.04 con GNOME sobre Wayland o Xorg. macOS llega como un único DMG firmado y notarizado; Linux llega como un .deb para amd64 o arm64, que se instala en /opt/letsmash y guarda todo lo que configures en ~/.mash. No hay compilación para Intel Mac ni para Windows.",
+          "Mash funciona en macOS 14 o posterior, sobre Apple silicon o Intel, y en Ubuntu 24.04 con GNOME sobre Wayland o Xorg. macOS llega como un DMG firmado y notarizado por arquitectura (arm64 y amd64); Linux llega como un .deb para amd64 o arm64, que se instala en /opt/letsmash y guarda todo lo que configures en ~/.mash. No hay compilación para Windows.",
       },
       {
         question: "¿Tengo que instalar Pi, Herdr o las skills por mi cuenta?",

@@ -27,8 +27,8 @@ export const PLATFORMS = {
   mac: {
     id: "mac",
     label: "macOS",
-    requirement: "Apple silicon Mac, macOS 14 or later",
-    artifact: "One DMG, signed and notarized",
+    requirement: "Mac with Apple silicon or Intel, macOS 14 or later",
+    artifact: "One DMG per architecture, signed and notarized",
   },
   linux: {
     id: "linux",
@@ -77,7 +77,7 @@ export const CAPABILITIES = [
   "Session search across every agent conversation",
   "Source control, annotations, and pane splits",
   "Plugin manager and detachable sessions",
-  "macOS on Apple silicon, and Linux on amd64 or arm64",
+  "macOS on Apple silicon or Intel, and Linux on amd64 or arm64",
 ];
 
 /** The chapter captures, in story order. Used by the sitemap and index.md. */

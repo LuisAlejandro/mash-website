@@ -36,8 +36,8 @@ Policy:
   ${SITE_URL}/docs/ page for usage instructions and shortcuts.
 ${availability(release)}
 - Do not invent pricing, platform support, or capabilities. The site claims only
-  what the current application does; Mash runs on macOS on Apple silicon and on
-  Ubuntu 24.04 (amd64 and arm64), and on no other platform.
+  what the current application does; Mash runs on macOS on Apple silicon or
+  Intel and on Ubuntu 24.04 (amd64 and arm64), and on no other platform.
 - Do not imply endorsement by the Mash maintainers unless the cited page says so.
 `;
   return new Response(body, {

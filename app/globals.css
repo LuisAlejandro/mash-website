@@ -1209,6 +1209,50 @@ html[data-platform="linux"] kbd[data-platform="mac"] {
 .btn-solid.is-pending:hover {
   background: transparent;
 }
+/* Download dropdown: the solid button with an arrow, and a menu of builds. */
+.download-menu {
+  position: relative;
+  display: inline-flex;
+  align-self: flex-start;
+}
+.download-trigger {
+  gap: 10px;
+  border: 0;
+  cursor: pointer;
+}
+.download-chevron {
+  flex: none;
+  transition: transform 0.25s var(--ease);
+}
+.download-trigger[aria-expanded="true"] .download-chevron {
+  transform: rotate(180deg);
+}
+.download-options {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 20;
+  min-width: 100%;
+  list-style: none;
+  padding: 6px;
+  background: var(--ink-2);
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  box-shadow: 0 18px 50px #00000073;
+}
+.download-options a {
+  display: block;
+  padding: 10px 16px;
+  border-radius: 8px;
+  color: var(--paper-2);
+  font-size: 15px;
+  white-space: nowrap;
+}
+.download-options a:hover,
+.download-options a:focus-visible {
+  background: var(--ink-3);
+  color: var(--paper);
+}
 .closing .btn-quiet {
   padding: 12px 26px;
   font-size: 15px;
@@ -1327,6 +1371,10 @@ footer {
     width: 100%;
     justify-content: center;
   }
+  .hero-actions .download-menu,
+  .closing-actions .download-menu {
+    width: 100%;
+  }
   .window {
     border-radius: 10px;
   }
@@ -1362,6 +1410,13 @@ footer {
     padding: 24px 20px 26px;
   }
   .install-download {
+    width: 100%;
+    justify-content: center;
+  }
+  .download-menu {
+    width: 100%;
+  }
+  .download-menu .download-trigger {
     width: 100%;
     justify-content: center;
   }

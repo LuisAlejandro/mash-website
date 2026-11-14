@@ -8,7 +8,7 @@ function currentRelease(release: LatestRelease | null): string {
     return `The latest release is on the Mash releases page: ${REPO_URL}/releases, with release notes. Every download button on this page falls back there, so no link is ever dead.`;
   }
   const date = release.publishedAt ? ` (${release.publishedAt})` : "";
-  return `The latest version is ${release.version}${date}, published at ${REPO_URL}/releases with release notes. It ships a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. This page offers the file for the visitor's platform and never presents a dead link. Every release publishes all platforms together.`;
+  return `The latest version is ${release.version}${date}, published at ${REPO_URL}/releases with release notes. It ships signed and notarized DMGs for macOS on Apple silicon and on Intel, and a .deb for Linux on amd64 and arm64. This page offers the file for the visitor's platform and never presents a dead link. Every release publishes all platforms together.`;
 }
 
 /**
@@ -31,7 +31,7 @@ This file is the preferred starting point for assistants, answer engines, and cr
 - Pi Voice dictation. Speech becomes text in Pi's message box, where you can read or edit it before sending. It is an input method and does not start orchestration by itself.
 - The code stays editable by hand. The agent runs in a pane beside the file rather than behind a chat window.
 - Free and open source under GPL-3.0-or-later. No Mash account, subscription, or in-app purchase; Pi needs a model provider you choose, and that provider bills your model usage.
-- macOS 14 or later on Apple silicon, distributed as one signed and notarized DMG, and Ubuntu 24.04 with GNOME on Wayland or Xorg, distributed as a .deb for amd64 or arm64. No Intel Mac build, and no Windows build.
+- macOS 14 or later on Apple silicon or Intel, distributed as one signed and notarized DMG per architecture, and Ubuntu 24.04 with GNOME on Wayland or Xorg, distributed as a .deb for amd64 or arm64. No Windows build.
 - Mash keeps its own state under \`~/.mash\` and leaves existing user configuration files untouched.
 
 ## Current Release State
