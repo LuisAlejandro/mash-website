@@ -11,6 +11,11 @@ import type { Downloads } from "@/lib/app-release";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/locale";
 import { UI } from "@/lib/i18n/ui";
 import { RELEASES_URL, type PlatformId } from "@/lib/site";
+import {
+  DownloadButton,
+  type Download,
+  type DownloadOption,
+} from "./download-menu";
 
 export type AssetKey = keyof Downloads;
 export type { Downloads };
@@ -109,9 +114,53 @@ export function usePlatform(): PlatformId {
   return useContext(PlatformContext);
 }
 
+type ReleaseCopy = (typeof UI)[Locale]["release"];
+
 /**
- * Primary action. On macOS it offers the Apple silicon DMG; on Linux it shows
- * the amd64 and arm64 .deb downloads side by side.
+ * What a platform's download button offers. Each published build is one
+ * option; with none, the button goes to the releases page.
+ */
+export function platformDownload(
+  platform: PlatformId,
+  { state, version, downloads }: Release,
+  copy: ReleaseCopy
+): Download {
+  const ready = state === "ready";
+  const fallback: Download = {
+    label:
+      platform === "linux" ? copy.downloadLinuxLatest : copy.downloadMacLatest,
+    options: [{ name: copy.appleSilicon, href: RELEASES_URL }],
+    offered: false,
+  };
+
+  if (platform === "linux") {
+    const options: DownloadOption[] = [];
+    if (ready && downloads.linuxAmd64) {
+      options.push({ name: "amd64", href: downloads.linuxAmd64 });
+    }
+    if (ready && downloads.linuxArm64) {
+      options.push({ name: "arm64", href: downloads.linuxArm64 });
+    }
+    return options.length > 0
+      ? { label: copy.downloadLinux(version), options, offered: true }
+      : fallback;
+  }
+
+  const options: DownloadOption[] = [];
+  if (ready && downloads.mac) {
+    options.push({ name: copy.appleSilicon, href: downloads.mac });
+  }
+  if (ready && downloads.macAmd64) {
+    options.push({ name: copy.intel, href: downloads.macAmd64 });
+  }
+  return options.length > 0
+    ? { label: copy.downloadMac(version), options, offered: true }
+    : fallback;
+}
+
+/**
+ * Primary action. On macOS it offers the Apple silicon and Intel DMGs; on Linux
+ * it offers the amd64 and arm64 .deb downloads.
  */
 export function ReleaseCta({
   className = "btn-solid",
@@ -120,52 +169,8 @@ export function ReleaseCta({
   className?: string;
   locale?: Locale;
 }) {
-  const { state, version, downloads } = useRelease();
+  const release = useRelease();
   const platform = usePlatform();
-  const copy = UI[locale].release;
-
-  if (platform === "linux") {
-    const amd64 = downloads.linuxAmd64;
-    const arm64 = downloads.linuxArm64;
-    if (state === "ready" && (amd64 || arm64)) {
-      return (
-        <>
-          {amd64 && (
-            <a className={className} href={amd64} rel="noreferrer">
-              {copy.downloadLinux(version, "amd64")}
-            </a>
-          )}
-          {arm64 && (
-            <a className={className} href={arm64} rel="noreferrer">
-              {copy.downloadLinux(version, "arm64")}
-            </a>
-          )}
-        </>
-      );
-    }
-    return (
-      <>
-        <a className={className} href={RELEASES_URL} rel="noreferrer">
-          {copy.downloadLinuxLatest("amd64")}
-        </a>
-        <a className={className} href={RELEASES_URL} rel="noreferrer">
-          {copy.downloadLinuxLatest("arm64")}
-        </a>
-      </>
-    );
-  }
-
-  if (state === "ready" && downloads.mac) {
-    return (
-      <a className={className} href={downloads.mac} rel="noreferrer">
-        {copy.downloadMac(version)}
-      </a>
-    );
-  }
-
-  return (
-    <a className={className} href={RELEASES_URL} rel="noreferrer">
-      {copy.downloadMacLatest}
-    </a>
-  );
+  const download = platformDownload(platform, release, UI[locale].release);
+  return <DownloadButton download={download} className={className} />;
 }

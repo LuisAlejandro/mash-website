@@ -5,16 +5,18 @@ import { FACTS } from "@/lib/i18n/facts";
 import type { Locale } from "@/lib/i18n/locale";
 import { MARKETING } from "@/lib/i18n/marketing";
 import { UI } from "@/lib/i18n/ui";
-import { useRelease } from "./release";
+import { DownloadButton } from "./download-menu";
+import { platformDownload, useRelease } from "./release";
 
 /** The install cards, in the order the page shows them. */
 const ORDER: PlatformId[] = ["mac", "linux"];
 
 export default function InstallBlocks({ locale }: { locale: Locale }) {
-  const { state, version, downloads } = useRelease();
+  const release = useRelease();
+  const { state, version } = release;
   const ready = state === "ready";
   const copy = MARKETING[locale].install;
-  const release = UI[locale].release;
+  const releaseCopy = UI[locale].release;
   const platforms = FACTS[locale].platforms;
   const capabilities = FACTS[locale].capabilities;
   const permalink = (name: string) => `${MARKETING[locale].permalink}${name}`;
@@ -43,15 +45,12 @@ export default function InstallBlocks({ locale }: { locale: Locale }) {
           {ORDER.map((id) => {
             const platform = platforms[id];
             const anchor = `install-${id}`;
-            const isLinux = id === "linux";
             const label = PLATFORMS[id].label;
-            const hasDownload = isLinux
-              ? Boolean(downloads.linuxAmd64 || downloads.linuxArm64)
-              : Boolean(downloads.mac);
+            const download = platformDownload(id, release, releaseCopy);
             return (
               <div className="install-card" id={anchor} key={id}>
                 <h3>
-                  {ready && hasDownload
+                  {download.offered
                     ? copy.cardTitle(version, label)
                     : copy.cardTitleFallback(label)}
                   <a
@@ -62,82 +61,28 @@ export default function InstallBlocks({ locale }: { locale: Locale }) {
                     #
                   </a>
                 </h3>
-                {ready && hasDownload ? (
-                  <>
-                    {isLinux ? (
-                      <div className="install-actions">
-                        {downloads.linuxAmd64 && (
-                          <a
-                            className="btn-solid install-download"
-                            href={downloads.linuxAmd64}
-                            rel="noreferrer"
-                          >
-                            {release.downloadLinux(version, "amd64")}
-                          </a>
-                        )}
-                        {downloads.linuxArm64 && (
-                          <a
-                            className="btn-solid install-download"
-                            href={downloads.linuxArm64}
-                            rel="noreferrer"
-                          >
-                            {release.downloadLinux(version, "arm64")}
-                          </a>
-                        )}
-                      </div>
-                    ) : (
-                      <a
-                        className="btn-solid install-download"
-                        href={downloads.mac}
-                        rel="noreferrer"
-                      >
-                        {release.downloadMac(version)}
-                      </a>
-                    )}
-                    <p className="install-card-note">
-                      {isLinux ? copy.linuxNote : copy.macNote}
+                <DownloadButton
+                  download={download}
+                  className="btn-solid install-download"
+                />
+                <p className="install-card-note">
+                  {download.offered ? (
+                    <>
+                      {id === "linux" ? copy.linuxNote : copy.macNote}
                       <a href={RELEASES_URL} target="_blank" rel="noreferrer">
                         {copy.releaseNotes}
                       </a>
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    {isLinux ? (
-                      <div className="install-actions">
-                        <a
-                          className="btn-solid install-download"
-                          href={RELEASES_URL}
-                          rel="noreferrer"
-                        >
-                          {release.downloadLinuxLatest("amd64")}
-                        </a>
-                        <a
-                          className="btn-solid install-download"
-                          href={RELEASES_URL}
-                          rel="noreferrer"
-                        >
-                          {release.downloadLinuxLatest("arm64")}
-                        </a>
-                      </div>
-                    ) : (
-                      <a
-                        className="btn-solid install-download"
-                        href={RELEASES_URL}
-                        rel="noreferrer"
-                      >
-                        {release.downloadMacLatest}
-                      </a>
-                    )}
-                    <p className="install-card-note">
+                    </>
+                  ) : (
+                    <>
                       {copy.fallbackNote}
                       <a href={RELEASES_URL} target="_blank" rel="noreferrer">
                         {copy.releasesPage}
                       </a>
                       .
-                    </p>
-                  </>
-                )}
+                    </>
+                  )}
+                </p>
                 <ul className="points">
                   <li>{platform.requirement}</li>
                   <li>{platform.artifact}</li>

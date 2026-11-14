@@ -14,7 +14,7 @@ import { REPO_URL } from "./site";
  * A failed lookup returns null and the copy falls back to the releases page
  * with no version claimed.
  */
-type DownloadKey = "mac" | "linuxAmd64" | "linuxArm64";
+type DownloadKey = "mac" | "macAmd64" | "linuxAmd64" | "linuxArm64";
 
 export type Downloads = Partial<Record<DownloadKey, string>>;
 
@@ -39,6 +39,7 @@ const REVALIDATE_SECONDS = 12 * 60 * 60;
  */
 const ASSETS: Record<DownloadKey, RegExp> = {
   mac: /^Mash-.+-mac-arm64\.dmg$/i,
+  macAmd64: /^Mash-.+-mac-amd64\.dmg$/i,
   linuxAmd64: /^letsmash-.+-linux-amd64\.deb$/i,
   linuxArm64: /^letsmash-.+-linux-arm64\.deb$/i,
 };

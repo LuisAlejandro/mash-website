@@ -110,7 +110,7 @@ const EN: MarketingCopy = {
     sloganLead: "Let's mash",
     sloganTail: "together.",
     lede: "Mash arrives as one app with the stack already wired together: Herdr for workspaces and agents, Ghostty for the terminal, Starship for the prompt, Pi for the coding, and Fresh for the editing, with the Mash skills that teach your workflow. Everything runs from the keyboard, and the code stays visible and editable by hand.",
-    note: "Apple silicon Mac · Ubuntu 24.04 · nothing to assemble",
+    note: "Apple silicon or Intel Mac · Ubuntu 24.04 · nothing to assemble",
     filmAria:
       "A short tour of Mash: the command palette, the workspace picker, the file finder, and the review tab",
     makerTitle: "Who's behind Mash",
@@ -290,7 +290,7 @@ const EN: MarketingCopy = {
     cardTitleFallback: (platform) => `Mash for ${platform}`,
     cardPermalink: (platform) => `the ${platform} download`,
     linuxNote: ".deb packages · checksums and attestations in the ",
-    macNote: "Apple silicon · DMG · checksums in the ",
+    macNote: "DMG · checksums in the ",
     releaseNotes: "release notes",
     fallbackNote: "Builds and notes are on the ",
     releasesPage: "releases page",
@@ -313,7 +313,7 @@ const EN: MarketingCopy = {
       text: "A complete agentic workspace, ",
       emphasis: "in one app.",
     },
-    fine: "macOS on Apple silicon · Linux on amd64 and arm64",
+    fine: "macOS on Apple silicon or Intel · Linux on amd64 and arm64",
   },
   tracks: { en: "English", es: "Español" },
 };
@@ -325,7 +325,7 @@ const ES: MarketingCopy = {
     sloganLead: "Fusionemos",
     sloganTail: "en una app.",
     lede: "Mash llega como una sola aplicación con todo el stack ya conectado: Herdr para espacios de trabajo y agentes, Ghostty para la terminal, Starship para el indicador, Pi para programar y Fresh para editar, junto con las skills de Mash que enseñan tu flujo de trabajo. Todo se maneja con el teclado, y el código sigue visible y editable a mano.",
-    note: "Mac con Apple silicon · Ubuntu 24.04 · nada que montar",
+    note: "Mac con Apple silicon o Intel · Ubuntu 24.04 · nada que montar",
     filmAria:
       "Un recorrido breve por Mash: la paleta de comandos, el selector de espacios de trabajo, el buscador de archivos y la pestaña de revisión",
     makerTitle: "Quién está detrás de Mash",
@@ -509,7 +509,7 @@ const ES: MarketingCopy = {
     cardTitleFallback: (platform) => `Mash para ${platform}`,
     cardPermalink: (platform) => `la descarga de ${platform}`,
     linuxNote: "Paquetes .deb · sumas de comprobación y atestaciones en las ",
-    macNote: "Apple silicon · DMG · sumas de comprobación en las ",
+    macNote: "DMG · sumas de comprobación en las ",
     releaseNotes: "notas de versión",
     fallbackNote: "Las compilaciones y las notas están en la ",
     releasesPage: "página de versiones",
@@ -532,7 +532,7 @@ const ES: MarketingCopy = {
       text: "Un espacio de trabajo completo con agentes, ",
       emphasis: "en una sola aplicación.",
     },
-    fine: "macOS en Apple silicon · Linux en amd64 y arm64",
+    fine: "macOS en Apple silicon o Intel · Linux en amd64 y arm64",
   },
   tracks: { en: "English", es: "Español" },
 };

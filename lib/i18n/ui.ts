@@ -52,8 +52,11 @@ export type UiCopy = {
   release: {
     downloadMac: (version: string) => string;
     downloadMacLatest: string;
-    downloadLinux: (version: string, architecture: string) => string;
-    downloadLinuxLatest: (architecture: string) => string;
+    downloadLinux: (version: string) => string;
+    downloadLinuxLatest: string;
+    /** Names of the macOS builds inside a download menu. */
+    appleSilicon: string;
+    intel: string;
   };
   consent: {
     ariaLabel: string;
@@ -112,9 +115,10 @@ const EN: UiCopy = {
   release: {
     downloadMac: (version) => `Download Mash ${version} for macOS`,
     downloadMacLatest: "Download Mash for macOS",
-    downloadLinux: (version, architecture) =>
-      `Download ${version} · ${architecture}`,
-    downloadLinuxLatest: (architecture) => `Download · ${architecture}`,
+    downloadLinux: (version) => `Download Mash ${version} for Linux`,
+    downloadLinuxLatest: "Download Mash for Linux",
+    appleSilicon: "Apple silicon",
+    intel: "Intel",
   },
   consent: {
     ariaLabel: "Analytics cookies",
@@ -200,9 +204,10 @@ const ES: UiCopy = {
   release: {
     downloadMac: (version) => `Descargar Mash ${version} para macOS`,
     downloadMacLatest: "Descargar Mash para macOS",
-    downloadLinux: (version, architecture) =>
-      `Descargar ${version} · ${architecture}`,
-    downloadLinuxLatest: (architecture) => `Descargar · ${architecture}`,
+    downloadLinux: (version) => `Descargar Mash ${version} para Linux`,
+    downloadLinuxLatest: "Descargar Mash para Linux",
+    appleSilicon: "Apple silicon",
+    intel: "Intel",
   },
   consent: {
     ariaLabel: "Cookies de analítica",

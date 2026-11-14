@@ -42,8 +42,8 @@ ${CAPABILITIES.map((item) => `- ${item}`).join("\n")}
 
 ## Install and availability
 
-- Platforms: macOS 14 or later on Apple silicon, and Ubuntu 24.04 with GNOME on
-  Wayland or Xorg. No Intel Mac build, and no Windows build.
+- Platforms: macOS 14 or later on Apple silicon or Intel, and Ubuntu 24.04 with
+  GNOME on Wayland or Xorg. No Windows build.
 - Distribution: one signed and notarized DMG for macOS; a .deb for Linux on
   amd64 or arm64, installing to /opt/letsmash with build attestation.
 - Keyboard: macOS uses Command chords, Linux uses Ctrl/Alt chords. The in-app
@@ -51,7 +51,7 @@ ${CAPABILITIES.map((item) => `- ${item}`).join("\n")}
 - Price: free, open source under ${LICENSE}. No Mash account, subscription, or
   in-app purchase; Pi needs a model provider you choose, and that provider bills
   your model usage.
-- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `${latestLine(release)} is published at ${RELEASES_URL} with release notes: a signed and notarized DMG for macOS on Apple silicon, and a .deb for Linux on amd64 and arm64. ${SITE_URL}/ offers the file for the visitor's platform. Every release publishes all platforms together.`}
+- Current state: ${DOWNLOAD_URL ? `download at ${DOWNLOAD_URL}` : `${latestLine(release)} is published at ${RELEASES_URL} with release notes: signed and notarized DMGs for macOS on Apple silicon and on Intel, and a .deb for Linux on amd64 and arm64. ${SITE_URL}/ offers the file for the visitor's platform. Every release publishes all platforms together.`}
 - Source: ${REPO_URL}`;
 
     const captures = `## Captures
@@ -78,11 +78,11 @@ ${FACTS[locale].capabilities.map((item) => `- ${item}`).join("\n")}
 
 ## Instalación y disponibilidad
 
-- Plataformas: ${platformLines.join(" ")} No hay compilación para Mac con Intel ni para Windows.
+- Plataformas: ${platformLines.join(" ")} No hay compilación para Windows.
 - Distribución: ${platforms.mac.artifact} para macOS; ${platforms.linux.artifact} para Linux, que se instala en /opt/letsmash.
 - Teclado: macOS usa combinaciones con Command y Linux con Ctrl/Alt. La hoja de teclas de la aplicación muestra las de tu equipo.
 - Precio: gratuito y de código abierto bajo ${LICENSE}. Sin cuenta de Mash, suscripción ni compra dentro de la aplicación; Pi necesita un proveedor de modelos que tú eliges, y ese proveedor cobra tu uso de modelos.
-- Estado actual: ${DOWNLOAD_URL ? `descarga en ${DOWNLOAD_URL}` : `${latestLine(release, locale)} se publica en ${RELEASES_URL} con notas de la versión: un DMG firmado y notarizado para macOS en Apple silicon, y un .deb para Linux en amd64 y arm64. ${SITE_URL}/es/ ofrece el archivo para tu plataforma. Cada versión publica todas las plataformas a la vez.`}
+- Estado actual: ${DOWNLOAD_URL ? `descarga en ${DOWNLOAD_URL}` : `${latestLine(release, locale)} se publica en ${RELEASES_URL} con notas de la versión: DMG firmados y notarizados para macOS en Apple silicon y en Intel, y un .deb para Linux en amd64 y arm64. ${SITE_URL}/es/ ofrece el archivo para tu plataforma. Cada versión publica todas las plataformas a la vez.`}
 - Código fuente: ${REPO_URL}`;
 
   const captures = `## Capturas

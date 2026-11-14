@@ -1,19 +1,20 @@
 ---
 title: Install Mash
-description: Install Mash on a supported Apple silicon Mac or Ubuntu desktop.
+description: Install Mash on a supported Mac or Ubuntu desktop.
 ---
 
-Download the latest installer and its SHA-256 checksum from [Mash releases](https://github.com/LuisAlejandro/mash/releases/latest). Use the asset for your machine; no Intel Mac, Windows, or other Linux distribution package is shipped.
+Download the latest installer and its SHA-256 checksum from [Mash releases](https://github.com/LuisAlejandro/mash/releases/latest). Use the asset for your machine; no Windows or other Linux distribution package is shipped.
 
 | Platform | Supported machine                                 | Release asset                        |
 | -------- | ------------------------------------------------- | ------------------------------------ |
 | macOS    | Apple silicon, macOS 14 or newer                  | `Mash-<version>-mac-arm64.dmg`       |
+| macOS    | Intel, macOS 14 or newer                          | `Mash-<version>-mac-amd64.dmg`       |
 | Linux    | Ubuntu 24.04 with GNOME on Wayland or Xorg; amd64 | `letsmash-<version>-linux-amd64.deb` |
 | Linux    | Ubuntu 24.04 with GNOME on Wayland or Xorg; arm64 | `letsmash-<version>-linux-arm64.deb` |
 
 ## macOS
 
-1. Download the signed, notarized DMG from [the latest release](https://github.com/LuisAlejandro/mash/releases/latest).
+1. Download the signed, notarized DMG for your Mac — `mac-arm64` on Apple silicon, `mac-amd64` on Intel — from [the latest release](https://github.com/LuisAlejandro/mash/releases/latest).
 2. Open the DMG, then copy **Mash.app** to **Applications**.
 3. Launch Mash from Applications and [complete first launch](/docs/first-launch/).
 
