@@ -38,7 +38,7 @@ export async function buildBlogFeed(): Promise<Feed> {
     feed.addItem({
       title: post.title,
       id: `${SITE_URL}/blog/posts/${post.slug}`,
-      link: `${SITE_URL}/blog/posts/${post.slug}`,
+      link: `${SITE_URL}/blog/posts/${post.slug}/`,
       description: post.excerpt,
       date: new Date(post.createdAt),
       category: post.category ? [{ name: post.category }] : undefined,

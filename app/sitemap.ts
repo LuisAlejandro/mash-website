@@ -47,19 +47,19 @@ async function blogEntries(): Promise<MetadataRoute.Sitemap> {
 
     return [
       {
-        url: `${SITE_URL}/blog`,
+        url: `${SITE_URL}/blog/`,
         lastModified: posts[0] ? new Date(posts[0].updatedAt) : undefined,
         changeFrequency: "weekly" as const,
         priority: 0.8,
       },
       ...posts.map((post) => ({
-        url: `${SITE_URL}/blog/posts/${post.slug}`,
+        url: `${SITE_URL}/blog/posts/${post.slug}/`,
         lastModified: new Date(post.updatedAt),
         changeFrequency: "monthly" as const,
         priority: 0.6,
       })),
       ...[...categories].map((category) => ({
-        url: `${SITE_URL}/blog/category/${encodeURIComponent(category)}`,
+        url: `${SITE_URL}/blog/category/${encodeURIComponent(category)}/`,
         changeFrequency: "monthly" as const,
         priority: 0.5,
       })),

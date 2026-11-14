@@ -212,8 +212,9 @@ export function buildBlogPostSchema(post: PublicPost) {
   };
 }
 
+/** Trailing slash matches `trailingSlash: true` and the page's canonical. */
 function blogPostUrl(slug: string): string {
-  return `${SITE_URL}/blog/posts/${slug}`;
+  return `${SITE_URL}/blog/posts/${slug}/`;
 }
 
 /**
