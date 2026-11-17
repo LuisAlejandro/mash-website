@@ -9,11 +9,24 @@ Un espacio de trabajo puede tener varias pestañas, y cada pestaña puede tener 
 | ------------------------------ | ----------------------- | ------------------------------- |
 | Pestaña de Desarrollo          | ⌘T (o ⌘⇧N)              | Ctrl+Alt+T (o Ctrl+Shift+N)     |
 | Pestaña de Agente              | ⌘⌥T (o ⌘⌥N)             | Ctrl+Alt+Shift+T (o Ctrl+Alt+N) |
-| Pestaña de terminal sencilla   | ⌘⇧T                     | Ctrl+Shift+T                    |
+| Pestaña de terminal sencilla   | ⌘⇧`                     | Ctrl+Shift+B                    |
+| Reabrir pestaña cerrada        | ⌘⇧T                     | Ctrl+Shift+T                    |
 | Pestaña de revisión            | ⌘⇧R                     | Ctrl+Shift+R                    |
 | División vertical / horizontal | ⌘⌥\ / ⌘⌥-               | Ctrl+Alt+\ / Ctrl+Alt+-         |
 | Ampliar panel enfocado         | ⌘⌥Z                     | Ctrl+Alt+Z                      |
 
 Estas combinaciones se aplican al modo Mash; el modo nativo conserva el prefijo **Ctrl+B** de Herdr ([mapa de teclas nativo](/es/docs/reference/keybindings-native/)). El comando general para dividir divide el panel **enfocado**. En una pestaña de Desarrollo, la acción específica **Nuevo panel de terminal debajo de Fresh** se dirige a Fresh incluso cuando Pi tiene el foco; no hace nada en otros tipos de pestaña. Úsala cuando quieras colocar una terminal debajo del editor sin afectar al agente.
 
-Cambia de pestaña, enfoca o recorre los paneles y activa el modo de cambio de tamaño desde las [tablas de atajos de la plataforma](/es/docs/reference/keybindings-macos/). Al cerrar una pestaña, sus PTY terminan y no se puede deshacer. **Desconectar** deja disponible la sesión de Herdr en lugar de eliminar un espacio de trabajo: **⌘U** (Mash en macOS), **Ctrl+Alt+U** (Mash en Linux) o **Ctrl+B**, luego **q** (nativo).
+## Nombres de pestaña y la marca que te necesita
+
+Mash nombra cada pestaña por el trabajo que contiene, así que la barra de pestañas se lee como una lista de tareas y no como una fila de nombres de herramientas. Una pestaña muestra su posición y luego su nombre, y el nombre sigue al directorio del panel enfocado, al programa que ejecuta o al tema de la conversación del agente que aloja. Si cambias el nombre de una pestaña tú mismo, Mash deja de renombrarla; borra el nombre para devolvérselo.
+
+Un **●** delante de una pestaña significa que su agente te necesita: está bloqueado esperando una respuesta o terminó y nadie ha leído todavía el resultado. Un agente que trabaja no lleva marca, así que una marca merece que la mires en lugar de ser ruido de fondo. El panel de Agentes junto a la barra lateral muestra el mismo nombre de pestaña del agente que lista.
+
+## Pestañas aparcadas
+
+Una pestaña de Desarrollo son dos cosas caras una al lado de la otra, así que Mash aparca la que lleva una hora fuera de la vista: el agente se detiene, y el cliente del editor se desvincula mientras su demonio conserva los búferes. Al volver a mostrar la pestaña, ambos se despiertan, con el agente de nuevo en el archivo de sesión en el que estaba.
+
+Solo se aparca un agente inactivo o terminado, y solo mientras su pestaña no tiene el foco. Un agente que trabaja nunca se toca, y tampoco uno que espera tu aprobación, así que mirar otra pestaña no pierde nada en curso.
+
+Cambia de pestaña, enfoca o recorre los paneles y activa el modo de cambio de tamaño desde las [tablas de atajos de la plataforma](/es/docs/reference/keybindings-macos/). Al cerrar una pestaña, sus PTY terminan, así que los procesos se pierden; **Reabrir pestaña cerrada** reconstruye la disposición y reinicia Fresh y Pi, pero el historial de desplazamiento y los búferes sin guardar no vuelven. Consulta [salir, desconectar y reabrir](/es/docs/workspaces/lifecycle/). **Desconectar** deja disponible la sesión de Herdr en lugar de eliminar un espacio de trabajo: **⌘U** (Mash en macOS), **Ctrl+Alt+U** (Mash en Linux) o **Ctrl+B**, luego **q** (nativo).

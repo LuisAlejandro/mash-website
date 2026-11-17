@@ -1,0 +1,41 @@
+---
+title: Salir, desconectar y reabrir
+description: Qué termina con la ventana, qué sobrevive y qué se puede reconstruir.
+---
+
+La ventana de Mash es un cliente de un servidor de Herdr que es dueño de cada espacio de trabajo, pestaña y panel. Tres salidas distintas llegan a ese servidor de forma distinta, y solo una de ellas termina el trabajo que se ejecuta en él.
+
+| Acción                   | Mash en macOS | Mash en Linux  | Modo nativo     | Qué termina                            |
+| ------------------------ | ------------- | -------------- | --------------- | -------------------------------------- |
+| Cerrar la ventana, ⌘Q    | ⌘Q            | Cerrar ventana | Cerrar ventana  | Solo el cliente de esta ventana        |
+| Desconectar              | ⌘U            | Ctrl+Alt+U     | Ctrl+B, luego q | Solo el cliente de esta ventana        |
+| Salir y detener sesiones | ⌘⌥Q           | Ctrl+Alt+Q     | Ctrl+B, Shift+Q | El servidor y el proceso de cada panel |
+| Cerrar pestaña           | ⌘⇧W           | Ctrl+Shift+W   | Ctrl+B, Shift+X | Los paneles de esa pestaña             |
+| Reabrir pestaña cerrada  | ⌘⇧T           | Ctrl+Shift+T   | Ctrl+B, Ctrl+T  | Nada; reconstruye la última cerrada    |
+
+## Cerrar la ventana no es salir
+
+**⌘Q** y el botón de cerrar de la ventana terminan la ventana, no el servidor. Tus paneles, sus terminales y sus agentes siguen ejecutándose, y el siguiente arranque se vuelve a conectar al mismo servidor con el trabajo todavía en curso. Desconectar hace lo mismo desde dentro de la aplicación y deja la sesión de Herdr disponible para un arranque posterior.
+
+Por eso un agente puede quedarse a mitad de una tarea mientras cierras para almorzar: nada de lo que estaba haciendo se detiene. Usa **Salir y detener sesiones** cuando de verdad quieras que los procesos terminen.
+
+## Salir y detener sesiones
+
+**Salir y detener sesiones** detiene el servidor de Herdr de Mash y termina el proceso de cada panel, agentes incluidos. Tiene una combinación propia justamente porque es la salida destructiva: ⌘Q y el botón de cerrar siguen siendo las seguras, así que terminar el trabajo en curso de alguien exige una decisión deliberada. Mash se niega a detener un servidor de Herdr que no sea el suyo, de modo que otra instancia de Herdr en la máquina nunca se toca.
+
+Herdr guarda su sesión antes de detenerse, así que el siguiente arranque reabre las mismas pestañas y paneles y reproduce el comando de reanudación de cada panel. Lo que esos paneles estaban haciendo en ese momento no sobrevive; el comando que lo inició, sí.
+
+## Reabrir una pestaña cerrada
+
+Una pestaña cerrada se lleva sus terminales, así que la única forma de volver es anotar la disposición antes del cierre. Mash lo hace en cada cambio: creación, foco, cambio de nombre, una división, un panel que desaparece. **Reabrir pestaña cerrada** reconstruye la más reciente a partir de ese registro.
+
+- Cada panel vuelve en su propio directorio, con la geometría de división de la pestaña.
+- Fresh y Pi se reinician en sus propios directorios, y Pi vuelve al archivo de sesión en el que estaba.
+- Cualquier otro programa vuelve como una terminal sencilla en su directorio.
+- El historial de desplazamiento y los búferes sin guardar del editor se pierden; pertenecían al proceso, no a la disposición.
+
+Los últimos diez cierres siguen siendo reabribles, sea cual sea la forma en que se cerró la pestaña: la combinación, el botón de la barra de pestañas o la salida de su último panel.
+
+## Qué sobrevive a qué
+
+Los ajustes, las sesiones, los espacios de trabajo, los paquetes instalados y las herramientas fijadas viven bajo `~/.mash`, así que ninguna salida los borra. Lo que una salida cambia es si los procesos siguen ejecutándose cuando vuelves. Consulta [actualizaciones](/es/docs/updates/) para la salida que realiza una actualización, y [configuración](/es/docs/reference/configuration/) para los archivos que guardan el resto.

@@ -1,0 +1,50 @@
+---
+title: Language
+description: Choose the language Mash's own interface speaks.
+---
+
+Mash's own interface ships in fifteen languages. The setup wizard opens on a language list before its seven pages, and the choice applies to Mash itself — the wizard, menus, popups and notifications — not to the tools it runs.
+
+## Choose a language at first launch
+
+The language screen comes first, before the wizard counts its pages. Move with the arrow keys or **j** and **k**, then choose **Continue**. The screen redraws in the language under the cursor as you move, so you can read the choice before committing to it. Nothing is written until the wizard finishes, and the choice is saved at `~/.mash/setup/language`.
+
+English is the default. Pick it and the rest of Mash stays English.
+
+## Change it later
+
+Mash reads `~/.mash/setup/language`, one line of `language=<code>`, on the next launch:
+
+- **Quit Mash** first. A change made while it runs is read by the next start, not this one.
+- Write the line in the file, then launch Mash again.
+- The terminal's menu bar and Mash's own messages follow immediately; Herdr and Pi do not.
+
+| Code    | Language           |
+| ------- | ------------------ |
+| `bg`    | Български          |
+| `cs`    | Čeština            |
+| `de`    | Deutsch            |
+| `en`    | English            |
+| `es`    | Español            |
+| `fr`    | Français           |
+| `it`    | Italiano           |
+| `ja`    | 日本語             |
+| `ko`    | 한국어             |
+| `pt-BR` | Português (Brasil) |
+| `ru`    | Русский            |
+| `th`    | ไทย                |
+| `uk`    | Українська         |
+| `vi`    | Tiếng Việt         |
+| `zh-CN` | 简体中文           |
+
+An unrecognised code is treated as no choice at all, and Mash stays in English rather than failing to start.
+
+## What the choice covers
+
+Mash translates the parts it owns: the setup wizard, its own menus and keys, update and session popups, notifications, and the errors it reports itself. Three things stay in English because they are not Mash's own text:
+
+- **Herdr's workspace UI**, including its sidebar, pickers and prompts.
+- **Pi's interface**, including prompts, slash commands and its menus.
+- **Third-party CLI tools and language servers**, which read their own locale.
+
+Dictation languages are a separate choice on the wizard's last page. The interface language does not set which languages voice recognition expects; see [dictation](/docs/agents/voice/).

@@ -9,11 +9,24 @@ A workspace can hold several tabs, and each tab can hold multiple panes. The def
 | --------------------------- | --------------- | -------------------------------- |
 | Dev tab                     | ⌘T (or ⌘⇧N)     | Ctrl+Alt+T (or Ctrl+Shift+N)     |
 | Agent tab                   | ⌘⌥T (or ⌘⌥N)    | Ctrl+Alt+Shift+T (or Ctrl+Alt+N) |
-| Plain shell tab             | ⌘⇧T             | Ctrl+Shift+T                     |
+| Plain shell tab             | ⌘⇧`             | Ctrl+Shift+B                     |
+| Reopen closed tab           | ⌘⇧T             | Ctrl+Shift+T                     |
 | Review tab                  | ⌘⇧R             | Ctrl+Shift+R                     |
 | Vertical / horizontal split | ⌘⌥\ / ⌘⌥-       | Ctrl+Alt+\ / Ctrl+Alt+-          |
 | Zoom focused pane           | ⌘⌥Z             | Ctrl+Alt+Z                       |
 
 These shortcuts apply to Mash mode; Native mode keeps Herdr's **Ctrl+B** prefix ([Native keymap](/docs/reference/keybindings-native/)). The general split command splits the **focused** pane. In a Dev tab, the dedicated **new shell pane under Fresh** action targets Fresh even when Pi is focused; it does nothing in other tab types. Use it when you want a shell stacked below the editor without disturbing the agent.
 
-Switch tabs, focus/cycle panes, and enter resize mode from the [platform shortcut tables](/docs/reference/keybindings-macos/). Closing a tab kills its PTYs and cannot be undone. **Detach** leaves the Herdr session available rather than deleting a workspace: **⌘U** (macOS Mash), **Ctrl+Alt+U** (Linux Mash), or **Ctrl+B**, then **q** (Native).
+## Tab names and the mark that needs you
+
+Mash names each tab after the work it holds, so the tab bar reads like a list of tasks instead of a row of tool names. A tab shows its position and then its name, and the name follows the focused pane's directory, the program it runs, or the topic of the agent conversation in it. Rename a tab yourself and Mash stops renaming it; clear the name to hand it back.
+
+A **●** in front of a tab means its agent needs you: it is blocked on a question or it finished and nothing has read the result yet. A working agent carries no mark, so a mark is worth looking at rather than background noise. The Agents panel beside the sidebar shows the same tab name for the agent it lists.
+
+## Parked tabs
+
+A Dev tab is two expensive things side by side, so Mash parks one that has been out of sight for an hour: the agent is stopped, and the editor client is detached while its daemon keeps the buffers. Showing the tab again wakes both, with the agent back on the session file it was in.
+
+Only an idle or finished agent is parked, and only while its tab is unfocused. A working agent is never touched, and neither is one waiting on your approval, so nothing in flight is lost by looking at a different tab.
+
+Switch tabs, focus/cycle panes, and enter resize mode from the [platform shortcut tables](/docs/reference/keybindings-macos/). Closing a tab kills its PTYs, so the processes are gone; **Reopen closed tab** rebuilds the layout and restarts Fresh and Pi, but scrollback and unsaved buffers do not come back. See [quitting, detaching and reopening](/docs/workspaces/lifecycle/). **Detach** leaves the Herdr session available rather than deleting a workspace: **⌘U** (macOS Mash), **Ctrl+Alt+U** (Linux Mash), or **Ctrl+B**, then **q** (Native).

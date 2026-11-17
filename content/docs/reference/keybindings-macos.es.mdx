@@ -1,6 +1,6 @@
 ---
 title: Atajos de macOS
-description: Atajos al estilo Mash / Cursor en Mac con Apple silicon.
+description: Atajos al estilo Mash / Cursor en Mac con Apple silicon o Intel.
 ---
 
 Este es el **preajuste al estilo Mash / Cursor** elegido en el primer inicio (el predeterminado), transcrito de la guía rápida de macOS incluida en la aplicación. Si elegiste **Nativo**, usa el [mapa nativo](/es/docs/reference/keybindings-native/). Los menús de Mash Terminal muestran las teclas del modo que elegiste.
@@ -26,14 +26,17 @@ Este es el **preajuste al estilo Mash / Cursor** elegido en el primer inicio (el
 | Nueva pestaña Dev (Fresh + Pi)                          | ⌘T / ⌘⇧N              |
 | Nueva pestaña de agente                                 | ⌘⌥T / ⌘⌥N             |
 | Nueva pestaña de revisión (diff + Pi)                   | ⌘⇧R                   |
-| Nueva pestaña Shell simple                              | ⌘⇧T                   |
+| Nueva pestaña Shell simple                              | ⌘⇧`                   |
+| Reabrir pestaña cerrada                                 | ⌘⇧T                   |
 | Pestaña anterior / siguiente                            | ⌘⇧[ / ⌘⇧]             |
 | Cambiar a la pestaña 1–9                                | ⌘⇧1–9                 |
+| Mover pestaña a la izquierda / derecha                  | ⌘⌥⇧[ / ⌘⌥⇧]           |
 | Renombrar / cerrar pestaña                              | ⌘⇧M / ⌘⇧W             |
 | Enfocar panel a la izquierda / abajo / arriba / derecha | ⌘⌥← / ⌘⌥↓ / ⌘⌥↑ / ⌘⌥→ |
 | Recorrer paneles anterior / siguiente                   | ⌘⌥[ / ⌘⌥]             |
 | Dividir vertical / horizontal                           | ⌘⌥\ / ⌘⌥-             |
 | Cerrar / ampliar panel                                  | ⌘⌥W / ⌘⌥Z             |
+| Limpiar panel                                           | ⌘⌥K                   |
 | Modo de cambio de tamaño                                | ⌘⌥R                   |
 | Nuevo panel de shell bajo Fresh                         | Ctrl+Shift+Backtick   |
 
@@ -60,14 +63,17 @@ Este es el **preajuste al estilo Mash / Cursor** elegido en el primer inicio (el
 | --------------------------------------------------------------------- | -------------- |
 | Control de versiones / estado de contenedores                         | ⌃⇧G / ⌘⇧O      |
 | Fragmentos / buscador de archivos / paleta de comandos                | ⌘⌥P / ⌘P / ⌘⇧P |
+| Buscar archivos y acciones                                            | ⌘⌥⇧F           |
 | Búsqueda de sesiones                                                  | ⌘⌥L            |
 | Capturar / pegar anotaciones                                          | ⌘K / ⌘L        |
 | Gestionar anotaciones                                                 | ⌘⇧L            |
 | Elegir enlace o ID                                                    | ⌥G             |
 | Gestor de plugins / bifurcar desde un mensaje                         | ⌘⇧X / ⌘⌥Y      |
+| Bifurcar junto al panel actual / en un espacio nuevo                  | ⌘⌥⇧Y / ⌘⌃Y     |
 | Ayuda / ajustes                                                       | ⌘⇧I / ⌘I       |
 | Desvincular / recargar configuración                                  | ⌘U / ⌘R        |
+| Salir y detener sesiones                                              | ⌘⌥Q            |
 | Buscar actualizaciones                                                | ⌘⇧U            |
 | Abrir destino de la notificación / mostrar u ocultar la barra lateral | ⌘Y / ⌘B        |
 
-Cerrar pestañas y eliminar worktrees no se puede deshacer. Para cambiar una tecla después de la configuración inicial, edita la configuración modificable, pero ten en cuenta que el elemento del menú de Mash Terminal sigue enviando su atajo original. Consulta [configuración](/es/docs/reference/configuration/).
+Cerrar una pestaña termina sus PTY, así que ninguna reapertura devuelve los procesos; las últimas diez pestañas cerradas aún pueden reconstruirse a partir de su disposición, y eliminar un worktree no se puede deshacer. Para cambiar una tecla después de la configuración inicial, edita la configuración modificable, pero ten en cuenta que el elemento del menú de Mash Terminal sigue enviando su atajo original. Consulta [configuración](/es/docs/reference/configuration/) y [salir, desconectar y reabrir](/es/docs/workspaces/lifecycle/).

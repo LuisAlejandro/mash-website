@@ -1,0 +1,50 @@
+---
+title: Idioma
+description: Elige el idioma en el que habla la propia interfaz de Mash.
+---
+
+La propia interfaz de Mash se publica en quince idiomas. El asistente de configuración se abre con una lista de idiomas antes de sus siete páginas, y la elección se aplica a Mash mismo —el asistente, los menús, los emergentes y las notificaciones—, no a las herramientas que ejecuta.
+
+## Elegir un idioma en el primer arranque
+
+La pantalla de idioma va primero, antes de que el asistente cuente sus páginas. Muévete con las flechas o con **j** y **k**, y luego elige **Continuar**. La pantalla se redibuja en el idioma que está bajo el cursor mientras te mueves, así que puedes leer la elección antes de confirmarla. No se escribe nada hasta que el asistente termina, y la elección se guarda en `~/.mash/setup/language`.
+
+El inglés es el valor predeterminado. Si lo eliges, el resto de Mash sigue en inglés.
+
+## Cambiarlo después
+
+Mash lee `~/.mash/setup/language`, una línea con `language=<code>`, en el siguiente arranque:
+
+- **Cierra Mash** primero. Un cambio hecho mientras se ejecuta lo lee el siguiente arranque, no este.
+- Escribe la línea en el archivo y vuelve a abrir Mash.
+- La barra de menús de la terminal y los mensajes propios de Mash lo siguen de inmediato; Herdr y Pi no.
+
+| Código  | Idioma             |
+| ------- | ------------------ |
+| `bg`    | Български          |
+| `cs`    | Čeština            |
+| `de`    | Deutsch            |
+| `en`    | English            |
+| `es`    | Español            |
+| `fr`    | Français           |
+| `it`    | Italiano           |
+| `ja`    | 日本語             |
+| `ko`    | 한국어             |
+| `pt-BR` | Português (Brasil) |
+| `ru`    | Русский            |
+| `th`    | ไทย                |
+| `uk`    | Українська         |
+| `vi`    | Tiếng Việt         |
+| `zh-CN` | 简体中文           |
+
+Un código desconocido se trata como si no hubiera elección, y Mash permanece en inglés en lugar de no arrancar.
+
+## Qué cubre la elección
+
+Mash traduce las partes que le pertenecen: el asistente de configuración, sus propios menús y teclas, los emergentes de actualización y de sesión, las notificaciones y los errores que informa él mismo. Tres cosas permanecen en inglés porque no son texto propio de Mash:
+
+- **La interfaz de los espacios de trabajo de Herdr**, incluidos su barra lateral, sus selectores y sus avisos.
+- **La interfaz de Pi**, incluidos sus avisos, sus comandos de barra y sus menús.
+- **Las herramientas de línea de comandos de terceros y los servidores de lenguaje**, que leen su propia configuración regional.
+
+Los idiomas de dictado son una elección aparte en la última página del asistente. El idioma de la interfaz no decide qué idiomas espera el reconocimiento de voz; consulta el [dictado](/es/docs/agents/voice/).

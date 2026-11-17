@@ -41,6 +41,8 @@ If the running app cannot be replaced — it is still mounted from a read-only D
 
 An interrupted update does not leave a half-installed app. The next launch reconciles the state it recorded: a failed attempt leaves the previous version in place and can be retried, and an attempt interrupted after the swap reports that Mash installed but its startup needs recovery. Progress and failures are written under `~/.mash/local/state/`.
 
+While the update runs, a small progress window follows it outside the app — it has to live outside, because the app itself is what gets replaced. It names the step it reached: downloading, verifying, closing Mash, replacing it, reopening. A slow download therefore looks slow rather than like a window that died, and the window outlives the app quitting so the last steps are still visible.
+
 ## Bundled tools
 
 Do not update bundled Pi, Herdr, or Fresh separately inside Mash. Mash carries its own pinned copies; update the application instead. User-installed Pi packages remain in `~/.mash/pi/agent` and are separate from the signed bundle.

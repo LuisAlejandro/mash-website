@@ -12,3 +12,7 @@ Fresh has a file explorer that follows the active buffer and shows hidden and Gi
 Mash configures format-on-save for supported language modes, including Markdown, TypeScript, JavaScript, CSS, Svelte, Bash, and others. Formatters such as Prettier and shfmt are selected in `~/.mash/config/fresh/config.json`. The optional formatters and language servers selected at first launch provide completion and diagnostics; an absent tool means an editor integration may not work until you install it. Fresh's theme follows the Mash choice made in the wizard.
 
 When you need a terminal in the Dev layout, use the **new shell pane under Fresh** action. It stacks a shell under Fresh even when Pi is focused; generic split commands instead split whichever pane has focus. Learn [tabs and panes](/docs/workspaces/tabs-and-panes/) or [find a file](/docs/editor/files-and-search/) next.
+
+## Open an image
+
+Opening a picture from the explorer, Quick Open or a Go-to shows the picture itself: Mash closes the text buffer and draws the file in a centred popup over the editor, at about 40% of the window. PNG, JPEG, GIF, WebP, BMP, TIFF and ICO are drawn; SVG keeps its text buffer because that buffer is the readable source, and AVIF, HEIC and JXL are left alone because the bundled viewer cannot decode them. Close the popup to return to the editor exactly as it was.

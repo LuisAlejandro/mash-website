@@ -11,4 +11,4 @@ description: Read the working diff with a Pi agent beside it.
 
 A sensible workflow: finish a task in the [Dev tab](/docs/editor/), open Review, read the diff, run the project's checks, then decide what to keep. The agent does not decide what lands. You can also open [Source control](/docs/editor/source-control/) for the repository's Git state or use [annotations](/docs/editor/annotations/) to send feedback to the agent.
 
-**Close tab** kills the tab's PTYs and has no reopen-closed-tab action. If you want to revisit a Pi conversation after closing its tab, use [session search](/docs/agents/sessions/) instead of relying on undo.
+**Close tab** kills the tab's PTYs, so the processes are gone for good; **Reopen closed tab** (⌘⇧T, Ctrl+Shift+T, or Ctrl+B then Ctrl+T natively) rebuilds the tab's layout and restarts Fresh and Pi in their directories. Scrollback and unsaved buffers do not come back, and a Pi conversation reopened that way still resumes from its own session file. See [quitting, detaching and reopening](/docs/workspaces/lifecycle/).
