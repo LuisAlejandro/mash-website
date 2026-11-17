@@ -41,6 +41,8 @@ Si la aplicación en ejecución no se puede reemplazar —por ejemplo, porque si
 
 Una actualización interrumpida no deja una aplicación a medio instalar. El siguiente arranque concilia el estado que registró: un intento fallido deja la versión anterior en su sitio y se puede reintentar, y un intento interrumpido después del cambio informa de que Mash se instaló pero su arranque necesita recuperación. El progreso y los fallos se escriben bajo `~/.mash/local/state/`.
 
+Mientras la actualización se ejecuta, una pequeña ventana de progreso la acompaña fuera de la aplicación: tiene que vivir fuera, porque la aplicación misma es lo que se reemplaza. Nombra el paso al que llegó: descargar, verificar, cerrar Mash, reemplazarlo, volver a abrirlo. Así, una descarga lenta parece lenta en lugar de una ventana que se quedó muerta, y la ventana sobrevive al cierre de la aplicación para que los últimos pasos sigan siendo visibles.
+
 ## Herramientas incluidas
 
 No actualices por separado dentro de Mash el Pi, el Herdr o el Fresh incluidos. Mash lleva sus propias copias fijadas; actualiza la aplicación en su lugar. Los paquetes de Pi que instala el usuario permanecen en `~/.mash/pi/agent` y están separados del paquete firmado.

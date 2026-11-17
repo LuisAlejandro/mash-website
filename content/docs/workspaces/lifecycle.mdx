@@ -1,0 +1,41 @@
+---
+title: Quitting, detaching and reopening
+description: What ends with the window, what survives it, and what can be rebuilt.
+---
+
+Mash's window is a client of a Herdr server that owns every workspace, tab and pane. Three different exits reach that server differently, and only one of them ends the work running in it.
+
+| Action                 | macOS Mash | Linux Mash   | Native mode     | What it ends                          |
+| ---------------------- | ---------- | ------------ | --------------- | ------------------------------------- |
+| Close the window, ⌘Q   | ⌘Q         | Window close | Window close    | This window's client only             |
+| Detach                 | ⌘U         | Ctrl+Alt+U   | Ctrl+B, then q  | This window's client only             |
+| Quit and stop sessions | ⌘⌥Q        | Ctrl+Alt+Q   | Ctrl+B, Shift+Q | The server and every pane's process   |
+| Close tab              | ⌘⇧W        | Ctrl+Shift+W | Ctrl+B, Shift+X | That tab's panes                      |
+| Reopen closed tab      | ⌘⇧T        | Ctrl+Shift+T | Ctrl+B, Ctrl+T  | Nothing; rebuilds the last closed tab |
+
+## Closing the window is not quitting
+
+**⌘Q** and the window's close button end the window, not the server. Your panes, their shells and their agents keep running, and the next launch reattaches to the same server with the work still in progress. Detach does the same thing from inside the app and leaves the Herdr session available for a later launch.
+
+That is why an agent can be left mid-task while you quit for lunch: nothing it was doing is stopped. Use **Quit and stop sessions** when you actually want the processes to end.
+
+## Quit and stop sessions
+
+**Quit and stop sessions** stops Mash's Herdr server, ending every pane's process, agents included. It has a chord of its own precisely because it is the destructive exit: ⌘Q and the close button stay the safe ones, so ending someone's running work takes a deliberate choice. Mash refuses to stop a Herdr server that is not its own, so another Herdr instance on the machine is never touched.
+
+Herdr saves its session before stopping, so the next launch reopens the same tabs and panes and replays each pane's own resume command. What those panes were doing at that moment does not survive; the command that started it does.
+
+## Reopen a closed tab
+
+A closed tab takes its terminals with it, so the only way back is to write the layout down before the close. Mash does that on every change: creation, focus, rename, a split, a pane going away. **Reopen closed tab** rebuilds the most recent one from that record.
+
+- Each pane returns in its own directory, with the tab's split geometry.
+- Fresh and Pi are restarted in their own directories, and Pi returns to the session file it was in.
+- Any other program comes back as a plain shell in its directory.
+- Scrollback and unsaved editor buffers are gone; they belonged to the process, not the layout.
+
+The last ten closes stay reopenable, whichever way the tab was closed: the chord, the tab bar's button, or its last pane exiting.
+
+## What survives what
+
+Settings, sessions, workspaces, installed packages and pinned tools live under `~/.mash`, so no exit path deletes them. What an exit changes is whether the processes are still running when you come back. See [updates](/docs/updates/) for the exit an update performs, and [configuration](/docs/reference/configuration/) for the files that hold the rest.

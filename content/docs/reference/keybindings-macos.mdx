@@ -1,6 +1,6 @@
 ---
 title: macOS shortcuts
-description: Mash / Cursor-style keybindings on Apple silicon Macs.
+description: Mash / Cursor-style keybindings on Macs.
 ---
 
 This is the **Mash / Cursor-style** preset selected at first launch (the default), transcribed from the shipped macOS quick-reference. If you chose **Native**, use the [Native keymap](/docs/reference/keybindings-native/). Mash Terminal's menus show the keys for the mode you chose.
@@ -26,14 +26,17 @@ This is the **Mash / Cursor-style** preset selected at first launch (the default
 | New Dev tab (Fresh + Pi)            | ⌘T / ⌘⇧N              |
 | New Agent tab                       | ⌘⌥T / ⌘⌥N             |
 | New Review tab (diff + Pi)          | ⌘⇧R                   |
-| New plain Shell tab                 | ⌘⇧T                   |
+| New plain Shell tab                 | ⌘⇧`                   |
+| Reopen closed tab                   | ⌘⇧T                   |
 | Previous / next tab                 | ⌘⇧[ / ⌘⇧]             |
 | Switch to tab 1–9                   | ⌘⇧1–9                 |
+| Move tab left / right               | ⌘⌥⇧[ / ⌘⌥⇧]           |
 | Rename / close tab                  | ⌘⇧M / ⌘⇧W             |
 | Focus pane left / down / up / right | ⌘⌥← / ⌘⌥↓ / ⌘⌥↑ / ⌘⌥→ |
 | Cycle pane previous / next          | ⌘⌥[ / ⌘⌥]             |
 | Split vertical / horizontal         | ⌘⌥\ / ⌘⌥-             |
 | Close / zoom pane                   | ⌘⌥W / ⌘⌥Z             |
+| Clear pane                          | ⌘⌥K                   |
 | Resize mode                         | ⌘⌥R                   |
 | New shell pane under Fresh          | Ctrl+Shift+Backtick   |
 
@@ -60,14 +63,17 @@ This is the **Mash / Cursor-style** preset selected at first launch (the default
 | ----------------------------------------- | -------------- |
 | Source control / container status         | ⌃⇧G / ⌘⇧O      |
 | Snippets / file finder / command palette  | ⌘⌥P / ⌘P / ⌘⇧P |
+| Search files and actions                  | ⌘⌥⇧F           |
 | Session search                            | ⌘⌥L            |
 | Capture / paste annotations               | ⌘K / ⌘L        |
 | Manage annotations                        | ⌘⇧L            |
 | Pick link or ID                           | ⌥G             |
 | Plugin manager / fork from message        | ⌘⇧X / ⌘⌥Y      |
+| Fork beside current pane / new workspace  | ⌘⌥⇧Y / ⌘⌃Y     |
 | Help / settings                           | ⌘⇧I / ⌘I       |
 | Detach / reload config                    | ⌘U / ⌘R        |
+| Quit and stop sessions                    | ⌘⌥Q            |
 | Check for updates                         | ⌘⇧U            |
 | Open notification target / toggle sidebar | ⌘Y / ⌘B        |
 
-Closing tabs and removing worktrees cannot be undone. To change a key after setup, edit the writable configuration, but note that Mash Terminal's menu item still sends its original chord. See [configuration](/docs/reference/configuration/).
+Closing a tab kills its PTYs, so no reopen brings the processes back; the last ten closed tabs can still be rebuilt from their layout, and removing a worktree cannot be undone. To change a key after setup, edit the writable configuration, but note that Mash Terminal's menu item still sends its original chord. See [configuration](/docs/reference/configuration/) and [quitting, detaching and reopening](/docs/workspaces/lifecycle/).

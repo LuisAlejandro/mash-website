@@ -4,6 +4,7 @@
     "keybindings-macos",
     "keybindings-linux",
     "keybindings-native",
+    "language",
     "configuration",
     "troubleshooting"
   ]

@@ -12,3 +12,7 @@ Fresh tiene un explorador de archivos que sigue el búfer activo y muestra archi
 Mash configura el formato al guardar para los modos de lenguaje compatibles, incluidos Markdown, TypeScript, JavaScript, CSS, Svelte, Bash y otros. Los formateadores como Prettier y shfmt se seleccionan en `~/.mash/config/fresh/config.json`. Los formateadores y servidores de lenguaje opcionales seleccionados en el primer inicio proporcionan autocompletado y diagnósticos; si falta una herramienta, puede que una integración del editor no funcione hasta que la instales. El tema de Fresh sigue la opción de Mash elegida en el asistente.
 
 Cuando necesites una terminal en el diseño de Desarrollo, usa la acción **Nuevo panel de terminal debajo de Fresh**. Coloca una terminal debajo de Fresh incluso si Pi tiene el foco; los comandos genéricos para dividir dividen el panel que tenga el foco. Consulta [pestañas y paneles](/es/docs/workspaces/tabs-and-panes/) o [buscar un archivo](/es/docs/editor/files-and-search/) a continuación.
+
+## Abrir una imagen
+
+Abrir una imagen desde el explorador, la apertura rápida o un salto muestra la imagen misma: Mash cierra el búfer de texto y dibuja el archivo en un emergente centrado sobre el editor, a aproximadamente el 40% de la ventana. Se dibujan PNG, JPEG, GIF, WebP, BMP, TIFF e ICO; SVG conserva su búfer de texto porque ese búfer es la fuente legible, y AVIF, HEIC y JXL se dejan intactos porque el visor incluido no puede descodificarlos. Cierra el emergente para volver al editor tal como estaba.

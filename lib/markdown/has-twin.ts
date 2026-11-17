@@ -22,6 +22,7 @@ export const DOC_TWIN_PATHS = new Set([
   "reference/keybindings-linux",
   "reference/keybindings-macos",
   "reference/keybindings-native",
+  "reference/language",
   "reference/troubleshooting",
   "tools/command-palette",
   "tools/extras",
@@ -32,6 +33,7 @@ export const DOC_TWIN_PATHS = new Set([
   "updates",
   "workspaces",
   "workspaces/layout-profiles",
+  "workspaces/lifecycle",
   "workspaces/tabs-and-panes",
   "workspaces/worktrees",
 ]);

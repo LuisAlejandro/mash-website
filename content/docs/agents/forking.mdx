@@ -3,12 +3,18 @@ title: Fork a conversation
 description: Restart a Pi session from an earlier user message in a separate place.
 ---
 
-When the current conversation has gone down the wrong path, **Fork agent from message** lets you choose an earlier user message and start a new branch of that Pi session. Keep the original conversation; the fork is a separate path to test an alternative approach.
+When the current conversation has gone down the wrong path, **Fork agent from message** copies the focused Pi session and asks you, in the new destination, which earlier user message to start from. The fork is Pi's own fork: the new session ends just before that message, and the message returns to the editor unsent, ready to be rewritten. The original conversation is left alone, and its session file is never modified.
 
-Focus the Pi agent pane first, invoke **Fork agent from message**, and select a message in the picker. The default action creates a new tab with Fresh and the forked Pi agent. For a different destination, choose the separate **Fork agent beside current pane** or **Fork agent into new workspace** action from [command palette](/docs/tools/command-palette/). The action identifies the session from the **focused pane**, so if the wrong pane is focused it cannot fork the intended session. The bundled plugin supports Pi for this flow; do not assume another agent CLI can replay the same transcript.
+Focus the Pi pane whose conversation you want to branch first, then choose where the fork should live:
 
-| Action                  | macOS Mash keys | Linux Mash keys  | Native               |
-| ----------------------- | --------------- | ---------------- | -------------------- |
-| Fork agent from message | ⌘⌥Y             | Ctrl+Alt+Shift+Y | Ctrl+B, then Shift+Y |
+| Action                   | macOS Mash keys | Linux Mash keys    | Native                    |
+| ------------------------ | --------------- | ------------------ | ------------------------- |
+| Fork into a new tab      | ⌘⌥Y             | Ctrl+Alt+Shift+Y   | Ctrl+B, then Shift+Y      |
+| Fork beside current pane | ⌘⌥⇧Y            | Ctrl+Super+Y       | Ctrl+B, then Ctrl+Y       |
+| Fork into new workspace  | ⌘⌃Y             | Ctrl+Super+Shift+Y | Ctrl+B, then Ctrl+Shift+Y |
+
+The action reads the session Herdr reported for the **focused pane**, so a pane that is not a tracked Pi session is refused with a notification instead of guessing. The destination starts its own Pi on that copy, and the picker that follows is Pi's own message list: the same one `/fork` shows, with the same hooks and the same result.
+
+Cancelling the picker closes the destination again and leaves nothing behind — no empty tab, no orphan session. A completed fork is listed in `/resume` under the session it came from, because its header points back at the real source rather than at the temporary copy used to reach it.
 
 Forking a conversation is different from [creating a Git worktree](/docs/workspaces/worktrees/): the former branches agent history; the latter gives code a separate checkout. Use both when independent edits must not collide. Review both results before merging.
