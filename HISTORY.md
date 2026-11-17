@@ -1,6 +1,20 @@
 # Changelog
 
 
+## 1.4.2 (2026-11-17)
+
+### Added
+
+* Document Mash 0.5.2 across both languages. (#37) [Luis Alejandro Martínez]
+
+* Download menus per architecture, and the Intel Mac build. [Luis Alejandro Martínez Faneyth]
+
+
+### Fixed
+
+* Blog URLs carry the trailing slash the site serves. [Luis Alejandro Martínez Faneyth]
+
+
 ## 1.4.1 (2026-11-06)
 
 ### Changed
