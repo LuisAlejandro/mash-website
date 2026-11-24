@@ -22,9 +22,10 @@ export type AdminPostInput = {
 /**
  * Normalize a slug here rather than trusting the form: the same slug has to
  * survive a URL, a revalidate call, and a cache tag, and the admin field only
- * suggests the shape.
+ * suggests the shape. Exported so the publish API looks a post up by the same
+ * slug the writes will store.
  */
-function normalizeSlug(slug: string): string {
+export function normalizeSlug(slug: string): string {
   return slug
     .trim()
     .toLowerCase()
@@ -55,6 +56,16 @@ export async function getPostById(id: string): Promise<Post | null> {
     .select()
     .from(posts)
     .where(eq(posts.id, id))
+    .limit(1);
+  return rows[0] ?? null;
+}
+
+/** The post a publish would replace, drafts included. */
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const rows = await requireDb()
+    .select()
+    .from(posts)
+    .where(eq(posts.slug, normalizeSlug(slug)))
     .limit(1);
   return rows[0] ?? null;
 }
