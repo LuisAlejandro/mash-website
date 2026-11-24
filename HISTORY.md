@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 1.4.3 (2026-11-24)
+
+### Added
+
+* Publish blog posts over a token-authenticated endpoint. (#38) [Luis Alejandro Martínez]
+
+
 ## 1.4.2 (2026-11-17)
 
 ### Added
